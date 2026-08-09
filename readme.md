@@ -1,4 +1,57 @@
-# Highseller Immobilien & Finanzen — Website (Stand v42)
+# Highseller Immobilien & Finanzen — Website (Stand v43)
+
+## Was in v43 umgesetzt wurde
+
+### Lead-Cockpit: interne Live-Liste aller Kontaktereignisse
+
+Unter `/lead-cockpit.html` liegt eine interne, nirgends verlinkte und nicht
+indexierbare Seite, die jede Kontaktinteraktion der Website live zeigt
+(Aktualisierung alle zehn Sekunden): Anruf angetippt, WhatsApp geöffnet,
+E-Mail geöffnet, Formular abgesendet — mit Seite, Uhrzeit, Tageszählern und
+optionalem Ton bei neuen Ereignissen.
+
+**Zugang:** Der Schlüssel liegt in `lead-cockpit-zugang.txt` auf dem
+Schreibtisch des Inhabers (bei der Einrichtung am 09.08.2026 dort abgelegt,
+absichtlich nicht im Repository). In Netlify ist nur der SHA-256-Hash des
+Schlüssels hinterlegt (`LEAD_COCKPIT_TOKEN_HASH`, geheim, Scope functions) —
+selbst mit Zugriff auf die Netlify-Konfiguration lässt sich daraus kein
+Zugang bauen. Schlüssel wechseln: neuen Wert erzeugen, Hash bilden
+(`printf '%s' NEU | shasum -a 256`), Variable in Netlify ersetzen.
+
+**Bauteile:**
+- `netlify/functions/lead-track.mts` — nimmt Ereignisse per sendBeacon an.
+  Whitelist der Arten, Längengrenzen, Zeitstempel serverseitig. Speichert
+  KEINE IP und KEINEN User-Agent.
+- `netlify/functions/lead-feed.mts` — liefert die Liste, nur mit Schlüssel
+  (zeitkonstanter Hash-Vergleich). Löscht dabei häppchenweise, was älter als
+  sechs Monate ist.
+- `submission-created.mts` — hält zusätzlich jeden verifizierten
+  Formulareingang fest (nur Formularname und Seite, keine Inhalte). Bewusst
+  serverseitig: Der öffentliche track-Endpunkt akzeptiert die Art "formular"
+  nicht, damit niemand Eingänge vortäuschen kann.
+- `js/main.js` — meldet Klicks auf tel:-, wa.me- und mailto:-Verweise.
+
+**Speicherformat:** Alle Angaben stecken im Blobs-Schlüssel
+(`e/<Monat>/<ISO-Zeit>~…`), der Wert bleibt leer. Der Feed kommt so mit
+list()-Aufrufen aus, ohne Einzel-Downloads — wichtig beim 10-Sekunden-Takt.
+Felder sind URI-codiert plus `!*'()~`, weil encodeURIComponent diese Zeichen
+stehen lässt und `~` das Trennzeichen ist. Und in `monatsListe` steht der
+Rücksprung auf den Monatsersten VOR dem Zurückrechnen — am 31. eines Monats
+liefe setUTCMonth sonst über und der Vormonat fiele aus der Abfrage.
+
+**Rechtlicher Zuschnitt (zweistufig, datensparsam):**
+- Ohne Einwilligung: nur Art, Seite, Zeitpunkt. Kein Endgeräte-Zugriff
+  (§ 25 TDDDG greift nicht), keine IP-Speicherung; Art. 6 Abs. 1 lit. f.
+- Mit Statistik-Einwilligung: zusätzlich eine zufällige Sitzungskennung im
+  sessionStorage (endet mit dem Browser-Schließen), die Ereignisse derselben
+  Sitzung verknüpft; Art. 6 Abs. 1 lit. a, § 25 Abs. 1 TDDDG.
+- Datenschutzerklärung Abschnitt 11a neu; Statistik-Text im Cookie-Dialog
+  auf allen 230 Seiten um die Sitzungskennung ergänzt. Wie alles Rechtliche:
+  vor dem nächsten Anwaltstermin gegenprüfen lassen.
+
+Cache-Buster `main.js?v=23` auf allen Seiten. Das Cockpit steht nicht in der
+Sitemap und nicht in robots.txt (ein Disallow-Eintrag würde die Adresse
+gerade veröffentlichen); es trägt noindex als Meta-Tag und als Header.
 
 ## Was in v42 umgesetzt wurde
 

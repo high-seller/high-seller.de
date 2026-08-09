@@ -180,6 +180,11 @@ document.documentElement.classList.add('js');
   <p>Technisch setzen wir dafür den Google Consent Mode v2 ein: Bereits beim Seitenaufruf wird die Einwilligung für alle Kategorien standardmäßig auf „abgelehnt“ gesetzt. Erst wenn Sie der Kategorie „Statistik“ zustimmen, wird das Google-Tag überhaupt geladen. Widerrufen Sie Ihre Einwilligung über die „Cookie Einstellungen“ im Footer, wird die Ablehnung an Google übermittelt und die bereits gesetzten Analytics-Cookies (<code>_ga</code>, <code>_ga_*</code>, <code>_gid</code>) werden gelöscht.</p>
   <p>Dabei können Daten auch an Server der Google LLC in den USA übertragen werden. Für diese Übermittlung stützen wir uns auf die EU-Standardvertragsklauseln bzw. den EU-US Data Privacy Framework. Ihre Einwilligung können Sie jederzeit mit Wirkung für die Zukunft über die „Cookie Einstellungen“ im Footer widerrufen. Weitere Informationen finden Sie in der <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Datenschutzerklärung von Google</a>.</p>
 
+  <h2>11a. Eigene Kontaktmessung (Lead-Erfassung, ohne Cookies)</h2>
+  <p>Um zu erkennen, über welche Wege uns Interessenten erreichen, halten wir bestimmte Kontaktereignisse auf unserer Website fest: das Antippen unserer Telefonnummer, das Öffnen des WhatsApp- oder E-Mail-Kontakts sowie das erfolgreiche Absenden eines Formulars. Gespeichert werden dabei ausschließlich die Art des Ereignisses, die besuchte Unterseite und der Zeitpunkt. Es werden <b>keine IP-Adressen, keine Geräteinformationen und keine Formularinhalte</b> in dieser Ereignisliste gespeichert; die Daten sind für uns keiner Person zuordenbar. Diese Erfassung nutzt weder Cookies noch einen sonstigen Zugriff auf Ihr Endgerät. Rechtsgrundlage ist unser berechtigtes Interesse an der Auswertung unserer Kontaktwege (Art. 6 Abs. 1 lit. f DSGVO).</p>
+  <p>Nur wenn Sie in die Kategorie „Statistik“ einwilligen, legt Ihr Browser zusätzlich eine zufällige Sitzungskennung im sessionStorage ab (Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Sie verknüpft Ereignisse derselben Sitzung — etwa „Wertrechner genutzt, danach angerufen“ —, enthält keine personenbezogenen Merkmale und wird beim Schließen des Browsers automatisch gelöscht. Ohne Einwilligung findet keine solche Verknüpfung statt; die Erfassung einzelner Ereignisse bleibt davon unberührt. Ihre Einwilligung können Sie jederzeit über die „Cookie Einstellungen“ im Footer widerrufen.</p>
+  <p>Die Ereignisdaten werden auf den Servern unseres Hosting-Anbieters Netlify (siehe Abschnitt 3) gespeichert, sind ausschließlich für uns über einen geschützten internen Zugang einsehbar und werden nach spätestens sechs Monaten automatisch gelöscht. Eine Weitergabe an Dritte findet nicht statt.</p>
+
   <h2>12. Ihre Rechte</h2>
   <p>Sie haben das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) sowie Widerspruch (Art. 21 DSGVO). Eine erteilte Einwilligung können Sie jederzeit widerrufen. Zudem haben Sie ein Beschwerderecht bei einer Aufsichtsbehörde.</p>
   <div class="legal-block"><dl>
@@ -308,7 +313,7 @@ document.documentElement.classList.add('js');
           <div class="cc__cat-h"><span class="cc__cat-t">Statistik</span>
             <label class="cc__sw"><input type="checkbox" data-cc-cat="statistics" aria-label="Statistik-Cookies erlauben"><span class="cc__slider"></span></label>
           </div>
-          <p>Anonyme Auswertung der Nutzung (z.&nbsp;B. Google Analytics), damit wir die Website laufend verbessern können.</p>
+          <p>Anonyme Auswertung der Nutzung (z.&nbsp;B. Google Analytics), damit wir die Website laufend verbessern können. Zusätzlich eine zufällige Sitzungskennung für unsere eigene Kontaktmessung — sie verknüpft Ereignisse derselben Sitzung ohne Personenbezug und endet mit dem Schließen des Browsers.</p>
         </li>
         <li class="cc__cat">
           <div class="cc__cat-h"><span class="cc__cat-t">Marketing &amp; externe Medien</span>
@@ -325,7 +330,7 @@ document.documentElement.classList.add('js');
     </div>
   </div>
 </div>
-<script src="js/main.js?v=22" defer></script>
+<script src="js/main.js?v=23" defer></script>
 
 </body>
 </html>

@@ -446,6 +446,27 @@ export default async (req: Request, _context: Context) => {
     payload?.form_name || payload?.data?.["form-name"] || "kontakt";
   const data: Record<string, string> = payload?.data || {};
 
+  // Kontaktereignis für das Lead-Cockpit festhalten (Store "leads", gleiche
+  // Schlüsselform wie in lead-track.mts). Bewusst HIER statt im Browser:
+  // Diese Function feuert nur bei verifizierten Übermittlungen, und der
+  // öffentliche track-Endpunkt kann so keine Formulareingänge vortäuschen.
+  // Gespeichert wird nur Formularname und Seite — keine Formularinhalte,
+  // keine IP. Und in try/catch: Der Mailversand hängt nie am Logging.
+  try {
+    const { getStore } = await import("@netlify/blobs");
+    let seite = "/";
+    try { seite = new URL(String(data.quelle || "")).pathname; } catch {}
+    const enc = (s: string) => encodeURIComponent(s).replace(/[!*'()~]/g,
+      (c) => "%" + c.charCodeAt(0).toString(16).toUpperCase());
+    const zeit = new Date().toISOString();
+    const schluessel = `e/${zeit.slice(0, 7)}/${zeit}~` +
+      `${Math.random().toString(36).slice(2, 6)}~formular~` +
+      `${enc(seite.slice(0, 100))}~~${enc(String(formName).slice(0, 60))}`;
+    await getStore("leads").set(schluessel, "1");
+  } catch {
+    // Ereignis verloren ist verschmerzbar, verlorene Kundenmail nicht.
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     // Kein Provider konfiguriert: Netlify-native Benachrichtigung übernimmt.

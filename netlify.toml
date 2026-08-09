@@ -1812,6 +1812,16 @@
 # INHALT einer Bilddatei aendert, muss ihr deshalb einen NEUEN DATEINAMEN
 # geben und die Verweise umstellen. Eine Datei unter gleichem Namen zu
 # ersetzen wirkt live nur bei Erstbesuchern.
+# Interne Cockpit-Seite: nie in Suchmaschinen, nie zwischenspeichern.
+# Bewusst NICHT in robots.txt gelistet — ein Disallow-Eintrag dort würde die
+# Adresse gerade veröffentlichen. Der Zugriffsschutz liegt in lead-feed
+# (Hash-Vergleich); dieser Header hält nur Suchmaschinen fern.
+[[headers]]
+  for = "/lead-cockpit.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
 [[headers]]
   for = "/assets/img/*"
   [headers.values]

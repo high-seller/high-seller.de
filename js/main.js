@@ -741,4 +741,61 @@
     io.observe(diagramm);
     setTimeout(fertigZeigen, 3000);
   })();
+  /* ---- Lead-Erfassung ----
+     Meldet Kontaktereignisse (Anruf-, WhatsApp-, E-Mail-Klick) an
+     /.netlify/functions/lead-track, sichtbar im internen Lead-Cockpit.
+     Formular-Ereignisse kommen NICHT von hier, sondern serverseitig aus
+     submission-created — dort zaehlen nur verifizierte Eingaenge.
+
+     Rechtlich zweistufig:
+     - Ohne Einwilligung wird nur das Ereignis selbst gesendet: Art, Seite,
+       Zeitpunkt. Kein Zugriff auf den Geraetespeicher, keine Kennung, und
+       der Server legt weder IP noch User-Agent ab.
+     - Erst mit Statistik-Einwilligung kommt eine zufaellige Sitzungskennung
+       aus dem sessionStorage dazu (endet mit dem Schliessen des Browsers).
+       Sie verknuepft Ereignisse derselben Sitzung, mehr nicht.
+
+     sendBeacon, weil ein tel:-Klick sofort wegnavigiert — ein normales
+     fetch wuerde der Browser dabei haeufig abbrechen. */
+  (function () {
+    var ENDPUNKT = "/.netlify/functions/lead-track";
+
+    function sitzung() {
+      if (!Consent.has("statistics")) return "";
+      try {
+        var s = window.sessionStorage.getItem("hs_sitzung");
+        if (!s) {
+          s = Math.random().toString(36).slice(2, 10);
+          window.sessionStorage.setItem("hs_sitzung", s);
+        }
+        return s;
+      } catch (e) { return ""; }
+    }
+
+    function melden(art, zusatz) {
+      try {
+        var daten = JSON.stringify({
+          art: art,
+          seite: location.pathname,
+          zusatz: zusatz || "",
+          sitzung: sitzung()
+        });
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(ENDPUNKT, new Blob([daten], { type: "application/json" }));
+        } else if (window.fetch) {
+          fetch(ENDPUNKT, { method: "POST", body: daten, keepalive: true,
+            headers: { "Content-Type": "application/json" } });
+        }
+      } catch (e) { /* Erfassung darf nie den Klick stoeren */ }
+    }
+
+    on(doc, "click", function (e) {
+      var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+      if (!a) return;
+      var h = a.getAttribute("href") || "";
+      if (h.indexOf("tel:") === 0) melden("anruf");
+      else if (h.indexOf("wa.me") !== -1) melden("whatsapp");
+      else if (h.indexOf("mailto:") === 0) melden("email");
+    });
+  })();
 })();

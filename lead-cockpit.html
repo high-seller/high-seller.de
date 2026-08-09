@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Interne Seite: nicht in der Sitemap, nirgends verlinkt, nicht indexierbar.
+     Der Schutz kommt nicht vom Verstecken, sondern vom Zugangsschluessel:
+     Ohne ihn liefert lead-feed keine Daten (Hash-Vergleich serverseitig). -->
+<meta name="robots" content="noindex, nofollow">
+<title>Lead-Cockpit | Highseller intern</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
+<style>
+:root{
+  --navy:#0B1A30; --navy-2:#0E2442; --blau:#2F7CD3; --blau-d:#2263AE;
+  --tinte:#0C1726; --text:#3C485E; --grau:#5F6C85; --linie:#E7EAEF;
+  --flaeche:#F6F7F9; --karte:#FFFFFF; --gruen:#1E7A46; --gold:#8A7434;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;
+  background:var(--flaeche);color:var(--text);font-size:15px;line-height:1.55}
+.kopf{background:var(--navy);color:#fff;padding:14px 20px;display:flex;
+  align-items:center;gap:12px;flex-wrap:wrap}
+.kopf h1{font-size:1.05rem;margin:0;font-weight:700;letter-spacing:.01em}
+.kopf .punkt{width:9px;height:9px;border-radius:50%;background:#4a5a72}
+.kopf .punkt.an{background:#38C172;box-shadow:0 0 0 4px rgba(56,193,114,.25)}
+.kopf .stand{font-size:.8rem;color:rgba(255,255,255,.65);margin-left:auto}
+.kopf button{font:inherit;font-size:.8rem;background:none;color:rgba(255,255,255,.75);
+  border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:5px 11px;cursor:pointer}
+.kopf button:hover{color:#fff;border-color:rgba(255,255,255,.6)}
+main{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+
+/* Anmeldung */
+.anmeldung{max-width:430px;margin:8vh auto;background:var(--karte);
+  border:1px solid var(--linie);border-radius:var(--radius);padding:26px}
+.anmeldung h2{margin:0 0 6px;font-size:1.15rem;color:var(--tinte)}
+.anmeldung p{margin:0 0 16px;font-size:.9rem;color:var(--grau)}
+.anmeldung input{width:100%;font:inherit;padding:11px 13px;border:1px solid var(--linie);
+  border-radius:9px;margin-bottom:12px}
+.anmeldung input:focus{outline:2px solid var(--blau);border-color:var(--blau)}
+.anmeldung button{width:100%;font:inherit;font-weight:600;background:var(--navy);
+  color:#fff;border:0;border-radius:9px;padding:12px;cursor:pointer}
+.anmeldung .fehler{color:#B3261E;font-size:.86rem;margin:0 0 10px;display:none}
+
+/* Kennzahlen */
+.zahlen{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;margin:0 0 16px}
+.zahlen div{background:var(--karte);border:1px solid var(--linie);
+  border-radius:var(--radius);padding:12px 14px}
+.zahlen b{display:block;font-size:1.45rem;color:var(--tinte);line-height:1.2}
+.zahlen span{font-size:.78rem;color:var(--grau)}
+
+/* Filter */
+.filter{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px;align-items:center}
+.filter button{font:inherit;font-size:.84rem;font-weight:600;padding:7px 13px;
+  border-radius:999px;border:1px solid var(--linie);background:var(--karte);
+  color:var(--text);cursor:pointer}
+.filter button.an{background:var(--navy);border-color:var(--navy);color:#fff}
+.filter label{margin-left:auto;font-size:.82rem;color:var(--grau);
+  display:flex;align-items:center;gap:6px;cursor:pointer}
+
+/* Liste */
+.tag{margin:20px 0 8px;font-size:.8rem;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--grau)}
+.eintrag{display:flex;align-items:center;gap:12px;background:var(--karte);
+  border:1px solid var(--linie);border-radius:12px;padding:11px 14px;margin:0 0 7px}
+.eintrag.neu{animation:aufleuchten 2.4s ease-out}
+@keyframes aufleuchten{0%{background:#EBF3FC;border-color:var(--blau)}100%{background:var(--karte)}}
+.eintrag .zeichen{width:34px;height:34px;border-radius:10px;flex:0 0 auto;
+  display:grid;place-items:center;color:#fff;font-size:15px}
+.z-anruf{background:var(--blau-d)} .z-whatsapp{background:#188842}
+.z-email{background:var(--gold)} .z-formular{background:var(--navy)}
+.z-test{background:#8B99AA}
+.eintrag .was b{color:var(--tinte);font-size:.95rem}
+.eintrag .was small{display:block;color:var(--grau);font-size:.8rem;margin-top:1px;
+  word-break:break-all}
+.eintrag .rechts{margin-left:auto;text-align:right;flex:0 0 auto}
+.eintrag .rechts time{font-size:.82rem;color:var(--grau);white-space:nowrap}
+.eintrag .sitz{display:inline-block;width:10px;height:10px;border-radius:50%;
+  margin-left:7px;vertical-align:-1px}
+.leer{background:var(--karte);border:1px dashed var(--linie);border-radius:var(--radius);
+  padding:30px;text-align:center;color:var(--grau)}
+.hinweisleiste{font-size:.8rem;color:var(--grau);margin:26px 0 0;line-height:1.6}
+</style>
+</head>
+<body>
+<header class="kopf">
+  <span class="punkt" id="punkt" title="Verbindung"></span>
+  <h1>Lead-Cockpit</h1>
+  <span class="stand" id="stand"></span>
+  <button type="button" id="abmelden" hidden>Abmelden</button>
+</header>
+<main>
+  <section class="anmeldung" id="anmeldung">
+    <h2>Zugangsschlüssel</h2>
+    <p>Diese Seite ist nur für Highseller intern. Der Schlüssel liegt in der
+       Datei <b>lead-cockpit-zugang.txt</b> (bei der Einrichtung auf dem
+       Schreibtisch abgelegt) und wird auf diesem Gerät gespeichert.</p>
+    <p class="fehler" id="fehler">Der Schlüssel stimmt nicht.</p>
+    <input type="password" id="schluessel" autocomplete="current-password"
+           placeholder="Schlüssel einfügen">
+    <button type="button" id="anmelden">Cockpit öffnen</button>
+  </section>
+
+  <section id="inhalt" hidden>
+    <div class="zahlen">
+      <div><b id="n-heute">–</b><span>heute</span></div>
+      <div><b id="n-woche">–</b><span>letzte 7 Tage</span></div>
+      <div><b id="n-monat">–</b><span>letzte 30 Tage</span></div>
+      <div><b id="n-anrufe">–</b><span>Anrufe (30 Tage)</span></div>
+    </div>
+    <div class="filter" id="filter">
+      <button type="button" data-f="" class="an">Alle</button>
+      <button type="button" data-f="anruf">Anrufe</button>
+      <button type="button" data-f="whatsapp">WhatsApp</button>
+      <button type="button" data-f="email">E-Mail</button>
+      <button type="button" data-f="formular">Formulare</button>
+      <label><input type="checkbox" id="ton"> Ton bei neuem Ereignis</label>
+    </div>
+    <div id="liste"></div>
+    <p class="hinweisleiste">Aktualisiert sich alle zehn Sekunden von selbst.
+      Farbpunkt = derselbe Besucher innerhalb einer Sitzung (nur mit
+      Statistik-Einwilligung des Besuchers, endet mit dem Schließen seines
+      Browsers). Gespeichert werden Art, Seite und Zeitpunkt — keine
+      IP-Adressen, keine Namen, keine Formularinhalte. Ereignisse werden nach
+      sechs Monaten automatisch gelöscht.</p>
+  </section>
+</main>
+<script>
+(function () {
+  "use strict";
+  var FEED = "/.netlify/functions/lead-feed";
+  var ARTEN = {
+    anruf:    { name: "Anruf angetippt",     z: "☎" },
+    whatsapp: { name: "WhatsApp geöffnet",   z: "✉" },
+    email:    { name: "E-Mail geöffnet",     z: "@" },
+    formular: { name: "Formular abgesendet", z: "✎" },
+    test:     { name: "Funktionstest",       z: "⚙" }
+  };
+  var schluessel = null, filter = "", neuesteZeit = "", erster = true;
+  var $ = function (s) { return document.querySelector(s); };
+
+  try { schluessel = localStorage.getItem("hs_cockpit_key"); } catch (e) {}
+  // Schluessel darf auch per #key=... uebergeben werden (einmalig, wird
+  // sofort aus der Adresszeile entfernt und nur lokal gespeichert).
+  if (location.hash.indexOf("#key=") === 0) {
+    schluessel = decodeURIComponent(location.hash.slice(5));
+    try { localStorage.setItem("hs_cockpit_key", schluessel); } catch (e) {}
+    history.replaceState(null, "", location.pathname);
+  }
+
+  function zeigeAnmeldung(fehler) {
+    $("#anmeldung").hidden = false;
+    $("#inhalt").hidden = true;
+    $("#abmelden").hidden = true;
+    $("#fehler").style.display = fehler ? "block" : "none";
+  }
+  function zeigeInhalt() {
+    $("#anmeldung").hidden = true;
+    $("#inhalt").hidden = false;
+    $("#abmelden").hidden = false;
+  }
+
+  $("#anmelden").addEventListener("click", function () {
+    schluessel = $("#schluessel").value.trim();
+    try { localStorage.setItem("hs_cockpit_key", schluessel); } catch (e) {}
+    laden();
+  });
+  $("#schluessel").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") $("#anmelden").click();
+  });
+  $("#abmelden").addEventListener("click", function () {
+    try { localStorage.removeItem("hs_cockpit_key"); } catch (e) {}
+    schluessel = null;
+    zeigeAnmeldung(false);
+  });
+  $("#filter").addEventListener("click", function (e) {
+    var b = e.target.closest("button[data-f]");
+    if (!b) return;
+    filter = b.getAttribute("data-f");
+    document.querySelectorAll("#filter button").forEach(function (o) {
+      o.classList.toggle("an", o === b);
+    });
+    render();
+  });
+
+  try { $("#ton").checked = localStorage.getItem("hs_cockpit_ton") === "1"; } catch (e) {}
+  $("#ton").addEventListener("change", function () {
+    try { localStorage.setItem("hs_cockpit_ton", this.checked ? "1" : "0"); } catch (e) {}
+  });
+
+  function piep() {
+    try {
+      var ac = new (window.AudioContext || window.webkitAudioContext)();
+      [660, 880].forEach(function (f, i) {
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.frequency.value = f; o.connect(g); g.connect(ac.destination);
+        g.gain.setValueAtTime(0.0001, ac.currentTime + i * 0.14);
+        g.gain.exponentialRampToValueAtTime(0.12, ac.currentTime + i * 0.14 + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + i * 0.14 + 0.12);
+        o.start(ac.currentTime + i * 0.14); o.stop(ac.currentTime + i * 0.14 + 0.14);
+      });
+    } catch (e) {}
+  }
+
+  function sitzFarbe(s) {
+    var h = 0;
+    for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 360;
+    return "hsl(" + h + " 62% 45%)";
+  }
+
+  var fmtZeit = new Intl.DateTimeFormat("de-DE",
+    { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Berlin" });
+  var fmtTag = new Intl.DateTimeFormat("de-DE",
+    { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Berlin" });
+
+  var eintraege = [];
+
+  function render() {
+    var liste = $("#liste");
+    var jetzt = Date.now();
+    var t0 = new Date(); t0.setHours(0, 0, 0, 0);
+    var heute = 0, woche = 0, monat = 0, anrufe30 = 0;
+    eintraege.forEach(function (e) {
+      var t = Date.parse(e.zeit);
+      if (t >= t0.getTime()) heute++;
+      if (jetzt - t < 7 * 864e5) woche++;
+      if (jetzt - t < 30 * 864e5) { monat++; if (e.art === "anruf") anrufe30++; }
+    });
+    $("#n-heute").textContent = heute;
+    $("#n-woche").textContent = woche;
+    $("#n-monat").textContent = monat;
+    $("#n-anrufe").textContent = anrufe30;
+
+    var zeigen = eintraege.filter(function (e) { return !filter || e.art === filter; });
+    if (!zeigen.length) {
+      liste.innerHTML = '<div class="leer">Noch keine Ereignisse' +
+        (filter ? " dieser Art" : "") + ". Sobald jemand auf der Website " +
+        "anruft, schreibt oder ein Formular absendet, erscheint es hier.</div>";
+      return;
+    }
+    var html = [], letzterTag = "";
+    zeigen.slice(0, 300).forEach(function (e) {
+      var d = new Date(e.zeit);
+      var tag = fmtTag.format(d);
+      if (tag !== letzterTag) { html.push('<div class="tag">' + tag + "</div>"); letzterTag = tag; }
+      var art = ARTEN[e.art] || { name: e.art, z: "•" };
+      var minuten = Math.round((jetzt - d.getTime()) / 60000);
+      var wann = minuten < 1 ? "gerade eben" : minuten < 60 ? "vor " + minuten + " Min." : fmtZeit.format(d) + " Uhr";
+      var frisch = e.zeit > neuesteZeit && !erster;
+      html.push(
+        '<div class="eintrag' + (frisch ? " neu" : "") + '">' +
+        '<span class="zeichen z-' + e.art + '">' + art.z + "</span>" +
+        '<span class="was"><b>' + art.name +
+        (e.zusatz ? " · " + e.zusatz.replace(/[<>&]/g, "") : "") + "</b>" +
+        "<small>" + (e.seite || "").replace(/[<>&]/g, "") + "</small></span>" +
+        '<span class="rechts"><time>' + wann + "</time>" +
+        (e.sitzung ? '<span class="sitz" title="Sitzung ' + e.sitzung +
+          '" style="background:' + sitzFarbe(e.sitzung) + '"></span>' : "") +
+        "</span></div>");
+    });
+    liste.innerHTML = html.join("");
+  }
+
+  var ausfaelle = 0;
+  function laden() {
+    if (!schluessel) { zeigeAnmeldung(false); return; }
+    fetch(FEED + "?key=" + encodeURIComponent(schluessel), { cache: "no-store" })
+      .then(function (r) {
+        if (r.status === 401) { zeigeAnmeldung(true); throw new Error("401"); }
+        if (!r.ok) throw new Error(String(r.status));
+        return r.json();
+      })
+      .then(function (d) {
+        ausfaelle = 0;
+        $("#punkt").classList.add("an");
+        $("#stand").textContent = "Stand " + fmtZeit.format(new Date()) + " Uhr";
+        zeigeInhalt();
+        var alteNeueste = neuesteZeit;
+        var neu = d.eintraege || [];
+        var frische = neu.filter(function (e) { return alteNeueste && e.zeit > alteNeueste; });
+        eintraege = neu;
+        if (neu.length) neuesteZeit = neu[0].zeit;
+        render();
+        if (frische.length && !erster) {
+          document.title = "(" + frische.length + " neu) Lead-Cockpit";
+          setTimeout(function () { document.title = "Lead-Cockpit | Highseller intern"; }, 30000);
+          if ($("#ton").checked) piep();
+        }
+        erster = false;
+      })
+      .catch(function (e) {
+        if (e.message !== "401") {
+          if (++ausfaelle >= 2) {
+            $("#punkt").classList.remove("an");
+            $("#stand").textContent = "Verbindung gestört, versuche weiter …";
+          }
+        }
+      });
+  }
+
+  laden();
+  setInterval(laden, 10000);
+  setInterval(function () { if (!$("#inhalt").hidden) render(); }, 60000);
+})();
+</script>
+</body>
+</html>
