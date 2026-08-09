@@ -2158,3 +2158,143 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
    Ort oder Umrandung bereits als anklickbar erkennbar und bleiben glatt. */
 .lead a:not(.btn),
 .section-head p a:not(.btn){text-decoration:underline;text-underline-offset:3px}
+
+/* ==========================================================================
+   Veedelseiten, ausgebaute Fassung (v42) — zuerst auf Köln-Deutz im Einsatz
+   --------------------------------------------------------------------------
+   Bausteine für Stadtteilseiten, die über den bisherigen Textblock hinausgehen:
+   Bildkopf, Kennzahlenleiste, Vergleichstabelle, Lagekarte, Ablaufleiste,
+   Fehlerkarten und Bildstreifen.
+
+   Zwei Dinge, die auf dieser Website schon einmal Geld gekostet haben und
+   deshalb hier von Anfang an bedacht sind:
+
+   - Zellen in Grid und Flex haben min-width:auto und schrumpfen nie unter die
+     Eigenbreite ihres Inhalts. Eine Tabelle oder ein breites Bild sprengt so
+     den Bildschirm. Überall dort, wo Inhalt breiter werden kann, steht
+     deshalb min-width:0 beziehungsweise ein eigener Scrollbereich.
+   - overflow-x:hidden auf einem Elternelement bricht position:sticky. Hier
+     wird ausschliesslich overflow-x:auto auf abgegrenzten Behältern benutzt,
+     nie hidden auf grossen Bereichen.
+   ========================================================================== */
+
+/* Bildkopf ---------------------------------------------------------------- */
+.veedel-hero{position:relative;isolation:isolate;overflow:hidden;
+  background:var(--navy);padding:0}
+.veedel-hero__media{position:absolute;inset:0;z-index:-2}
+.veedel-hero__media img{width:100%;height:100%;object-fit:cover;object-position:50% 62%}
+/* Der Verlauf sichert den Text ab. Auf einem Foto ist der Kontrast nicht aus
+   dem CSS ablesbar, deshalb liegt hier bewusst eine kräftige Abdunklung. */
+.veedel-hero::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(11,26,48,.86) 0%,rgba(11,26,48,.72) 45%,rgba(11,26,48,.9) 100%)}
+/* padding-block, nicht padding: Die Kurzform haette das seitliche Polster von
+   .container auf null gesetzt, und der Text klebte auf dem Handy am Rand. */
+.veedel-hero__inner{position:relative;
+  padding-block:clamp(38px,7vw,86px) clamp(30px,5vw,54px)}
+.veedel-hero h1{color:#fff;margin:.35em 0 .3em}
+.veedel-hero .breadcrumb,.veedel-hero .breadcrumb a{color:rgba(255,255,255,.78)}
+.veedel-hero .breadcrumb a:hover{color:#fff}
+.veedel-hero__lead{color:rgba(255,255,255,.9);font-size:clamp(1.02rem,1.6vw,1.16rem);
+  line-height:1.62;max-width:62ch;margin:0}
+
+/* Kennzahlenleiste -------------------------------------------------------- */
+.kennzahlen{display:grid;gap:12px;margin:clamp(22px,4vw,34px) 0 0;
+  grid-template-columns:repeat(auto-fit,minmax(158px,1fr))}
+.kennzahlen div{min-width:0;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--radius-sm);padding:14px 16px}
+.kennzahlen dt{font-size:.78rem;letter-spacing:.02em;color:rgba(255,255,255,.72);margin-bottom:5px}
+.kennzahlen dd{margin:0;font-family:var(--f-display);font-size:clamp(1.15rem,2.4vw,1.42rem);
+  font-weight:700;color:#fff;line-height:1.15}
+.kennzahlen dd small{display:block;font-family:var(--f-body);font-size:.75rem;
+  font-weight:400;color:rgba(255,255,255,.66);margin-top:3px;line-height:1.35}
+
+/* Tabellen ---------------------------------------------------------------- */
+/* Der Behälter scrollt, nicht die Seite. Ohne ihn schiebt eine vierspaltige
+   Tabelle auf dem Handy den gesamten Bildschirm nach rechts. */
+.tabellenrahmen{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:20px 0 8px;
+  border:1px solid var(--border);border-radius:var(--radius);background:var(--card)}
+.datentabelle{width:100%;min-width:520px;border-collapse:collapse;font-size:.94rem}
+.datentabelle caption{text-align:left;padding:16px 18px 0;font-weight:600;color:var(--ink)}
+.datentabelle th,.datentabelle td{padding:12px 18px;text-align:left;
+  border-bottom:1px solid var(--border);vertical-align:top}
+.datentabelle thead th{font-size:.8rem;letter-spacing:.03em;text-transform:uppercase;
+  color:var(--slate-2);font-weight:600;background:var(--bg-soft);white-space:nowrap}
+.datentabelle tbody tr:last-child th,.datentabelle tbody tr:last-child td{border-bottom:0}
+.datentabelle tbody th{font-weight:600;color:var(--ink)}
+.datentabelle .zahl{font-family:var(--f-display);font-weight:700;color:var(--ink);
+  white-space:nowrap}
+.datentabelle .deutung{color:var(--body);font-size:.9rem}
+.tabellenquelle{font-size:.82rem;color:var(--slate-2);margin:0 0 22px}
+
+/* Lagekarte --------------------------------------------------------------- */
+.veedelkarte{margin:26px 0 8px}
+.veedelkarte__rahmen{border:1px solid var(--border);border-radius:var(--radius);
+  background:#fff;overflow:hidden}
+.veedelkarte svg{width:100%;height:auto;display:block;background:#fff}
+.veedelkarte figcaption{font-size:.88rem;color:var(--slate-2);margin-top:12px;
+  line-height:1.6;max-width:76ch}
+
+/* Ablauf als nummerierte Leiste ------------------------------------------- */
+.ablauf{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:2px;
+  counter-reset:schritt}
+.ablauf li{min-width:0;counter-increment:schritt;position:relative;
+  padding:18px 20px 18px 66px;background:var(--card);border:1px solid var(--border)}
+.ablauf li:first-child{border-radius:var(--radius) var(--radius) 0 0}
+.ablauf li:last-child{border-radius:0 0 var(--radius) var(--radius)}
+.ablauf li::before{content:counter(schritt);position:absolute;left:20px;top:17px;
+  width:30px;height:30px;border-radius:50%;background:var(--gold-soft);
+  border:1px solid var(--gold-line);color:var(--gold-2);font-family:var(--f-display);
+  font-weight:700;font-size:.92rem;display:grid;place-items:center}
+.ablauf b{display:block;color:var(--ink);margin-bottom:4px;font-size:1.02rem}
+.ablauf p{margin:0;color:var(--body);font-size:.95rem;line-height:1.62}
+
+/* Fehlerkarten ------------------------------------------------------------ */
+.fehler{display:grid;gap:14px;margin:22px 0 0;
+  grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+.fehler article{min-width:0;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow-sm)}
+.fehler h3{margin:0 0 8px;font-size:1.04rem;color:var(--ink)}
+.fehler p{margin:0;color:var(--body);font-size:.95rem;line-height:1.62}
+.fehler__marke{display:inline-block;font-size:.75rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--gold-2);font-weight:700;margin-bottom:8px}
+
+/* Bildstreifen ------------------------------------------------------------ */
+.bildstreifen{display:grid;gap:14px;margin:24px 0 0;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.bildstreifen figure{min-width:0;margin:0;border-radius:var(--radius);
+  overflow:hidden;border:1px solid var(--border);background:var(--card)}
+.bildstreifen img{width:100%;height:210px;object-fit:cover;display:block}
+.bildstreifen figcaption{padding:12px 15px;font-size:.86rem;color:var(--slate-2);
+  line-height:1.5}
+
+/* Hinweiskasten ----------------------------------------------------------- */
+.hinweis{background:var(--gold-soft);border:1px solid var(--gold-line);
+  border-radius:var(--radius);padding:clamp(18px,3vw,26px);margin:26px 0 8px}
+.hinweis h3{margin:0 0 8px;font-size:1.06rem;color:var(--blue-ink)}
+.hinweis p:last-child{margin-bottom:0}
+.hinweis p{color:var(--body);line-height:1.65}
+
+/* Handy ------------------------------------------------------------------- */
+@media(max-width:560px){
+  .veedel-hero__media img{object-position:58% 60%}
+  .kennzahlen{grid-template-columns:repeat(2,1fr);gap:9px}
+  .kennzahlen div{padding:11px 12px}
+  .kennzahlen dd{font-size:1.08rem}
+  .ablauf li{padding:15px 16px 15px 58px}
+  .ablauf li::before{left:15px;top:14px;width:27px;height:27px;font-size:.86rem}
+  .bildstreifen img{height:184px}
+  /* Auf 390 px schrumpfte die Kartenbeschriftung auf rund fuenf Pixel. Die Karte
+     behaelt deshalb ihre Entwurfsbreite, der Rahmen wird seitlich beweglich. */
+  .veedelkarte__rahmen{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
+  .veedelkarte svg{min-width:820px}
+  .veedelkarte__rahmen::after{content:"seitlich scrollbar";position:absolute;right:9px;top:7px;
+    font-size:.68rem;color:var(--slate-2);background:rgba(255,255,255,.92);
+    padding:2px 7px;border-radius:999px;border:1px solid var(--border)}
+  .datentabelle th,.datentabelle td{padding:10px 13px}
+  /* Der Hinweis, dass die Tabelle seitlich beweglich ist. Ohne ihn wirkt eine
+     angeschnittene Tabelle wie ein Fehler statt wie ein Scrollbereich. */
+  .tabellenrahmen{position:relative}
+  .tabellenrahmen::after{content:"seitlich scrollbar";position:absolute;right:9px;top:7px;
+    font-size:.68rem;color:var(--slate-2);background:rgba(255,255,255,.92);
+    padding:2px 7px;border-radius:999px;border:1px solid var(--border)}
+}

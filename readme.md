@@ -1,4 +1,70 @@
-# Highseller Immobilien & Finanzen — Website (Stand v41)
+# Highseller Immobilien & Finanzen — Website (Stand v42)
+
+## Was in v42 umgesetzt wurde
+
+### Köln-Deutz als erste ausgebaute Veedelseite
+
+Beginn eines Vorhabens, das über Monate läuft: Die Stadtteil- und Themenseiten
+werden einzeln überarbeitet, weg von der Vorlage hin zu eigenen Inhalten mit
+Belegen und eigenen Bildern. Deutz ist die erste Seite.
+
+**Warum überhaupt.** Die Website ist Ende Juli von 45 auf über 230 Seiten
+gewachsen. Die neuen Seiten entstanden aus Vorlagen mit eingesetzten Daten. Eine
+Messung über 222 Seiten hat gezeigt, woran das erkennbar ist — und woran nicht:
+
+- Der **Schreibstil** ist unauffällig. Über 134.799 Wörter finden sich kaum
+  Floskeln („zudem" 128×, „in der Regel" 19×), die Satzlängen streuen normal
+  (Mittel 14,9 Wörter, Streuung 10,9). Am Stil zu feilen brächte nichts.
+- Erkennbar ist die **Vorlage**: im Mittel 10,3 % des Textes einer Seite sind
+  Sätze, die zweimal auf **derselben** Seite stehen; 25,5 % sind Sätze, die auf
+  mehr als drei Seiten wortgleich vorkommen; die Überlappung mit der jeweils
+  nächstverwandten Seite liegt im Mittel bei 51 %, bei den 55 Umlandstädten bei
+  rund 75 %. Und **205 der 222 Seiten trugen kein einziges Inhaltsbild**.
+
+Gemessen wird mit `tools/seiten-pruefen.py` (in v42 ergänzt). Ohne Argument gibt
+es die Rangliste, mit Dateiname den Einzelbericht samt der konkret doppelten
+Sätze, mit `--csv` eine Fassung zum Vergleich zweier Stände.
+
+**Was Deutz jetzt hat.** Bildkopf mit echtem Ortsfoto, Kennzahlenleiste,
+schematische Lagekarte als Inline-SVG, vier Tabellen (Vergleich mit der
+Gesamtstadt, Objektarten und Käufergruppen, Wertfaktoren online gegen vor Ort,
+Unterlagen nach Objektart), Ablauf in sieben Schritten, sechs typische Fehler und
+ein Bildstreifen mit drei Motiven. Von 556 auf 2.133 Wörter, von null auf vier
+Inhaltsbilder, Bausteinanteil von 4,1 auf 1,8 %. Lighthouse mobil bleibt bei
+100 / 100 / 100 / 100, CLS 0,00.
+
+**Die Karte ist bewusst selbst gezeichnet.** Google Maps läge hinter dem
+Cookie-Banner und wäre für jeden unsichtbar, der ablehnt; außerdem gingen Daten
+an Google. Das Inline-SVG braucht keine Einwilligung, keinen zusätzlichen
+Request und zeigt genau das, was für den Verkauf zählt: die Trennung zwischen
+Wohnquartieren am Rhein und der Fläche für Messe, Büro und Veranstaltungen
+östlich der Bahntrasse.
+
+**Inhaltlich geradegerückt.** Die amtlichen Zahlen widersprechen dem üblichen
+Maklerton. Deutz liegt beim Bodenrichtwert auf Rang 11 der 20 ausgewerteten
+Stadtteile, also im Mittelfeld, nicht in der Spitze. Die Durchschnittswohnung ist
+mit 64,4 m² rund ein Sechstel kleiner als im Kölner Schnitt (77,3 m²), 61,6 %
+der Haushalte sind Einpersonenhaushalte (Köln: 51,9 %), nur 11,7 % haben Kinder
+(Köln: 17,7 %). Deutz ist ein Stadtteil kleiner Wohnungen. Die Seite sagt das,
+statt Einfamilienhäuser und Gärten in den Vordergrund zu stellen, die es dort
+kaum gibt. Wer mit „Toplage" wirbt, bekommt von jedem Interessenten Widerspruch,
+der den Marktbericht kennt.
+
+**Nebenbei behoben:** Auf der alten Seite stand ein abgebrochener Satz
+(„… moderne Neubauwohnungen.   Objekte in erster Rheinlage deutlich mehr.").
+
+**Zwei Fallen, die dabei aufgetreten sind:**
+
+- `padding: X 0` auf einem Element, das zugleich `.container` ist, setzt dessen
+  seitliches Polster auf null. Auf dem Desktop fiel das nicht auf, weil der
+  Container dort ohnehin zentriert steht; auf dem Handy klebte der gesamte
+  Hero-Text am linken Rand. Richtig ist `padding-block`.
+- Ein SVG mit 13-px-Beschriftung in einer 860er viewBox schrumpft auf einem
+  390-px-Bildschirm auf rund fünf Pixel. Die Karte behält deshalb unter 560 px
+  ihre Entwurfsbreite und liegt in einem seitlich beweglichen Rahmen — dieselbe
+  Lösung wie bei den Tabellen, mit sichtbarem Hinweis.
+
+**Cache-Buster:** `styles.css?v=41` auf allen 230 Seiten.
 
 ## Was in v41 umgesetzt wurde
 
