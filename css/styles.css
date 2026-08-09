@@ -2298,3 +2298,68 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
     font-size:.68rem;color:var(--slate-2);background:rgba(255,255,255,.92);
     padding:2px 7px;border-radius:999px;border:1px solid var(--border)}
 }
+
+/* ==========================================================================
+   Lagekarte und Preisdiagramm der Veedelseiten (v42)
+   --------------------------------------------------------------------------
+   Beide Grafiken sind aus echten Daten erzeugt und liegen als Inline-SVG in
+   der Seite: die Karte aus OpenStreetMap-Umrissen, das Diagramm aus dem
+   Grundstuecksmarktbericht. Inline, weil beide dadurch ohne zusaetzlichen
+   Request auskommen, die Schriftfarben des Designsystems erben und sich
+   bedienen lassen.
+   ========================================================================== */
+
+/* Karte -------------------------------------------------------------------- */
+.veedelkarte__svg{width:100%;height:auto;display:block;background:#fff}
+.dz-marke{cursor:pointer}
+.dz-marke:focus{outline:none}
+.dz-ring{opacity:0;transition:opacity .18s var(--ease)}
+.dz-marke:hover .dz-ring,
+.dz-marke:focus-visible .dz-ring,
+.dz-marke--aktiv .dz-ring{opacity:.55}
+.dz-marke--aktiv .dz-ring{opacity:.9}
+.dz-marke:focus-visible .dz-treffer{stroke:var(--gold-2);stroke-width:2.5;
+  stroke-dasharray:3 3}
+.dz-label{pointer-events:none}
+
+/* Das Erklaerfeld hat eine feste Mindesthoehe. Ohne sie springt der Text
+   darunter bei jedem Klick, weil ein langer Eintrag zwei Zeilen braucht. */
+.veedelkarte__info{margin:14px 0 0;padding:14px 16px;min-height:74px;
+  background:var(--gold-soft);border:1px solid var(--gold-line);
+  border-radius:var(--radius-sm);font-size:.94rem;line-height:1.6;
+  color:var(--body)}
+.veedelkarte__info b{color:var(--ink);display:block;margin-bottom:2px}
+.veedelkarte__info--gefuellt{background:var(--card);border-color:var(--border)}
+.veedelkarte__hinweis{font-size:.86rem;color:var(--slate-2);margin:10px 0 0}
+
+/* Preisdiagramm ------------------------------------------------------------ */
+.preisdiagramm{margin:24px 0 6px}
+.preisdiagramm__svg{width:100%;height:auto;display:block}
+.preisdiagramm__rahmen{border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:clamp(12px,2vw,20px);overflow:hidden}
+/* transform-box:fill-box, sonst dreht sich der Balken um den Ursprung der
+   viewBox statt um die eigene linke Kante. */
+.pd-balken{transform-box:fill-box;transform-origin:left center}
+.preisdiagramm--bereit .pd-balken{transform:scaleX(0)}
+.preisdiagramm--bereit .pd-wert{opacity:0}
+.preisdiagramm--fertig .pd-balken{transform:scaleX(1);
+  transition:transform .7s var(--ease)}
+.preisdiagramm--fertig .pd-wert{opacity:1;transition:opacity .4s var(--ease)}
+
+/* Zwei Fassungen desselben Diagramms. Auf dem Handy waeren zwanzig Zeilen nur
+   mit seitlichem Scrollen lesbar, und der abgeschnittene Bereich ist
+   ausgerechnet die Wertespalte — alle Balken saehen gleich lang aus. Die
+   schmale Fassung zeigt stattdessen Hoechstwert, die Nachbarn von Deutz und
+   den niedrigsten Wert. */
+.preisdiagramm__svg--schmal{display:none}
+@media(max-width:640px){
+  .preisdiagramm__svg--breit{display:none}
+  .preisdiagramm__svg--schmal{display:block}
+  .preisdiagramm__rahmen{padding:12px}
+  .veedelkarte__info{min-height:96px}
+}
+@media(prefers-reduced-motion:reduce){
+  .preisdiagramm--bereit .pd-balken{transform:none}
+  .preisdiagramm--bereit .pd-wert{opacity:1}
+  .pd-balken,.pd-wert{transition:none !important}
+}

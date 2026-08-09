@@ -614,4 +614,96 @@
     });
     markieren();
   })();
+  /* ---- Lagekarte der Veedelseiten ----
+     Die Karte hat Punkte, hinter denen eine Erklaerung liegt. Auf dem Handy
+     gibt es kein Hover, deshalb ist der Klick die fuehrende Bedienung und der
+     Text erscheint in einem festen Feld unter der Karte statt in einer
+     Sprechblase. Ohne JavaScript bleibt die Karte eine vollstaendige,
+     beschriftete Abbildung; es geht nur die Zusatzerklaerung verloren. */
+  (function () {
+    var karte = doc.querySelector(".veedelkarte");
+    if (!karte) return;
+    var feld = karte.querySelector(".veedelkarte__info");
+    var marken = $$(".dz-marke", karte);
+    if (!feld || !marken.length) return;
+
+    var daten = [];
+    try { daten = JSON.parse(karte.getAttribute("data-infos") || "[]"); }
+    catch (e) { return; }
+
+    var offen = null;
+
+    function zeigen(nr) {
+      var eintrag = daten[nr];
+      if (!eintrag) return;
+      marken.forEach(function (m) {
+        var an = m.getAttribute("data-nr") === String(nr);
+        m.classList.toggle("dz-marke--aktiv", an);
+        m.setAttribute("aria-pressed", an ? "true" : "false");
+      });
+      feld.innerHTML = "<b>" + eintrag.n + "</b> " + eintrag.t;
+      feld.classList.add("veedelkarte__info--gefuellt");
+      offen = nr;
+    }
+
+    function schliessen() {
+      marken.forEach(function (m) {
+        m.classList.remove("dz-marke--aktiv");
+        m.setAttribute("aria-pressed", "false");
+      });
+      feld.innerHTML = feld.getAttribute("data-leer") || "";
+      feld.classList.remove("veedelkarte__info--gefuellt");
+      offen = null;
+    }
+
+    marken.forEach(function (m) {
+      m.setAttribute("aria-pressed", "false");
+      var nr = parseInt(m.getAttribute("data-nr"), 10);
+      on(m, "click", function () { offen === nr ? schliessen() : zeigen(nr); });
+      on(m, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zeigen(nr); }
+        if (e.key === "Escape") schliessen();
+      });
+      // Auf dem Zeigergeraet reicht das Ueberfahren, ohne den Klickzustand zu
+      // ueberschreiben: Ein bereits gewaehlter Punkt bleibt gewaehlt.
+      on(m, "mouseenter", function () { if (offen === null) zeigen(nr); });
+    });
+    on(karte, "mouseleave", function () { if (offen === null) schliessen(); });
+  })();
+
+  /* ---- Preisdiagramm ----
+     Die Balken wachsen beim Sichtbarwerden von links. Das ist kein Selbstzweck:
+     Der Blick folgt der Bewegung und landet am Ende auf der Laenge, also auf
+     dem Wert. Wer weniger Bewegung eingestellt hat, sieht sie sofort fertig. */
+  (function () {
+    var diagramm = doc.querySelector(".preisdiagramm");
+    if (!diagramm) return;
+    var balken = $$(".pd-balken", diagramm);
+    if (!balken.length) return;
+
+    function fertigZeigen() { diagramm.classList.add("preisdiagramm--fertig"); }
+
+    var wenigerBewegung = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (wenigerBewegung || !("IntersectionObserver" in window)) { fertigZeigen(); return; }
+
+    diagramm.classList.add("preisdiagramm--bereit");
+    var io = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        var werte = $$(".pd-wert", diagramm);
+        balken.forEach(function (b, i) {
+          // Gestaffelt von oben nach unten, gedeckelt, damit der letzte Balken
+          // nicht ueber eine Sekunde auf sich warten laesst.
+          var ms = Math.min(i * 38, 620);
+          b.style.transitionDelay = ms + "ms";
+          if (werte[i]) werte[i].style.transitionDelay = (ms + 190) + "ms";
+        });
+        fertigZeigen();
+      });
+    }, { threshold: 0.15 });
+    io.observe(diagramm);
+    setTimeout(fertigZeigen, 3000);
+  })();
 })();

@@ -33,12 +33,40 @@ ein Bildstreifen mit drei Motiven. Von 556 auf 2.133 Wörter, von null auf vier
 Inhaltsbilder, Bausteinanteil von 4,1 auf 1,8 %. Lighthouse mobil bleibt bei
 100 / 100 / 100 / 100, CLS 0,00.
 
-**Die Karte ist bewusst selbst gezeichnet.** Google Maps läge hinter dem
-Cookie-Banner und wäre für jeden unsichtbar, der ablehnt; außerdem gingen Daten
-an Google. Das Inline-SVG braucht keine Einwilligung, keinen zusätzlichen
-Request und zeigt genau das, was für den Verkauf zählt: die Trennung zwischen
-Wohnquartieren am Rhein und der Fläche für Messe, Büro und Veranstaltungen
-östlich der Bahntrasse.
+**Die Karte ist selbst gezeichnet, aber nicht frei Hand.** Google Maps läge
+hinter dem Cookie-Banner und wäre für jeden unsichtbar, der ablehnt; außerdem
+gingen Daten an Google. Das Inline-SVG braucht keine Einwilligung und keinen
+zusätzlichen Request.
+
+Die erste Fassung war nach Augenmaß gezeichnet und an mehreren Stellen falsch:
+Die Köln Arcaden lagen mittig statt im Osten, Hyatt und KölnTriangle
+untereinander statt nebeneinander, und die Poller Wiesen standen als Deutzer
+Grünfläche darin, obwohl sie in Poll liegen. Die jetzige Fassung projiziert
+echte Umrisse aus OpenStreetMap — Stadtteilgrenze, Straßennetz, Grünflächen,
+Rheinbrücken — und setzt die zehn Landmarken an ihre tatsächlichen
+Koordinaten. Erzeugt von `tools/veedelkarten/karte-deutz-bauen.py`, Rohdaten
+liegen daneben. **Lehre: bei Karten nichts nach Augenmaß setzen.**
+
+Jeder Punkt ist anklickbar und erklärt in einem Feld unter der Karte, was er
+für den Immobilienmarkt bedeutet. Der Klick führt, nicht das Überfahren mit der
+Maus — auf dem Handy gibt es kein Hover. Ohne JavaScript bleibt die Karte eine
+vollständige, beschriftete Abbildung.
+
+### Preisdiagramm: wo Deutz im Kölner Gefüge steht
+
+Ein Balkendiagramm über alle zwanzig Stadtteile, für die der Gutachterausschuss
+Kaufpreise ausweist, sortiert und mit Deutz hervorgehoben. Es macht die
+Kernaussage der Seite sichtbar: Rang 10 von 20, also exakt die Mitte.
+
+Zwei Farben, nicht zwanzig — die übrigen Werte sind bewusst zurückgenommen.
+Geprüft mit dem Palettenvalidator: Trennung ΔE 34,6 bei Protanopie (Schwelle 8).
+Der Neutralton bleibt mit 2,63:1 unter der 3:1-Marke gegen die Fläche; das ist
+zulässig, weil jeder Balken Name und Wert als sichtbares Label trägt.
+
+Auf schmalen Bildschirmen erscheint eine **fokussierte Fassung mit sieben
+Zeilen** statt aller zwanzig: Höchstwert, die Nachbarn von Deutz, niedrigster
+Wert. Der Grund steht im Skript — bei zwanzig Zeilen schneidet der Scrollbereich
+ausgerechnet die Wertespalte ab, und alle Balken sähen gleich lang aus.
 
 **Inhaltlich geradegerückt.** Die amtlichen Zahlen widersprechen dem üblichen
 Maklerton. Deutz liegt beim Bodenrichtwert auf Rang 11 der 20 ausgewerteten
@@ -64,7 +92,7 @@ der den Marktbericht kennt.
   ihre Entwurfsbreite und liegt in einem seitlich beweglichen Rahmen — dieselbe
   Lösung wie bei den Tabellen, mit sichtbarem Hinweis.
 
-**Cache-Buster:** `styles.css?v=41` auf allen 230 Seiten.
+**Cache-Buster:** `styles.css?v=41` und `main.js?v=22` auf allen 230 Seiten.
 
 ## Was in v41 umgesetzt wurde
 
