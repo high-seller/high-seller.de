@@ -33,19 +33,41 @@ ein Bildstreifen mit drei Motiven. Von 556 auf 2.133 Wörter, von null auf vier
 Inhaltsbilder, Bausteinanteil von 4,1 auf 1,8 %. Lighthouse mobil bleibt bei
 100 / 100 / 100 / 100, CLS 0,00.
 
-**Die Karte ist selbst gezeichnet, aber nicht frei Hand.** Google Maps läge
+### Die Karte: zwei Ansichten, echte Daten
+
+**Orientierung** zeigt zehn Landmarken, **Bodenrichtwerte** die fünfzehn
+amtlichen Zonen aus BORIS NRW — von 4.000 € je m² am Kennedy-Ufer über 3.000 €
+an der Deutzer Freiheit bis zu 1.260 € an der Eitorfer Straße. Jede Fläche ist
+anklickbar und nennt Wert, zulässige Nutzung, Lagebezeichnung und
+Geschossflächenzahl. Diese Spreizung um den Faktor drei innerhalb eines
+Stadtteils ist das stärkste Argument gegen einen pauschalen Quadratmeterpreis.
+
+Beide Ebenen liegen im selben SVG, `js/main.js` blendet um. Erzeugt von
+`tools/veedelkarten/`, dort steht auch, woher die Daten kommen und welche
+Fallstricke es gab.
+
+**Drei Anläufe, und was daraus zu lernen ist.** Google Maps läge
 hinter dem Cookie-Banner und wäre für jeden unsichtbar, der ablehnt; außerdem
 gingen Daten an Google. Das Inline-SVG braucht keine Einwilligung und keinen
 zusätzlichen Request.
 
-Die erste Fassung war nach Augenmaß gezeichnet und an mehreren Stellen falsch:
-Die Köln Arcaden lagen mittig statt im Osten, Hyatt und KölnTriangle
-untereinander statt nebeneinander, und die Poller Wiesen standen als Deutzer
-Grünfläche darin, obwohl sie in Poll liegen. Die jetzige Fassung projiziert
-echte Umrisse aus OpenStreetMap — Stadtteilgrenze, Straßennetz, Grünflächen,
-Rheinbrücken — und setzt die zehn Landmarken an ihre tatsächlichen
-Koordinaten. Erzeugt von `tools/veedelkarten/karte-deutz-bauen.py`, Rohdaten
-liegen daneben. **Lehre: bei Karten nichts nach Augenmaß setzen.**
+Die *erste* Fassung war nach Augenmaß gezeichnet und schlicht falsch: Die Köln
+Arcaden lagen mittig statt im Osten, Hyatt und KölnTriangle untereinander statt
+nebeneinander, und die Poller Wiesen standen als Deutzer Grünfläche darin,
+obwohl sie in Poll liegen.
+
+Die *zweite* projizierte echte Koordinaten, blieb aber eine leere Umrissfläche:
+richtig, aber ohne Wiedererkennungswert. Der Rhein fehlte darin fast ganz — ein
+Parser-Fehler, denn seine Uferlinien sind Mitglieder einer Relation und tragen
+selbst keine Tags.
+
+Erst die *dritte* Fassung mit Gebäuden, gestuftem Straßennetz und den
+Bahntrassen liest sich als Stadtplan. **Lehre: bei Karten weder nach Augenmaß
+setzen noch sich mit korrekten Koordinaten allein zufriedengeben.**
+
+Die Karte wiegt 245 KB, ausgeliefert rund 56 KB — ohne
+Douglas-Peucker-Vereinfachung wären es 546 KB, weil 1.600 Gebäudeumrisse jede
+Hausecke einzeln mitbringen.
 
 Jeder Punkt ist anklickbar und erklärt in einem Feld unter der Karte, was er
 für den Immobilienmarkt bedeutet. Der Klick führt, nicht das Überfahren mit der

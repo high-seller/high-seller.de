@@ -2311,6 +2311,38 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 
 /* Karte -------------------------------------------------------------------- */
 .veedelkarte__svg{width:100%;height:auto;display:block;background:#fff}
+
+/* Zwei Ansichten im selben SVG: Orientierung und Bodenrichtwerte. Umgeschaltet
+   wird ueber eine Klasse am Behaelter, nicht durch Austausch der Grafik — so
+   bleibt die Zuordnung zwischen Zone und Ort beim Wechsel erhalten. */
+.dz-zonen{display:none}
+.veedelkarte--zonen .dz-zonen{display:block}
+.veedelkarte--zonen .dz-marken .dz-label{display:none}
+.veedelkarte--zonen .dz-marke circle:not(.dz-treffer){opacity:.45}
+
+.veedelkarte__schalter{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.veedelkarte__schalter button{font:inherit;font-size:.9rem;font-weight:600;
+  padding:9px 16px;border-radius:999px;border:1px solid var(--border);
+  background:var(--card);color:var(--body);cursor:pointer;
+  transition:background .16s var(--ease),border-color .16s var(--ease),color .16s var(--ease)}
+.veedelkarte__schalter button:hover{border-color:var(--gold-line);color:var(--ink)}
+.veedelkarte__schalter button.is-an{background:var(--navy);border-color:var(--navy);
+  color:#fff}
+
+.dz-zone{cursor:pointer}
+.dz-zone path{transition:fill-opacity .16s var(--ease)}
+.dz-zone:hover path,.dz-zone:focus-visible path{fill-opacity:.92}
+.dz-zone--aktiv path{fill-opacity:.95;stroke-width:2.4;stroke-opacity:1}
+.dz-zonenwert{pointer-events:none}
+
+/* Farbstufen der Zonen als Legende */
+.veedelkarte__stufen{display:none;flex-wrap:wrap;gap:4px 18px;margin:12px 0 0;
+  font-size:.83rem;color:var(--slate-2)}
+.veedelkarte--zonen .veedelkarte__stufen{display:flex}
+.veedelkarte__stufen span{display:inline-flex;align-items:center;gap:7px}
+.veedelkarte__stufen i{width:15px;height:11px;border-radius:2px;
+  border:1px solid rgba(42,95,146,.5)}
+
 .dz-marke{cursor:pointer}
 .dz-marke:focus{outline:none}
 .dz-ring{opacity:0;transition:opacity .18s var(--ease)}

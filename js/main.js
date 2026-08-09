@@ -615,60 +615,95 @@
     markieren();
   })();
   /* ---- Lagekarte der Veedelseiten ----
-     Die Karte hat Punkte, hinter denen eine Erklaerung liegt. Auf dem Handy
-     gibt es kein Hover, deshalb ist der Klick die fuehrende Bedienung und der
-     Text erscheint in einem festen Feld unter der Karte statt in einer
-     Sprechblase. Ohne JavaScript bleibt die Karte eine vollstaendige,
-     beschriftete Abbildung; es geht nur die Zusatzerklaerung verloren. */
+     Die Karte hat zwei Ansichten: Orientierung mit den Landmarken und die
+     amtlichen Bodenrichtwertzonen. Beide Ebenen stecken im selben SVG, der
+     Umschalter blendet um — das spart einen zweiten Datensatz und haelt die
+     Zuordnung zwischen Zone und Ort erhalten.
+
+     Hinter jedem Punkt und jeder Zone liegt eine Erklaerung. Auf dem Handy
+     gibt es kein Hover, deshalb fuehrt der Klick und der Text erscheint in
+     einem festen Feld unter der Karte statt in einer Sprechblase. Ohne
+     JavaScript bleibt die Karte eine vollstaendige, beschriftete Abbildung;
+     es geht nur das Umschalten und die Zusatzerklaerung verloren. */
   (function () {
     var karte = doc.querySelector(".veedelkarte");
     if (!karte) return;
     var feld = karte.querySelector(".veedelkarte__info");
-    var marken = $$(".dz-marke", karte);
-    if (!feld || !marken.length) return;
+    if (!feld) return;
 
-    var daten = [];
-    try { daten = JSON.parse(karte.getAttribute("data-infos") || "[]"); }
+    var daten = {};
+    try { daten = JSON.parse(karte.getAttribute("data-infos") || "{}"); }
     catch (e) { return; }
 
+    var marken = $$(".dz-marke", karte);
+    var zonen = $$(".dz-zone", karte);
+    var leer = feld.getAttribute("data-leer") || "";
     var offen = null;
 
-    function zeigen(nr) {
-      var eintrag = daten[nr];
-      if (!eintrag) return;
-      marken.forEach(function (m) {
-        var an = m.getAttribute("data-nr") === String(nr);
-        m.classList.toggle("dz-marke--aktiv", an);
-        m.setAttribute("aria-pressed", an ? "true" : "false");
+    function alleAus() {
+      marken.concat(zonen).forEach(function (el) {
+        el.classList.remove("dz-marke--aktiv", "dz-zone--aktiv");
+        el.setAttribute("aria-pressed", "false");
       });
-      feld.innerHTML = "<b>" + eintrag.n + "</b> " + eintrag.t;
-      feld.classList.add("veedelkarte__info--gefuellt");
-      offen = nr;
     }
 
     function schliessen() {
-      marken.forEach(function (m) {
-        m.classList.remove("dz-marke--aktiv");
-        m.setAttribute("aria-pressed", "false");
-      });
-      feld.innerHTML = feld.getAttribute("data-leer") || "";
+      alleAus();
+      feld.innerHTML = leer;
       feld.classList.remove("veedelkarte__info--gefuellt");
       offen = null;
     }
 
-    marken.forEach(function (m) {
-      m.setAttribute("aria-pressed", "false");
-      var nr = parseInt(m.getAttribute("data-nr"), 10);
-      on(m, "click", function () { offen === nr ? schliessen() : zeigen(nr); });
-      on(m, "keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zeigen(nr); }
+    function zeigen(art, nr, el) {
+      var liste = art === "zone" ? daten.zonen : daten.marken;
+      var eintrag = liste && liste[nr];
+      if (!eintrag) return;
+      alleAus();
+      el.classList.add(art === "zone" ? "dz-zone--aktiv" : "dz-marke--aktiv");
+      el.setAttribute("aria-pressed", "true");
+      feld.innerHTML = "<b>" + eintrag.n + "</b> " + eintrag.t;
+      feld.classList.add("veedelkarte__info--gefuellt");
+      offen = art + nr;
+    }
+
+    function verdrahten(el, art, nr) {
+      el.setAttribute("aria-pressed", "false");
+      var schluessel = art + nr;
+      on(el, "click", function () {
+        offen === schluessel ? schliessen() : zeigen(art, nr, el);
+      });
+      on(el, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zeigen(art, nr, el); }
         if (e.key === "Escape") schliessen();
       });
-      // Auf dem Zeigergeraet reicht das Ueberfahren, ohne den Klickzustand zu
-      // ueberschreiben: Ein bereits gewaehlter Punkt bleibt gewaehlt.
-      on(m, "mouseenter", function () { if (offen === null) zeigen(nr); });
+      on(el, "mouseenter", function () { if (offen === null) zeigen(art, nr, el); });
+    }
+
+    marken.forEach(function (el) {
+      verdrahten(el, "marke", parseInt(el.getAttribute("data-nr"), 10));
+    });
+    zonen.forEach(function (el) {
+      verdrahten(el, "zone", parseInt(el.getAttribute("data-zone"), 10));
     });
     on(karte, "mouseleave", function () { if (offen === null) schliessen(); });
+
+    /* Umschalter zwischen den beiden Ansichten */
+    var knoepfe = $$("[data-ansicht]", karte);
+    knoepfe.forEach(function (b) {
+      on(b, "click", function () {
+        var ziel = b.getAttribute("data-ansicht");
+        karte.classList.toggle("veedelkarte--zonen", ziel === "zonen");
+        knoepfe.forEach(function (o) {
+          var an = o === b;
+          o.classList.toggle("is-an", an);
+          o.setAttribute("aria-pressed", an ? "true" : "false");
+        });
+        schliessen();
+        feld.innerHTML = ziel === "zonen"
+          ? (feld.getAttribute("data-leer-zonen") || leer)
+          : leer;
+      });
+    });
   })();
 
   /* ---- Preisdiagramm ----
