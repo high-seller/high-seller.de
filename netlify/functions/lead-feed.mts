@@ -21,6 +21,18 @@ import { createHash, timingSafeEqual } from "node:crypto";
 const AUFBEWAHRUNG_MONATE = 6;
 const LIMIT = 500;
 
+// SHA-256 des Zugangsschlüssels. Der Hash ist bewusst KEIN Geheimnis: Aus ihm
+// lässt sich der Schlüssel nicht zurückrechnen (24 Byte Zufall), er darf also
+// im Repository stehen. Der Klartext existiert allein in der Datei
+// lead-cockpit-zugang.txt beim Inhaber. Eine gesetzte Umgebungsvariable
+// LEAD_COCKPIT_TOKEN_HASH hätte Vorrang — der Versuch, sie über das
+// Netlify-MCP anzulegen, meldete zwar Erfolg, legte aber nachweislich nichts
+// an; daher dieser Weg. Schlüssel wechseln: neuen Wert erzeugen
+// (openssl rand -hex 24), Hash bilden (printf '%s' WERT | shasum -a 256),
+// hier eintragen, deployen.
+const HASH_IM_CODE =
+  "476b3674920bf7da806b32d480c7e863e06279393849a030943f9589a858421e";
+
 function monatsListe(anzahl: number): string[] {
   const aus: string[] = [];
   const d = new Date();
@@ -56,7 +68,7 @@ function schluesselParsen(key: string) {
 export default async (req: Request, _context: Context) => {
   const url = new URL(req.url);
   const given = url.searchParams.get("key") || "";
-  const erwartet = process.env.LEAD_COCKPIT_TOKEN_HASH || "";
+  const erwartet = process.env.LEAD_COCKPIT_TOKEN_HASH || HASH_IM_CODE;
 
   const gegebenHash = createHash("sha256").update(given).digest("hex");
   const a = Buffer.from(gegebenHash, "utf-8");

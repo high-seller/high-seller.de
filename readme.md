@@ -12,11 +12,15 @@ optionalem Ton bei neuen Ereignissen.
 
 **Zugang:** Der Schlüssel liegt in `lead-cockpit-zugang.txt` auf dem
 Schreibtisch des Inhabers (bei der Einrichtung am 09.08.2026 dort abgelegt,
-absichtlich nicht im Repository). In Netlify ist nur der SHA-256-Hash des
-Schlüssels hinterlegt (`LEAD_COCKPIT_TOKEN_HASH`, geheim, Scope functions) —
-selbst mit Zugriff auf die Netlify-Konfiguration lässt sich daraus kein
-Zugang bauen. Schlüssel wechseln: neuen Wert erzeugen, Hash bilden
-(`printf '%s' NEU | shasum -a 256`), Variable in Netlify ersetzen.
+absichtlich nicht im Repository). Geprüft wird nur der SHA-256-Hash des
+Schlüssels; der steht als Konstante in `lead-feed.mts` — ein Hash aus 24
+Byte Zufall ist kein Geheimnis, aus ihm lässt sich der Schlüssel nicht
+zurückrechnen. (Ursprünglich war eine Netlify-Umgebungsvariable geplant;
+das Netlify-MCP meldete beim Anlegen zwar Erfolg, legte aber nachweislich
+nichts an. Eine manuell in der Netlify-Oberfläche angelegte Variable
+`LEAD_COCKPIT_TOKEN_HASH` hätte Vorrang vor der Konstante.) Schlüssel
+wechseln: neuen Wert erzeugen (`openssl rand -hex 24`), Hash bilden
+(`printf '%s' NEU | shasum -a 256`), Konstante ersetzen, deployen.
 
 **Bauteile:**
 - `netlify/functions/lead-track.mts` — nimmt Ereignisse per sendBeacon an.
