@@ -10,3 +10,11 @@ venv/
 
 # macOS
 .DS_Store
+
+# Screenshots aus der Browserpruefung — entstehen im Wurzelverzeichnis,
+# weil das Browser-Werkzeug nur im Arbeitsbereich speichern darf.
+/*.png
+/*.jpg
+tools/veedelkarten/*.svg
+tools/veedelkarten/karte-infos*.json
+tools/veedelkarten/verlauf-diagramme.json
