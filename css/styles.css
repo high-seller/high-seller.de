@@ -2395,3 +2395,93 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
   .preisdiagramm--bereit .pd-wert{opacity:1}
   .pd-balken,.pd-wert{transition:none !important}
 }
+
+/* ==========================================================================
+   Veedelseite Köln-Sülz (v44) — eigene Bausteine
+   --------------------------------------------------------------------------
+   Sülz soll sich von Deutz unterscheiden, nicht weil Abwechslung hübsch ist,
+   sondern weil die Stadtteile verschiedene Geschichten haben: Deutz hat
+   Neubaukonkurrenz und einen Verkehrsknoten, Sülz hat fast keinen Neubau und
+   zwei getrennte Käufergruppen. Deshalb hier ein heller Bildkopf, eine
+   Dreisatz-Leiste statt der Kennzahlenkacheln, eine Gegenüberstellung statt
+   der Objektartentabelle und der Bodenwertrechner an der Karte.
+   ========================================================================== */
+
+/* Heller Bildkopf: Der Beethovenpark ist ein freundliches Motiv, ein dunkler
+   Schleier wie über dem Deutzer Rheinbild nähme ihm die Wirkung. Der Text
+   steht deshalb auf einer aufgehellten Fläche statt auf dem abgedunkelten
+   Foto — Kontrast dadurch gegen Weiß, nicht gegen das Bild. */
+/* Der Verlauf deckt bis unter den Fliesstext, nicht nur bis zur Ueberschrift:
+   Am Screenshot gemessen fiel der Lead ueber dunklen Bildstellen sonst auf
+   2,66:1. Kontrast ueber einem Foto laesst sich nicht aus dem CSS ablesen,
+   er muss am gerenderten Bild geprueft werden. */
+.veedel-hero--hell::after{
+  background:linear-gradient(180deg,rgba(255,255,255,.96) 0%,rgba(255,255,255,.92) 46%,
+    rgba(255,255,255,.86) 72%,rgba(255,255,255,.66) 88%,rgba(11,26,48,.22) 100%)}
+.veedel-hero--hell h1{color:var(--ink)}
+.veedel-hero--hell .veedel-hero__lead{color:var(--ink)}
+.veedel-hero--hell .breadcrumb,.veedel-hero--hell .breadcrumb a{color:var(--slate-2)}
+.veedel-hero--hell .breadcrumb a:hover{color:var(--ink)}
+
+/* Dreisatz: drei Zahlen, die die Seite tragen */
+.section--knapp{padding-top:clamp(26px,4vw,44px);padding-bottom:clamp(18px,3vw,30px)}
+.dreisatz{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.dreisatz div{min-width:0;border-left:3px solid var(--gold);padding:2px 0 2px 18px}
+.dreisatz b{display:block;font-family:var(--f-display);font-size:clamp(1.8rem,4vw,2.5rem);
+  line-height:1.05;color:var(--ink);letter-spacing:-.01em}
+.dreisatz span{display:block;margin-top:8px;color:var(--body);font-size:.95rem;line-height:1.55}
+.quellzeile{font-size:.82rem;color:var(--slate-2);margin:20px 0 0;line-height:1.6}
+
+/* Gegenüberstellung der zwei Käufergruppen */
+.gegenueber{display:grid;gap:16px;margin:24px 0 0;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.gegenueber__seite{min-width:0;background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:clamp(18px,3vw,26px);box-shadow:var(--shadow-sm)}
+.gegenueber__marke{display:inline-block;font-size:.75rem;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--gold-2);font-weight:700}
+.gegenueber__seite h3{margin:8px 0 4px;font-size:1.2rem;color:var(--ink)}
+.gegenueber__kern{margin:0 0 16px;color:var(--slate-2);font-size:.96rem}
+.gegenueber dl{margin:0;display:grid;gap:12px}
+.gegenueber dl>div{display:grid;grid-template-columns:112px 1fr;gap:12px;align-items:start}
+.gegenueber dt{font-size:.82rem;font-weight:600;color:var(--slate-2);padding-top:2px}
+.gegenueber dd{margin:0;font-size:.94rem;line-height:1.55;color:var(--body)}
+
+/* Mikrolage-Fragen: nummeriert, ohne Kartenoptik */
+.mikrofragen{list-style:none;counter-reset:mf;padding:0;margin:20px 0 0;display:grid;gap:14px}
+.mikrofragen li{min-width:0;counter-increment:mf;position:relative;padding-left:44px;
+  color:var(--body);line-height:1.62}
+.mikrofragen li::before{content:counter(mf);position:absolute;left:0;top:1px;
+  width:28px;height:28px;border-radius:50%;border:1.5px solid var(--gold-line);
+  color:var(--gold-2);font-family:var(--f-display);font-weight:700;font-size:.88rem;
+  display:grid;place-items:center}
+.mikrofragen b{color:var(--ink)}
+
+/* Bodenwertrechner an der Karte */
+.bodenrechner{margin:22px 0 0;background:var(--card);border:1px solid var(--gold-line);
+  border-radius:var(--radius);padding:clamp(18px,3vw,26px);box-shadow:var(--shadow-sm)}
+.bodenrechner h3{margin:0 0 14px;font-size:1.1rem;color:var(--ink)}
+.bodenrechner__zeile{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+  padding:10px 0;border-bottom:1px solid var(--border)}
+.bodenrechner__zeile label{font-size:.92rem;color:var(--slate-2);min-width:150px}
+.bodenrechner__zone{font-weight:600;color:var(--ink)}
+.bodenrechner__eingabe{display:inline-flex;align-items:center;gap:8px}
+.bodenrechner__eingabe input{font:inherit;font-size:1rem;width:120px;padding:9px 12px;
+  border:1px solid var(--border);border-radius:9px;text-align:right}
+.bodenrechner__eingabe input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+.bodenrechner__ergebnis{margin:16px 0 12px;display:flex;flex-direction:column}
+.bodenrechner__ergebnis span{font-family:var(--f-display);font-size:clamp(1.7rem,4vw,2.3rem);
+  font-weight:700;color:var(--blue-ink);line-height:1.1}
+.bodenrechner__ergebnis small{color:var(--slate-2);font-size:.85rem;margin-top:4px}
+.bodenrechner__hinweis{font-size:.9rem;color:var(--body);line-height:1.6;
+  background:var(--bg-soft);border-radius:var(--radius-sm);padding:14px 16px;margin:0 0 16px}
+.bodenrechner__hinweis b{color:var(--ink)}
+
+.bildnachweis{font-size:.8rem;color:var(--slate-2);margin:16px 0 0;line-height:1.6}
+.bildnachweis a{color:inherit}
+
+@media(max-width:560px){
+  .dreisatz div{padding-left:14px}
+  .gegenueber dl>div{grid-template-columns:1fr;gap:2px}
+  .gegenueber dt{padding-top:0}
+  .bodenrechner__zeile label{min-width:0;width:100%}
+}

@@ -798,4 +798,53 @@
       else if (h.indexOf("mailto:") === 0) melden("email");
     });
   })();
+  /* ---- Bodenwertrechner (Veedelseiten mit Zonenkarte) ----
+     Haengt an der Zonenauswahl: Wer eine Flaeche auf der Karte antippt,
+     bekommt den amtlichen Bodenrichtwert auf die eigene Grundstuecksgroesse
+     umgerechnet. Der Rechner ist bis zur ersten Auswahl verborgen, damit
+     niemand vor einem leeren Formular steht.
+
+     Bewusst nur eine Multiplikation und mit deutlichem Hinweis versehen: Das
+     Ergebnis ist der Bodenwert, nicht der Immobilienwert. Alles andere waere
+     eine Scheingenauigkeit, die wir nicht halten koennen. */
+  (function () {
+    var rechner = doc.querySelector(".bodenrechner");
+    var karte = doc.querySelector(".veedelkarte");
+    if (!rechner || !karte) return;
+
+    var feldZone = doc.getElementById("br-zone");
+    var feldFlaeche = doc.getElementById("br-flaeche");
+    var feldSumme = doc.getElementById("br-summe");
+    if (!feldZone || !feldFlaeche || !feldSumme) return;
+
+    var wert = null;
+    var geld = new Intl.NumberFormat("de-DE", {
+      style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+
+    function rechnen() {
+      if (wert === null) return;
+      var qm = parseFloat(feldFlaeche.value);
+      if (!(qm > 0)) { feldSumme.textContent = "—"; return; }
+      feldSumme.textContent = geld.format(Math.round(wert * qm));
+    }
+
+    on(feldFlaeche, "input", rechnen);
+
+    // Auf die Zonenauswahl der Karte hoeren. Der Wert steht im Text der
+    // Marke ("2.610 € je m²"), damit hier keine zweite Datenquelle entsteht.
+    $$(".dz-zone", karte).forEach(function (el) {
+      on(el, "click", function () {
+        var label = el.getAttribute("aria-label") || "";
+        var tref = label.match(/([\d.]+)\s*Euro je Quadratmeter/);
+        if (!tref) return;
+        wert = parseFloat(tref[1].replace(/\./g, ""));
+        if (!(wert > 0)) return;
+        var lage = label.replace(/^Bodenrichtwertzone\s*/, "").split(",")[0];
+        feldZone.textContent = geld.format(wert) + " je m²"
+          + (lage && !/^\d/.test(lage) ? " · " + lage : "");
+        rechner.hidden = false;
+        rechnen();
+      });
+    });
+  })();
 })();

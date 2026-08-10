@@ -1,4 +1,84 @@
-# Highseller Immobilien & Finanzen — Website (Stand v43)
+# Highseller Immobilien & Finanzen — Website (Stand v44)
+
+## Was in v44 umgesetzt wurde
+
+### Köln-Sülz als zweite ausgebaute Veedelseite
+
+Zweite Seite des Vorhabens, und bewusst **anders gebaut als Deutz**. Nicht der
+Abwechslung wegen: Die Stadtteile erzählen verschiedene Geschichten, und die
+Seiten sollen das zeigen.
+
+**Der Aufhänger steht in drei Zahlen.** In Sülz wird kaum gebaut, aber viel
+gehandelt: 0,18 % Neubau gemessen am Bestand (40 Wohnungen auf 22.626,
+drittniedrigster Wert der zwanzig ausgewerteten Stadtteile), dabei 121
+notarielle Kaufverträge im Jahr (Rang vier). Bei Deutz war die Botschaft genau
+umgekehrt — dort steht Neubaukonkurrenz im Vordergrund. Dritte Zahl: die
+Bodenrichtwerte reichen von 1.430 € an der Mayener Straße bis 2.610 € am Platz
+der Kinderrechte, fast Faktor zwei innerhalb eines Stadtteils.
+
+**Eigene Bausteine statt Deutz-Baukasten:**
+- **Heller Bildkopf** (Beethovenpark) statt des abgedunkelten Rheinbilds.
+- **Dreisatz-Leiste** mit den drei tragenden Zahlen statt Kennzahlenkacheln.
+- **Gegenüberstellung der zwei Käufergruppen** statt Objektartentabelle —
+  Familien gegen Kapitalanleger und Elterngeneration, mit dem, was jede Gruppe
+  anzieht, wofür sie zahlt, was sie stört und was ins Exposé gehört. Das ist
+  in Sülz keine Marketingfigur: 61,4 % Einpersonenhaushalte (Universität)
+  stehen drei Gymnasien und zwei Encke-Parks (Familien) gegenüber.
+- **Bodenwertrechner an der Karte** — der eigentliche Blickfang, siehe unten.
+- **Sechs Mikrolagenfragen** als nummerierte Liste statt Fehlerkarten.
+
+### Bodenwertrechner: die Karte rechnet mit
+
+Wer in der Zonenansicht eine Fläche antippt, bekommt den amtlichen
+Bodenrichtwert übernommen, trägt seine Grundstücksfläche ein und sieht sofort
+den rechnerischen Bodenwert. Der Rechner ist bis zur ersten Auswahl verborgen,
+damit niemand vor einem leeren Formular steht.
+
+Bewusst nur eine Multiplikation, mit deutlichem Hinweis darunter: Das Ergebnis
+ist der Wert des **Bodens**, nicht der der Immobilie — bei einer
+Eigentumswohnung entfällt davon nur der Miteigentumsanteil, bei einem Haus
+kommt der Gebäudewert hinzu. Alles andere wäre eine Scheingenauigkeit, die
+sich nicht halten lässt. Der Rechner liest den Wert aus dem `aria-label` der
+Zone, damit keine zweite Datenquelle entsteht.
+
+### Fotos: Wikimedia Commons statt Stockdatenbank
+
+Vier echte Sülz-Aufnahmen unter freier Lizenz (CC BY 3.0 und CC BY-SA 4.0),
+zugeschnitten und verkleinert. Der Bildnachweis mit Urheber, Lizenz und
+Lizenzlink steht unter dem Bildstreifen — bei diesen Lizenzen ist die Nennung
+Pflicht, nicht Höflichkeit. **Wer weitere Fotos ergänzt: Nachweis mitpflegen.**
+
+### Zwei Fallen aus dieser Runde
+
+- **Kontrast über einem Foto ist aus dem CSS nicht ablesbar.** Der helle
+  Bildkopf sah gut aus, am gerenderten Screenshot gemessen fiel der Fließtext
+  über dunklen Bildstellen aber auf 2,66:1. Erst ein bis unter den Text
+  reichender Verlauf und Textfarbe `--ink` brachten ihn auf 5,15:1.
+  Gemessen wird am Bild, nicht im Stylesheet.
+- **Kartenpunkte nie schätzen.** Erneut passiert: Der Decksteiner Weiher lag
+  über einen Kilometer neben dem Wasser, alle acht Punkte waren daneben. Die
+  Koordinaten kommen jetzt aus Nominatim. Und die OSM-Kacheln müssen den
+  ganzen Ausschnitt abdecken — die erste Fassung endete bei 50,920 und ließ
+  das obere Kartendrittel leer.
+
+Sülz ist mit 3.078 Gebäuden dichter als Deutz; Vereinfachungstoleranz 1,6 und
+Mindestfläche 44 drücken die Karte auf 324 KB (rund 80 KB ausgeliefert).
+
+**Aus Baris' Vorlage übernommen und verdichtet:** Die acht WhatsApp-Texte
+enthielten denselben Stoff mehrfach — der letzte fasste alle vorherigen
+zusammen. Übernommen sind Struktur und Argumente, nicht der Wortlaut; die
+Seite kommt mit 1.517 Wörtern aus und hat 0 % Eigenwiederholung sowie 0 %
+Bausteinanteil (kein einziger Satz, der auf einer anderen Seite steht).
+
+**Zwei Angaben aus der Vorlage bewusst nicht übernommen:** die Zahl „rund 750
+Banken" (unbelegt, § 5a UWG — steht bereits als offener Punkt in diesem
+readme) und die Formulierung, Vor-Ort-Termine hätten „zu höheren
+Verkaufspreisen beigetragen" (nicht belegbar). Die Verkaufsdauer nennt die
+Seite mit drei bis sechs Monaten nach Baris' Angabe; **das widerspricht dem
+Baustein „acht bis sechzehn Wochen" auf 61 anderen Seiten** und sollte
+vereinheitlicht werden.
+
+Cache-Buster: `styles.css?v=42` und `main.js?v=24` auf allen Seiten.
 
 ## Was in v43 umgesetzt wurde
 
