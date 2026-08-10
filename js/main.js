@@ -1009,4 +1009,35 @@
     schritte[0].classList.add("ist-dran");
     betonen(schritte[0].getAttribute("data-zone"));
   })();
+  /* ---- Verlaufskurve zeichnet sich beim Sichtbarwerden ----
+     Die Pfadlaenge wird zur Laufzeit gemessen und als CSS-Variable gesetzt;
+     ein fester Wert im Stylesheet wuerde bei anderer Kurvenform nicht passen. */
+  (function () {
+    var kurven = $$(".verlauf");
+    if (!kurven.length) return;
+    var wenigerBewegung = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (wenigerBewegung || !("IntersectionObserver" in window)) {
+      kurven.forEach(function (k) { k.classList.add("verlauf--gezeichnet"); });
+      return;
+    }
+    kurven.forEach(function (k) {
+      var linie = k.querySelector(".vl-linie");
+      if (linie && linie.getTotalLength) {
+        try { k.style.setProperty("--laenge", Math.ceil(linie.getTotalLength()) + "px"); }
+        catch (e) {}
+      }
+    });
+    var io = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        en.target.classList.add("verlauf--gezeichnet");
+      });
+    }, { threshold: 0.35 });
+    kurven.forEach(function (k) { io.observe(k); });
+    setTimeout(function () {
+      kurven.forEach(function (k) { k.classList.add("verlauf--gezeichnet"); });
+    }, 4000);
+  })();
 })();

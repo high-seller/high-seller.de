@@ -2597,3 +2597,40 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
   .veedelkarte--erzaehlt .dz-zone path{fill-opacity:.72;transition:none}
   .veedelkarte--erzaehlt .dz-zonenwert{opacity:1}
 }
+
+/* ==========================================================================
+   Bodenrichtwert-Verlauf (v46)
+   --------------------------------------------------------------------------
+   BORIS NRW veroeffentlicht die Bodenrichtwerte seit 2011. Niemand bereitet
+   sie stadtteilweise als Zeitreihe auf — genau deshalb steht sie hier.
+   ========================================================================== */
+.verlauf{margin:24px 0 0}
+.verlauf__rahmen{background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:clamp(12px,2vw,22px);overflow:hidden}
+.verlauf__svg{width:100%;height:auto;display:block}
+.verlauf__quelle{font-size:.82rem;color:var(--slate-2);margin:12px 0 0;line-height:1.6}
+
+/* Die Kurve zeichnet sich, wenn sie ins Bild kommt. Kein Selbstzweck: Der
+   Blick folgt der Linie und ist am Knick, wo die Aussage sitzt. */
+.verlauf__svg .vl-linie{stroke-dasharray:var(--laenge,1400);
+  stroke-dashoffset:var(--laenge,1400)}
+.verlauf--gezeichnet .vl-linie{stroke-dashoffset:0;
+  transition:stroke-dashoffset 1.5s cubic-bezier(.33,.9,.4,1)}
+
+/* Merksatz-Kasten neben dem Diagramm */
+.merksatz{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));
+  margin:20px 0 0}
+.merksatz div{min-width:0;padding:16px 18px;background:var(--bg-soft);
+  border-radius:var(--radius-sm);border-left:3px solid var(--gold)}
+.merksatz b{display:block;font-family:var(--f-display);font-size:1.5rem;
+  color:var(--ink);line-height:1.15;margin-bottom:6px}
+.merksatz span{display:block;color:var(--body);font-size:.93rem;line-height:1.55}
+
+@media(max-width:560px){
+  .verlauf__rahmen{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
+  .verlauf__svg{min-width:560px}
+}
+@media(prefers-reduced-motion:reduce){
+  .verlauf__svg .vl-linie{stroke-dasharray:none;stroke-dashoffset:0}
+  .verlauf--gezeichnet .vl-linie{transition:none}
+}

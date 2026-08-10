@@ -1,4 +1,58 @@
-# Highseller Immobilien & Finanzen — Website (Stand v45)
+# Highseller Immobilien & Finanzen — Website (Stand v46)
+
+## Was in v46 umgesetzt wurde
+
+### Bodenrichtwerte über fünfzehn Jahre — auf beiden Veedelseiten
+
+Phillip wollte auf Deutz und Sülz je etwas ergänzen, das nischig ist und sich
+nicht ergoogeln lässt. Das hier ist es: **BORIS NRW veröffentlicht die
+amtlichen Bodenrichtwerte seit 2011, aber immer nur als Momentaufnahme eines
+Jahres. Was aus einer einzelnen Zone über die Zeit geworden ist, steht
+nirgends.** Sechzehn Jahrgänge nebeneinandergelegt ergeben eine Zeitreihe, die
+es so im Netz nicht gibt.
+
+**Das Ergebnis ist eine unbequeme Nachricht.** Mittelwert der Wohnbauzonen:
+
+| | 2011 | 2019 | 2023 | 2024 | 2025 | 2026 |
+|---|---|---|---|---|---|---|
+| Deutz | 585 € | 1.135 € | **1.745 €** | 1.525 € | 1.410 € | 1.420 € |
+| Sülz | 695 € | 1.440 € | **2.160 €** | 1.845 € | 1.740 € | 1.740 € |
+
+Bis 2023 hat sich der Bodenwert in beiden Stadtteilen etwa verdreifacht, seit
+dem Höchststand ging es um **19 % zurück** — in Deutz und Sülz fast auf den
+Prozentpunkt gleich. Der Knick kam mit dem Jahrgang 2024. Seit 2025 ist die
+Kurve flach: Sülz unverändert 1.740 €, Deutz plus zehn Euro.
+
+Für die Beratung ist genau das der Wert dieser Auswertung. Die häufigste
+Eigentümerfrage lautet „soll ich noch warten?" — und die Kurve beantwortet sie
+ehrlich: Der Höchststand ist zwei Jahre her, aber ein weiterer Rückgang ist
+seit einem Jahr nicht mehr zu sehen.
+
+**Ein Lesehinweis, den fast alle übersehen** und der deshalb auf beiden Seiten
+steht: Bodenrichtwerte gelten zum Stichtag 1. Januar und bilden das jeweils
+abgelaufene Jahr ab. Der im Jahrgang 2024 sichtbare Einbruch ist also am Markt
+2023 passiert, kurz nach der Zinswende. Wer amtliche Werte mit tagesaktuellen
+Angebotspreisen vergleicht, vergleicht zwei verschiedene Zeitpunkte.
+
+**Sülz hat einen Ausreißer**, der die Kernbotschaft der Seite stützt: Am Platz
+der Kinderrechte stieg der Wert zuletzt von 1.950 € auf 2.610 €, während alle
+anderen Zonen nachgaben. „Der Markt" ist nicht einmal innerhalb eines
+Stadtteils eine einzige Zahl.
+
+**Zuordnung über den Ort, nicht über die Zonennummer.** Zonen werden
+gelegentlich neu geschnitten und umnummeriert; ein Abgleich über `BRWZNR`
+liefert stille Fehltreffer. `brw-verlauf-lesen.py` bestimmt stattdessen für
+jede aktuelle Zone einen Punkt im Inneren und sucht im alten Jahrgang das
+Polygon, das ihn enthält (Strahlverfahren).
+
+Die Kurve zeichnet sich beim Sichtbarwerden. Die Pfadlänge wird dafür zur
+Laufzeit über `getTotalLength()` gemessen — ein fester Wert im Stylesheet
+passte bei anderer Kurvenform nicht.
+
+Beide Textblöcke sind eigenständig geschrieben, nicht gespiegelt: Deutz führt
+über den Verkaufszeitpunkt, Sülz über die drei Lesarten der Kurve.
+
+Cache-Buster: `styles.css?v=44` und `main.js?v=26` auf allen Seiten.
 
 ## Was in v45 umgesetzt wurde
 
