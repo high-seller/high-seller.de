@@ -847,4 +847,166 @@
       });
     });
   })();
+  /* ---- Zahlenband: Zahlen laufen hoch, wenn sie ins Bild kommen ----
+     Nur die Ziffern werden gezaehlt, Zeichen wie Komma, Prozent oder das
+     Bindestrich-Paar bei einer Spanne bleiben stehen. Bei reduzierter
+     Bewegung oder ohne Observer steht sofort der Endwert. */
+  (function () {
+    var band = doc.querySelector(".zahlenband");
+    if (!band) return;
+    var ziele = $$("[data-zahl]", band);
+    if (!ziele.length) return;
+
+    function endwert(el) { el.textContent = el.getAttribute("data-zahl"); }
+
+    var wenigerBewegung = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (wenigerBewegung || !("IntersectionObserver" in window)) {
+      ziele.forEach(endwert);
+      return;
+    }
+    ziele.forEach(function (el) { el.textContent = el.getAttribute("data-zahl"); });
+
+    function zaehlen(el) {
+      var text = el.getAttribute("data-zahl");
+      var zahlen = text.match(/[\d.,]+/g);
+      if (!zahlen) { endwert(el); return; }
+      var start = null, dauer = 900;
+      function schritt(t) {
+        if (start === null) start = t;
+        var p = Math.min((t - start) / dauer, 1);
+        var weich = 1 - Math.pow(1 - p, 3);
+        var i = 0;
+        el.textContent = text.replace(/[\d.,]+/g, function (treffer) {
+          var ziel = parseFloat(treffer.replace(/\./g, "").replace(",", "."));
+          if (isNaN(ziel)) return treffer;
+          var jetzt = ziel * weich;
+          var nachkomma = treffer.indexOf(",") > -1 ? 2 : 0;
+          i++;
+          return jetzt.toLocaleString("de-DE", {
+            minimumFractionDigits: nachkomma, maximumFractionDigits: nachkomma });
+        });
+        if (p < 1) requestAnimationFrame(schritt); else endwert(el);
+      }
+      requestAnimationFrame(schritt);
+    }
+
+    var io = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        zaehlen(en.target);
+      });
+    }, { threshold: 0.6 });
+    ziele.forEach(function (el) { io.observe(el); });
+    setTimeout(function () { ziele.forEach(endwert); }, 4000);
+  })();
+
+  /* ---- Scrollytelling: die Karte folgt dem Text ----
+     Jeder Textschritt traegt data-zone mit der Nummer der Zone, die er
+     bespricht. Waehrend der Schritt in der Bildmitte steht, wird genau diese
+     Zone hervorgehoben und alle anderen treten zurueck.
+
+     Faellt JavaScript aus, bleibt die Klasse veedelkarte--erzaehlt weg: Dann
+     sind alle Zonen normal eingefaerbt und alle Schritte voll sichtbar. Der
+     Abschnitt funktioniert dann als gewoehnliches Nebeneinander. */
+  (function () {
+    var szene = doc.querySelector(".szene");
+    if (!szene) return;
+    var schritte = $$(".szene__schritt", szene);
+    var karte = szene.querySelector(".veedelkarte");
+    if (!schritte.length || !karte) return;
+
+    var zonen = $$(".dz-zone", karte);
+    var schmal = window.matchMedia && window.matchMedia("(max-width:900px)").matches;
+    var wenigerBewegung = window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (schmal || wenigerBewegung || !("IntersectionObserver" in window)) {
+      szene.classList.add("szene--statisch");
+      return;
+    }
+    // Im Erzaehlmodus ist die Zonenansicht die Grundeinstellung — sonst hebt
+    // das Scrollytelling Flaechen hervor, die gar nicht eingeblendet sind.
+    karte.classList.add("veedelkarte--erzaehlt", "veedelkarte--zonen");
+    $$("[data-ansicht]", karte).forEach(function (b) {
+      var an = b.getAttribute("data-ansicht") === "zonen";
+      b.classList.toggle("is-an", an);
+      b.setAttribute("aria-pressed", an ? "true" : "false");
+    });
+    // Wer von Hand auf Orientierung wechselt, verlaesst das Erzaehlbild.
+    $$("[data-ansicht]", karte).forEach(function (b) {
+      on(b, "click", function () {
+        karte.classList.toggle("veedelkarte--erzaehlt",
+          b.getAttribute("data-ansicht") === "zonen");
+      });
+    });
+
+    /* Die Karte faehrt zur besprochenen Zone. Eine viewBox laesst sich nicht
+       per CSS ueberblenden, deshalb wird sie Bild fuer Bild interpoliert.
+       getBBox liefert die Ausdehnung der Zone im Koordinatensystem des SVG —
+       genau die Einheit, in der auch die viewBox rechnet. */
+    var svg = karte.querySelector("svg");
+    var ganz = (svg.getAttribute("viewBox") || "").split(/\s+/).map(Number);
+    var jetzt = ganz.slice();
+    var lauf = null;
+
+    function setzen(v) { svg.setAttribute("viewBox", v.map(function (n) {
+      return Math.round(n * 10) / 10; }).join(" ")); }
+
+    function fahren(ziel) {
+      if (lauf) cancelAnimationFrame(lauf);
+      var von = jetzt.slice(), start = null, dauer = 700;
+      function schritt(t) {
+        if (start === null) start = t;
+        var p = Math.min((t - start) / dauer, 1);
+        var weich = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        jetzt = von.map(function (a, i) { return a + (ziel[i] - a) * weich; });
+        setzen(jetzt);
+        if (p < 1) lauf = requestAnimationFrame(schritt); else lauf = null;
+      }
+      lauf = requestAnimationFrame(schritt);
+    }
+
+    function ausschnittFuer(el) {
+      var b;
+      try { b = el.getBBox(); } catch (e) { return ganz; }
+      if (!b || !b.width || !b.height) return ganz;
+      /* Fester Ausschnitt, zentriert auf die Zonenmitte — kein Zoom nach
+         Zonengroesse. Die zehn Zonen sind extrem verschieden gross; ein
+         zonenabhaengiger Faktor ergab Fahrten zwischen 1,0- und 3,3-fach,
+         was unruhig wirkt. Eine gleichmaessige Fahrt liest sich besser, und
+         der Umriss bleibt im Zusammenhang sichtbar, auch wenn eine grosse
+         Zone ueber den Rand hinausragt. */
+      var w = ganz[2] * 0.52, h = ganz[3] * 0.52;
+      var x = b.x + b.width / 2 - w / 2;
+      var y = b.y + b.height / 2 - h / 2;
+      x = Math.max(ganz[0], Math.min(x, ganz[0] + ganz[2] - w));
+      y = Math.max(ganz[1], Math.min(y, ganz[1] + ganz[3] - h));
+      return [x, y, w, h];
+    }
+
+    function betonen(nr) {
+      var treffer = null;
+      zonen.forEach(function (z) {
+        var an = z.getAttribute("data-zone") === String(nr);
+        z.classList.toggle("dz-zone--betont", an);
+        if (an) treffer = z;
+      });
+      if (treffer && ganz.length === 4) fahren(ausschnittFuer(treffer));
+    }
+
+    var io = new IntersectionObserver(function (eintraege) {
+      eintraege.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        schritte.forEach(function (s) { s.classList.toggle("ist-dran", s === en.target); });
+        betonen(en.target.getAttribute("data-zone"));
+      });
+    }, { rootMargin: "-45% 0px -45% 0px" });
+    schritte.forEach(function (s) { io.observe(s); });
+
+    // Anfangszustand: erster Schritt aktiv, damit die Karte nie leer wirkt.
+    schritte[0].classList.add("ist-dran");
+    betonen(schritte[0].getAttribute("data-zone"));
+  })();
 })();

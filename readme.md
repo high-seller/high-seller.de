@@ -1,4 +1,56 @@
-# Highseller Immobilien & Finanzen — Website (Stand v44)
+# Highseller Immobilien & Finanzen — Website (Stand v45)
+
+## Was in v45 umgesetzt wurde
+
+### Sülz: neuer Bildkopf und eine Karte, die mitfährt
+
+Phillip war mit der ersten Sülz-Fassung nicht zufrieden: Das Design gefiel
+nicht, der Text ging unter, und der Blickfang war zu leise. Beides ist
+überarbeitet.
+
+**Geteilter Bildkopf statt Text über Foto.** Vorher stand der Text auf dem
+hellen Beethovenpark-Bild. Der Kontrast war messbar in Ordnung, optisch ging
+er trotzdem unter — **ein Foto ist nie eine ruhige Textfläche**, egal wie gut
+der Verlauf liegt. Jetzt liegt der Text auf einer eigenen dunklen Hälfte, das
+Bild daneben, mit weicher Kante dazwischen. Der Kopf nimmt volle Bildschirm-
+höhe statt 42 %, die Überschrift trägt die Kernaussage („Hier wird kaum
+gebaut. Aber viel gehandelt."), darunter ein überlappendes Zahlenband, dessen
+Ziffern beim Sichtbarwerden hochlaufen.
+
+**Die Karte erzählt jetzt.** Beim Scrollen bleibt sie stehen, während der Text
+daneben durchläuft; jeder Abschnitt hebt eine andere Bodenrichtwertzone hervor
+und die Kamera fährt dorthin. Fünf Stationen führen vom Spitzenwert am Platz
+der Kinderrechte (2.610 €) über die solide Mitte und das Kerngebiet an der
+Sülzburgstraße bis zum unteren Rand an der Mayener Straße (1.430 €) und zum
+Gewerbegebiet (475 €). So sieht man die Preisspanne entstehen, statt sie
+erklärt zu bekommen.
+
+Drei Dinge, die dabei zu lernen waren:
+
+- **Die viewBox lässt sich nicht per CSS überblenden.** Sie wird Bild für Bild
+  interpoliert; `getBBox()` liefert die Zonenausdehnung im selben
+  Koordinatensystem, in dem auch die viewBox rechnet.
+- **Fester Ausschnitt statt zonenabhängigem Zoom.** Die zehn Zonen sind extrem
+  verschieden groß; ein Faktor je Zone ergab Fahrten zwischen 1,0- und
+  3,3-fach, was unruhig wirkte. Jetzt immer 1,92-fach, zentriert auf die
+  Zonenmitte.
+- **Der Erzählmodus muss die Zonenansicht einschalten.** Sonst hebt das
+  Scrollytelling Flächen hervor, die gar nicht eingeblendet sind — genau das
+  passierte im ersten Anlauf.
+
+**Auf schmalen Bildschirmen kein Scrollytelling.** Eine feststehende Karte
+fräße dort die halbe Anzeige. Stattdessen Karte oben, Schritte darunter, alle
+Zonen normal eingefärbt. Ohne JavaScript oder bei reduzierter Bewegung gilt
+dasselbe — es geht nur die Führung verloren, kein Inhalt.
+
+**Und wieder die Gitterfalle:** `.szene__karte` brauchte `min-width:0`, sonst
+bläht die Karte mit ihrer Mindestbreite die Zelle auf und schiebt den Inhalt
+über den Rand. Dieselbe Ursache wie bei den Tabellen im Juli.
+
+Lighthouse mobil weiterhin 100/100/100/100, kein horizontaler Überlauf bei
+390 px, Seite mit 0 % Eigenwiederholung und 0 % Bausteinanteil.
+
+Cache-Buster: `styles.css?v=43` und `main.js?v=25` auf allen Seiten.
 
 ## Was in v44 umgesetzt wurde
 

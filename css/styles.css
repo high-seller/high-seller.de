@@ -2485,3 +2485,115 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
   .gegenueber dt{padding-top:0}
   .bodenrechner__zeile label{min-width:0;width:100%}
 }
+
+/* ==========================================================================
+   Sülz v45: geteilter Bildkopf und Scrollytelling-Karte
+   --------------------------------------------------------------------------
+   Die erste Fassung hatte den Text ueber dem hellen Foto stehen. Kontrast war
+   messbar in Ordnung, optisch ging er trotzdem unter — ein Foto ist nie eine
+   ruhige Textflaeche. Jetzt liegt der Text auf einer eigenen dunklen Haelfte,
+   das Bild daneben. Kein Verlauf, keine Abdunklung, kein Kompromiss.
+   ========================================================================== */
+
+.veedel-hero--geteilt{background:var(--navy);padding:0;overflow:visible}
+.veedel-hero--geteilt::after{content:none}
+.veedel-hero__raster{display:grid;grid-template-columns:1.05fr .95fr;
+  min-height:min(88vh,760px);align-items:stretch}
+.veedel-hero__text{display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(30px,5vw,72px) clamp(20px,4vw,64px);
+  padding-left:max(clamp(20px,4vw,64px),calc((100vw - var(--maxw)) / 2 + 20px))}
+.veedel-hero__bild{position:relative;overflow:hidden}
+.veedel-hero__bild img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:50% 45%}
+/* Weiche Kante zwischen Flaeche und Foto, damit die Naht nicht wie ein
+   Schnittfehler wirkt. */
+.veedel-hero__bild::before{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,var(--navy) 0%,rgba(11,26,48,.55) 12%,
+    rgba(11,26,48,0) 42%)}
+
+.veedel-hero--geteilt .breadcrumb,
+.veedel-hero--geteilt .breadcrumb a{color:rgba(255,255,255,.62)}
+.veedel-hero--geteilt .breadcrumb a:hover{color:#fff}
+.veedel-hero__auge{display:block;font-size:.82rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;margin:18px 0 10px}
+.veedel-hero--geteilt h1{color:#fff;margin:0 0 18px;
+  font-size:clamp(2.1rem,4.6vw,3.5rem);line-height:1.06;letter-spacing:-.015em}
+.veedel-hero--geteilt h1 em{font-style:normal;color:var(--gold)}
+.veedel-hero--geteilt .veedel-hero__lead{color:rgba(255,255,255,.86);
+  font-size:clamp(1.02rem,1.5vw,1.18rem);line-height:1.62;max-width:46ch;margin:0}
+.veedel-hero__knoepfe{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+
+/* Zahlenband unter dem Kopf, halb überlappend */
+.zahlenband{position:relative;z-index:2;margin-top:-46px}
+.zahlenband__inner{background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);
+  display:grid;grid-template-columns:repeat(3,1fr);overflow:hidden}
+.zahlenband__inner>div{padding:clamp(18px,2.6vw,28px);border-left:1px solid var(--border)}
+.zahlenband__inner>div:first-child{border-left:0}
+.zahlenband b{display:block;font-family:var(--f-display);
+  font-size:clamp(1.7rem,3.6vw,2.6rem);line-height:1.05;color:var(--ink);
+  letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.zahlenband span{display:block;margin-top:8px;color:var(--body);
+  font-size:.92rem;line-height:1.5}
+
+/* ---- Scrollytelling: Karte bleibt stehen, der Text laeuft durch ----------
+   Die Karte wird sticky, jeder Textblock hebt eine andere Zone hervor. So
+   sieht man die Preisspanne entstehen, statt sie erklaert zu bekommen.
+   Ohne JavaScript oder bei reduzierter Bewegung bleibt es ein gewoehnliches
+   Nebeneinander von Karte und Text — nichts geht verloren. */
+.szene{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,56px);
+  align-items:start;margin:8px 0 0}
+/* min-width:0 auf beiden Spalten: Ohne das blaeht die Karte mit ihrer
+   Mindestbreite die Gitterzelle auf und schiebt den Inhalt ueber den Rand —
+   dieselbe Falle wie bei den Tabellen. */
+.szene__karte{position:sticky;top:calc(var(--header-h,74px) + 16px);
+  align-self:start;min-width:0}
+.szene__schritte{min-width:0}
+.szene__karte .veedelkarte{margin:0}
+.szene__schritte{display:grid;gap:0;min-width:0}
+.szene__schritt{min-height:66vh;display:flex;flex-direction:column;
+  justify-content:center;padding:8px 0}
+.szene__schritt h3{margin:0 0 10px;font-size:clamp(1.15rem,2vw,1.5rem);color:var(--ink)}
+.szene__schritt p{margin:0 0 12px;color:var(--body);line-height:1.68;
+  font-size:1.02rem}
+.szene__wert{display:inline-flex;align-items:baseline;gap:10px;margin:0 0 12px}
+.szene__wert b{font-family:var(--f-display);font-size:clamp(1.9rem,3.6vw,2.7rem);
+  line-height:1;color:var(--blue-ink);letter-spacing:-.02em}
+.szene__wert span{font-size:.9rem;color:var(--slate-2)}
+/* Der jeweils aktive Schritt tritt hervor, die anderen treten zurueck. */
+.szene__schritt{opacity:.34;transition:opacity .45s var(--ease)}
+.szene__schritt.ist-dran,.szene--statisch .szene__schritt{opacity:1}
+
+/* Zonen im Scrollytelling: alle blass, die angesprochene hervorgehoben */
+.veedelkarte--erzaehlt .dz-zone path{fill-opacity:.16;transition:fill-opacity .5s var(--ease),
+  stroke-opacity .5s var(--ease)}
+.veedelkarte--erzaehlt .dz-zone--betont path{fill-opacity:.95;stroke-opacity:1}
+.veedelkarte--erzaehlt .dz-zonenwert{opacity:0;transition:opacity .4s var(--ease)}
+.veedelkarte--erzaehlt .dz-zone--betont+.dz-zonenwert{opacity:1}
+.veedelkarte--erzaehlt .dz-marken{opacity:.28;transition:opacity .4s var(--ease)}
+
+@media(max-width:900px){
+  .veedel-hero__raster{grid-template-columns:1fr;min-height:0}
+  .veedel-hero__bild{height:clamp(190px,38vw,300px);order:-1}
+  .veedel-hero__bild::before{background:linear-gradient(0deg,var(--navy) 0%,
+    rgba(11,26,48,.45) 26%,rgba(11,26,48,0) 62%)}
+  .veedel-hero__text{padding-left:clamp(20px,5vw,40px)}
+  .zahlenband{margin-top:-24px}
+  .zahlenband__inner{grid-template-columns:1fr}
+  .zahlenband__inner>div{border-left:0;border-top:1px solid var(--border)}
+  .zahlenband__inner>div:first-child{border-top:0}
+  /* Auf schmalen Bildschirmen kein Scrollytelling: Karte oben, Text darunter.
+     Eine sticky Karte fraesse dort die halbe Anzeige. */
+  .szene{grid-template-columns:1fr;gap:18px}
+  .szene__karte{position:static}
+  .szene__schritt{min-height:0;opacity:1;padding:14px 0;
+    border-top:1px solid var(--border)}
+  .veedelkarte--erzaehlt .dz-zone path{fill-opacity:.72}
+  .veedelkarte--erzaehlt .dz-zonenwert{opacity:1}
+  .veedelkarte--erzaehlt .dz-marken{opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .szene__schritt{opacity:1;transition:none}
+  .veedelkarte--erzaehlt .dz-zone path{fill-opacity:.72;transition:none}
+  .veedelkarte--erzaehlt .dz-zonenwert{opacity:1}
+}
