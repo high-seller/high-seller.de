@@ -1,4 +1,56 @@
-# Highseller Immobilien & Finanzen — Website (Stand v47)
+# Highseller Immobilien & Finanzen — Website (Stand v48)
+
+## Was in v48 umgesetzt wurde
+
+### Autorschaft und Aktualität — für Google und für KI-Antworten
+
+Anlass war eine Sichtbarkeitsanalyse. Der Befund: `author` und
+`datePublished` kamen auf **null von 230 Seiten** vor. Baris stand zwar auf
+jeder Seite, aber nirgends maschinenlesbar als Fachautor mit Qualifikation.
+
+Das ist deshalb wichtig, weil bis Ende 2026 rund 60 Prozent der kommerziellen
+Suchanfragen von KI-Antworten beeinflusst sind. Diese Systeme zitieren
+bevorzugt Inhalte mit erkennbarem Autor und nachvollziehbarem Stand — genau
+wie Googles E-E-A-T-Bewertung.
+
+**Was jetzt auf 223 Seiten steht** (Rechtstexte, Rechner und das interne
+Cockpit bleiben außen vor, dort sagt eine Autorschaft nichts aus):
+
+- **Person-Schema** mit fester `@id`, das die belegbaren Qualifikationen
+  trägt: Erlaubnis nach § 34c GewO (Stadt Köln) und § 34i GewO (IHK zu Köln),
+  Tätigkeitsschwerpunkte, Anschrift, persönliche Profile. Ausschließlich
+  Angaben aus dem Impressum — nichts Ausgedachtes, keine Berufsjahre, keine
+  Fallzahlen.
+- **WebPage-Schema** je Seite mit `author`-Verweis auf diese `@id` und
+  `dateModified` aus der Sitemap.
+- **Sichtbare Autorenzeile** vor dem Schlussaufruf: Foto, Name, Funktion,
+  beide Erlaubnisse und der Stand. Sichtbar, weil Google wie auch die
+  KI-Systeme den gerenderten Text auswerten und nicht nur das Schema.
+
+**Entitäten zusammengeführt.** Die 205 bestehenden `RealEstateAgent`-Schemas
+hatten keine `@id`. Ohne gemeinsame Kennung liest Google zwei getrennte Firmen,
+und die Verknüpfung „Baris ist Inhaber dieser Firma" geht ins Leere. Jetzt
+teilen sich alle dieselbe `@id`, und `founder`/`worksFor` verbinden Person und
+Betrieb in beide Richtungen. Genau diese Verknüpfung werten KI-Systeme aus.
+
+**Zwei Fallen dabei:**
+
+- Der Sitemap-Parser machte aus `https://high-seller.de/` den Hostnamen statt
+  `index.html` — ausgerechnet die Startseite blieb zunächst ohne Autorschaft.
+- Die Schema-URL kommt jetzt aus dem `canonical`, nicht aus dem Dateinamen.
+  Für die Startseite hätte sonst `/index.html` im Schema gestanden, während
+  `canonical` auf `/` zeigt: ein Widerspruch, der auf die weiterleitende
+  Adresse verweist.
+
+**Pflege: `tools/autorschaft-pflegen.py`.** Das Skript setzt die Autorschaft
+auf neuen Seiten und zieht auf bestehenden das Datum nach — sichtbar und im
+Schema gleichzeitig. **Nach jeder Seitenüberarbeitung laufen lassen**, sobald
+die Sitemap aktualisiert ist. Ein stehen gebliebenes „zuletzt geprüft am" wäre
+schlimmer als gar keine Angabe.
+
+Lighthouse mobil unverändert 100/100/100/100.
+
+Cache-Buster: `styles.css?v=46` und `main.js?v=28` auf allen Seiten.
 
 ## Was in v47 umgesetzt wurde
 

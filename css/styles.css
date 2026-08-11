@@ -2752,3 +2752,37 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
   .quelle__art{grid-row:3}
   .quelle__balken{grid-row:4}
 }
+
+/* ==========================================================================
+   Autorenzeile (v48)
+   --------------------------------------------------------------------------
+   Wer den Inhalt verantwortet und wann er zuletzt geprueft wurde. Sichtbar
+   und nicht nur im Schema: Google wie auch die KI-Systeme werten den
+   gerenderten Text aus, und fuer Leser ist es ein Vertrauenssignal.
+
+   Bewusst zurueckhaltend gestaltet — die Zeile steht am Ende des Inhalts und
+   soll den Schlussaufruf nicht ueberstrahlen.
+   ========================================================================== */
+.autorzeile-abschnitt{padding-top:0}
+.autorzeile{display:flex;gap:clamp(14px,2.4vw,22px);align-items:flex-start;
+  background:var(--bg-soft);border:1px solid var(--border);
+  border-radius:var(--radius);padding:clamp(16px,2.6vw,24px)}
+.autorzeile__bild{flex:0 0 auto}
+.autorzeile__bild img{width:76px;height:76px;border-radius:50%;object-fit:cover;
+  object-position:50% 22%;display:block;border:2px solid var(--card);
+  box-shadow:var(--shadow-sm)}
+.autorzeile__text{min-width:0}
+.autorzeile__rolle{margin:0 0 2px;font-size:.74rem;letter-spacing:.06em;
+  text-transform:uppercase;font-weight:700;color:var(--gold-2)}
+.autorzeile__name{margin:0 0 6px;font-family:var(--f-display);font-size:1.1rem;
+  font-weight:700;color:var(--ink)}
+.autorzeile__name a{color:inherit;text-decoration:none}
+.autorzeile__name a:hover{text-decoration:underline;text-underline-offset:3px}
+.autorzeile__amt{margin:0 0 8px;font-size:.92rem;line-height:1.6;color:var(--body)}
+.autorzeile__stand{margin:0;font-size:.85rem;line-height:1.6;color:var(--slate-2)}
+.autorzeile__stand time{font-weight:600;color:var(--body)}
+
+@media(max-width:560px){
+  .autorzeile{flex-direction:column;gap:12px}
+  .autorzeile__bild img{width:62px;height:62px}
+}
