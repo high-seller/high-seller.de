@@ -1,4 +1,76 @@
-# Highseller Immobilien & Finanzen — Website (Stand v46)
+# Highseller Immobilien & Finanzen — Website (Stand v47)
+
+## Was in v47 umgesetzt wurde
+
+### Köln-Zollstock als dritte ausgebaute Veedelseite
+
+Wieder ein eigenes Gesicht — und diesmal liefert Baris' Vorlage selbst den
+Blickfang. In seinen zwölf WhatsApp-Texten steckt eine Beobachtung, die auf
+keiner Maklerseite steht: **Die Preisquellen widersprechen sich massiv.**
+
+| Quelle | Wohnung Zollstock | Grundlage |
+|---|---|---|
+| Gutachterausschuss Köln | 4.368 €/m² | 114 notarielle Kaufverträge |
+| ImmoScout24, Q2 2026 | 4.756 €/m² | Angebotspreise |
+| Engel & Völkers, Q2 2026 | 5.700 €/m² | Angebotspreise |
+
+1.332 € Unterschied je Quadratmeter. Der Grund ist der Kern der Sache:
+**Portale messen Angebote, der Gutachterausschuss misst Abschlüsse.** Deshalb
+ist der amtliche Wert der niedrigste — und der einzige, der auf tatsächlich
+bezahlten Preisen beruht. Bei Häusern kehrt sich das Verhältnis sogar um.
+
+**Der Blickfang ist ein Rechner, der das begreifbar macht.** Objektart wählen,
+Quadratmeter eintragen, und die Seite zeigt alle Quellen nebeneinander mit
+Balken plus die Spanne in Euro: Bei 80 m² sind das **106.560 €** Unterschied
+zwischen niedrigster und höchster Einschätzung. Genau Baris' Botschaft, nur
+nicht behauptet, sondern vorgerechnet.
+
+**Zweiter nischiger Block: Denkmalschutz und Denkmal-AfA.** Zollstock hat
+Häuser von um 1900 am Höninger Weg und genossenschaftlichen Siedlungsbau der
+1920er und 1950er, teils von Wilhelm Riphahn; ein Quartier heißt bis heute
+Schutzmannshausen. Die Seite nennt die Abschreibung konkret — § 7i EStG für
+vermietete Objekte (12 Jahre, 8×9 % + 4×7 %), § 10f EStG für selbstgenutzte
+(10 Jahre × 9 %) — samt dem häufigsten Irrtum: **Die Prozentsätze gelten nicht
+für den Kaufpreis, sondern nur für bescheinigte Sanierungskosten.** Mit dem
+Hinweis, dass Maßnahmen vorab mit der Denkmalbehörde abzustimmen sind und die
+steuerliche Bewertung zum Steuerberater gehört.
+
+**Eigenes Seitengesicht:** Panoramaband oben (Luftbild Südstadion), darunter
+dunkle Fläche mit Titel und den drei widersprechenden Zahlen. Deutz hat einen
+Vollbild-Bildkopf, Sülz einen geteilten — Zollstock das Band.
+
+**Ein Fund beim Zusammenführen der BORIS-Jahrgänge**, der auch für die anderen
+Seiten gilt: Eine Fläche am Höninger Weg wurde bis 2024 als Wohnzone
+Irmgardstraße geführt (1.060 € je m²), taucht im Jahrgang 2025 aber als eigene
+**Gewerbezone mit 205 €** auf. Wer nur die Zahlen vergleicht, liest daraus
+achtzig Prozent Wertverlust — tatsächlich wurde die Zone neu zugeschnitten und
+anders eingestuft. Die Verlaufskurve zeigt deshalb nur, was durchgängig
+Wohnbauland war, und die Seite erklärt die Falle. **Vor jeder
+Bodenrichtwert-Zeitreihe die Nutzungsart mitprüfen.**
+
+Zollstock ist außerdem der Gegenpol zu Sülz: 338 neue Wohnungen in einem Jahr
+(2,4 % des Bestands, Rang drei aller ausgewerteten Stadtteile) gegenüber 0,18 %
+in Sülz. Wer hier verkauft, hat echte Neubaukonkurrenz.
+
+**Aus der Vorlage nicht übernommen:** die unbelegte Zahl „über 750 Banken"
+(§ 5a UWG, steht weiter unten als offener Punkt) und die Aussage, Vor-Ort-
+Termine hätten zu höheren Verkaufspreisen geführt.
+
+**Achtung, in Baris' Vorlage stand eine tote Adresse:** Er nennt dort
+`B.oelmez@highseller-immobilien.koeln` — die Domain wurde am 31.07.2026
+aufgegeben (siehe v41). Die Seite verwendet die regulären Kontaktwege.
+Wo diese Adresse sonst noch kursiert, sollte sie ersetzt werden.
+
+**Zwei Fallen dieser Runde:** `display:grid` schlägt das `hidden`-Attribut —
+die ausgeblendeten Objektart-Zeilen des Rechners blieben sichtbar, bis
+`.quelle[hidden]{display:none}` ergänzt war. Und die Mindestfläche aus dem
+Sülz-Skript filterte Zollstocks kleinteiligen Siedlungsbau weg: statt 4.089 nur
+1.191 Gebäude. Pro Stadtteil neu justieren.
+
+Lighthouse mobil 100/100/100/100 — die Denkmalkarten hatten zunächst `h4` unter
+`h2` und rissen ein Loch in die Gliederung.
+
+Cache-Buster: `styles.css?v=45` und `main.js?v=27` auf allen Seiten.
 
 ## Was in v46 umgesetzt wurde
 

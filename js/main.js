@@ -1040,4 +1040,71 @@
       kurven.forEach(function (k) { k.classList.add("verlauf--gezeichnet"); });
     }, 4000);
   })();
+  /* ---- Preisquellen-Vergleich ----
+     Rechnet dieselbe Wohnflaeche gegen mehrere Quellen und zeigt die Spanne.
+     Der Kern der Aussage: Portale nennen Angebotspreise, der Gutachter-
+     ausschuss notarielle Kaufpreise — deshalb liegen sie auseinander.
+
+     Die Werte stehen als data-Attribute im Markup, damit Zahl und Quelle
+     zusammenbleiben und niemand sie im Skript nachpflegen muss. */
+  (function () {
+    var block = doc.querySelector(".quellen");
+    if (!block) return;
+    var feld = doc.getElementById("qu-flaeche");
+    var zeilen = $$(".quelle", block);
+    var fazitWert = block.querySelector(".quellen__fazit b");
+    var fazitText = block.querySelector(".quellen__fazit span");
+    if (!feld || !zeilen.length) return;
+
+    var geld = new Intl.NumberFormat("de-DE", {
+      style: "currency", currency: "EUR", maximumFractionDigits: 0 });
+    var art = "wohnung";
+
+    function rechnen() {
+      var qm = parseFloat(feld.value);
+      if (!(qm > 0)) qm = 0;
+
+      var summen = [];
+      zeilen.forEach(function (z) {
+        var passt = z.getAttribute("data-art") === art;
+        z.hidden = !passt;
+        if (!passt) return;
+        var preis = parseFloat(z.getAttribute("data-preis"));
+        summen.push({ el: z, summe: preis * qm });
+      });
+      if (!summen.length) return;
+
+      var hoch = Math.max.apply(null, summen.map(function (s) { return s.summe; }));
+      var tief = Math.min.apply(null, summen.map(function (s) { return s.summe; }));
+
+      summen.forEach(function (s) {
+        s.el.querySelector(".quelle__summe").textContent =
+          qm ? geld.format(Math.round(s.summe)) : "—";
+        var balken = s.el.querySelector(".quelle__balken i");
+        if (balken) balken.style.width = hoch ? (s.summe / hoch * 100) + "%" : "0";
+      });
+
+      var spanne = hoch - tief;
+      fazitWert.textContent = qm ? geld.format(Math.round(spanne)) : "—";
+      fazitText.textContent = qm
+        ? "liegen zwischen der niedrigsten und der höchsten Einschätzung für "
+          + qm.toLocaleString("de-DE") + " m². Welche davon in Ihrem Kaufvertrag steht, "
+          + "entscheidet keine dieser Quellen — sondern Ihr Objekt."
+        : "Bitte eine Wohnfläche eingeben.";
+    }
+
+    on(feld, "input", rechnen);
+    $$(".quellen__art button", block).forEach(function (b) {
+      on(b, "click", function () {
+        art = b.getAttribute("data-art");
+        $$(".quellen__art button", block).forEach(function (o) {
+          var an = o === b;
+          o.classList.toggle("is-an", an);
+          o.setAttribute("aria-pressed", an ? "true" : "false");
+        });
+        rechnen();
+      });
+    });
+    rechnen();
+  })();
 })();

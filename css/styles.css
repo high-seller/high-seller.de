@@ -2634,3 +2634,121 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
   .verlauf__svg .vl-linie{stroke-dasharray:none;stroke-dashoffset:0}
   .verlauf--gezeichnet .vl-linie{transition:none}
 }
+
+/* ==========================================================================
+   Veedelseite Köln-Zollstock (v47) — eigene Bausteine
+   --------------------------------------------------------------------------
+   Wieder ein anderes Gesicht: Deutz hat einen Vollbild-Bildkopf, Sülz einen
+   geteilten. Zollstock bekommt ein Panoramaband oben und den Text darunter
+   auf dunkler Flaeche — und traegt die Kernaussage schon im Kopf, weil sie
+   aus drei widersprechenden Zahlen besteht.
+   ========================================================================== */
+
+.zolli-hero{background:var(--navy);padding:0;overflow:hidden}
+.zolli-hero__band{position:relative;height:clamp(180px,26vw,340px);overflow:hidden}
+.zolli-hero__band img{width:100%;height:100%;object-fit:cover;object-position:50% 62%;
+  display:block}
+/* Der Verlauf traegt das Band in die dunkle Flaeche darunter, damit die Naht
+   nicht wie ein Schnittfehler wirkt. */
+.zolli-hero__band::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(11,26,48,.18) 0%,rgba(11,26,48,0) 34%,
+    rgba(11,26,48,.55) 78%,var(--navy) 100%)}
+.zolli-hero__text{padding:clamp(24px,4vw,46px) 0 clamp(30px,5vw,56px)}
+.zolli-hero .breadcrumb,.zolli-hero .breadcrumb a{color:rgba(255,255,255,.6)}
+.zolli-hero .breadcrumb a:hover{color:#fff}
+.zolli-hero__auge{display:block;font-size:.82rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--gold);font-weight:700;margin:14px 0 10px}
+.zolli-hero h1{color:#fff;margin:0 0 16px;font-size:clamp(1.9rem,4.2vw,3.1rem);
+  line-height:1.08;letter-spacing:-.015em;max-width:20ch}
+.zolli-hero__lead{color:rgba(255,255,255,.84);font-size:clamp(1rem,1.5vw,1.14rem);
+  line-height:1.62;max-width:60ch;margin:0}
+
+/* Drei widersprechende Quellen, nebeneinander im Kopf */
+.dreiquellen{display:grid;gap:1px;grid-template-columns:repeat(3,1fr);
+  margin:30px 0 0;background:rgba(255,255,255,.14);border-radius:var(--radius);
+  overflow:hidden}
+.dreiquellen div{min-width:0;background:var(--navy-2);padding:16px 18px}
+.dreiquellen dt{font-size:.76rem;letter-spacing:.02em;color:rgba(255,255,255,.6);
+  margin-bottom:6px;line-height:1.3}
+.dreiquellen dd{margin:0;font-family:var(--f-display);
+  font-size:clamp(1.25rem,2.6vw,1.7rem);font-weight:700;color:#fff;
+  line-height:1.1;font-variant-numeric:tabular-nums}
+.dreiquellen dd small{display:block;font-family:var(--f-body);font-size:.74rem;
+  font-weight:400;color:rgba(255,255,255,.55);margin-top:4px}
+
+/* Der Preisquellen-Rechner: das Herzstück der Seite */
+.quellen{background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow);overflow:hidden;
+  margin:26px 0 0}
+.quellen__kopf{padding:clamp(18px,3vw,28px);border-bottom:1px solid var(--border);
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
+.quellen__kopf h3{margin:0;font-size:1.12rem;color:var(--ink)}
+.quellen__steuer{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.quellen__art{display:inline-flex;background:var(--bg-soft);border-radius:999px;
+  padding:3px;gap:2px}
+.quellen__art button{font:inherit;font-size:.88rem;font-weight:600;border:0;
+  background:none;color:var(--slate-2);padding:7px 15px;border-radius:999px;cursor:pointer}
+.quellen__art button.is-an{background:var(--navy);color:#fff}
+.quellen__flaeche{display:inline-flex;align-items:center;gap:8px}
+.quellen__flaeche input{font:inherit;font-size:1rem;width:96px;padding:9px 12px;
+  border:1px solid var(--border);border-radius:9px;text-align:right}
+.quellen__flaeche input:focus{outline:2px solid var(--gold);border-color:var(--gold)}
+/* Nur fuer Screenreader: Das Eingabefeld hat sichtbar die Einheit m² daneben,
+   braucht aber ein vollstaendiges Label fuer die Sprachausgabe. */
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+
+.quellen__liste{padding:clamp(14px,2.4vw,22px) clamp(18px,3vw,28px) 4px}
+.quelle{display:grid;grid-template-columns:1fr auto;gap:4px 16px;
+  align-items:baseline;padding:14px 0;border-bottom:1px solid var(--border)}
+/* display:grid schlaegt das hidden-Attribut — ohne diese Zeile bleiben die
+   ausgeblendeten Objektart-Zeilen sichtbar. */
+.quelle[hidden]{display:none}
+.quelle:last-of-type{border-bottom:0}
+.quelle__name{grid-column:1;grid-row:1;font-weight:600;color:var(--ink);font-size:.98rem}
+.quelle__art{grid-column:1;grid-row:2;font-size:.85rem;color:var(--slate-2);line-height:1.5}
+.quelle__summe{grid-column:2;grid-row:1 / span 2;font-family:var(--f-display);
+  font-size:clamp(1.3rem,2.8vw,1.8rem);font-weight:700;color:var(--ink);
+  white-space:nowrap;font-variant-numeric:tabular-nums;align-self:center}
+.quelle__balken{grid-column:1 / -1;grid-row:3;height:7px;border-radius:4px;
+  background:var(--bg-soft);overflow:hidden;margin-top:8px}
+.quelle__balken i{display:block;height:100%;border-radius:4px;
+  background:var(--blue);width:0;transition:width .7s var(--ease)}
+.quelle--amtlich .quelle__summe{color:var(--blue-ink)}
+.quelle--amtlich .quelle__balken i{background:var(--blue-ink)}
+.quelle--amtlich .quelle__name::after{content:"amtlich";display:inline-block;
+  margin-left:8px;font-family:var(--f-body);font-size:.7rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;color:var(--blue-ink);
+  background:var(--gold-soft);border:1px solid var(--gold-line);
+  border-radius:999px;padding:2px 8px;vertical-align:2px}
+
+.quellen__fazit{background:var(--navy);color:#fff;padding:clamp(18px,3vw,26px)}
+.quellen__fazit b{display:block;font-family:var(--f-display);
+  font-size:clamp(1.6rem,3.4vw,2.3rem);line-height:1.1;margin-bottom:8px;
+  font-variant-numeric:tabular-nums}
+.quellen__fazit span{display:block;color:rgba(255,255,255,.8);font-size:.96rem;
+  line-height:1.6;max-width:60ch}
+.quellen__fuss{font-size:.82rem;color:var(--slate-2);margin:12px 0 0;line-height:1.6}
+
+/* Denkmalschutz-Block: Zahlenkarten mit Paragrafenbezug */
+.paragraf{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));
+  margin:22px 0 0}
+.paragraf article{min-width:0;background:var(--card);border:1px solid var(--border);
+  border-left:3px solid var(--gold);border-radius:var(--radius);
+  padding:clamp(16px,2.6vw,24px)}
+.paragraf h3{margin:0 0 4px;font-size:1.02rem;color:var(--ink)}
+.paragraf .norm{display:block;font-size:.78rem;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--gold-2);font-weight:700;margin-bottom:10px}
+.paragraf .satz{font-family:var(--f-display);font-size:1.7rem;font-weight:700;
+  color:var(--blue-ink);line-height:1.15;margin:0 0 8px}
+.paragraf p{margin:0;font-size:.94rem;line-height:1.6;color:var(--body)}
+
+@media(max-width:700px){
+  .dreiquellen{grid-template-columns:1fr}
+  .quellen__kopf{flex-direction:column;align-items:flex-start}
+  .quelle{grid-template-columns:1fr}
+  .quelle__name{grid-row:1}
+  .quelle__summe{grid-column:1;grid-row:2;align-self:start;margin:2px 0 2px}
+  .quelle__art{grid-row:3}
+  .quelle__balken{grid-row:4}
+}
