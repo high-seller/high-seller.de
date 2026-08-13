@@ -2283,13 +2283,11 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
   .ablauf li{padding:15px 16px 15px 58px}
   .ablauf li::before{left:15px;top:14px;width:27px;height:27px;font-size:.86rem}
   .bildstreifen img{height:184px}
-  /* Auf 390 px schrumpfte die Kartenbeschriftung auf rund fuenf Pixel. Die Karte
-     behaelt deshalb ihre Entwurfsbreite, der Rahmen wird seitlich beweglich. */
-  .veedelkarte__rahmen{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
-  .veedelkarte svg{min-width:820px}
-  .veedelkarte__rahmen::after{content:"seitlich scrollbar";position:absolute;right:9px;top:7px;
-    font-size:.68rem;color:var(--slate-2);background:rgba(255,255,255,.92);
-    padding:2px 7px;border-radius:999px;border:1px solid var(--border)}
+  /* Frueher stand hier min-width:820px und der Rahmen war seitlich beweglich.
+     Am Geraet gemessen sah man davon 44 Prozent, und der Hinweis "seitlich
+     scrollbar" verschwand hinter dem Kopfbereich. Seit die Punkte Ziffern
+     statt Namen tragen und die Namen als Liste darunter stehen, skaliert die
+     Karte mit — nichts ist mehr verdeckt. */
   .datentabelle th,.datentabelle td{padding:10px 13px}
   /* Der Hinweis, dass die Tabelle seitlich beweglich ist. Ohne ihn wirkt eine
      angeschnittene Tabelle wie ein Fehler statt wie ein Scrollbereich. */
@@ -2315,9 +2313,20 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 /* Zwei Ansichten im selben SVG: Orientierung und Bodenrichtwerte. Umgeschaltet
    wird ueber eine Klasse am Behaelter, nicht durch Austausch der Grafik — so
    bleibt die Zuordnung zwischen Zone und Ort beim Wechsel erhalten. */
+/* Groesse der Kartenpunkte in CSS statt im SVG: Nur so laesst sie sich fuer
+   schmale Fenster nachziehen. Bei 1040 Einheiten Entwurfsbreite auf 356 Pixeln
+   waere eine 19er Ziffer sonst gut sechs Pixel hoch. */
+.dz-ring{r:21}
+.dz-nr{font-size:24px}
+.dz-treffer{r:34}
+@media(max-width:820px){
+  .dz-ring{r:26}
+  .dz-nr{font-size:30px}
+  .dz-treffer{r:42}
+}
 .dz-zonen{display:none}
 .veedelkarte--zonen .dz-zonen{display:block}
-.veedelkarte--zonen .dz-marken .dz-label{display:none}
+.veedelkarte--zonen .dz-marken{opacity:.75}
 .veedelkarte--zonen .dz-marke circle:not(.dz-treffer){opacity:.45}
 
 .veedelkarte__schalter{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
@@ -2345,11 +2354,20 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 
 .dz-marke{cursor:pointer}
 .dz-marke:focus{outline:none}
-.dz-ring{opacity:0;transition:opacity .18s var(--ease)}
+/* Frueher war der Ring ein unsichtbarer Halo, der erst bei Hover erschien;
+   den sichtbaren Punkt trug ein dritter Kreis. Seit dem Umbau auf Ziffern
+   ist der Ring selbst der Punkt und deshalb immer sichtbar. Die Hervorhebung
+   laeuft jetzt ueber den Radius. */
+.dz-ring{transition:r .16s var(--ease)}
 .dz-marke:hover .dz-ring,
 .dz-marke:focus-visible .dz-ring,
-.dz-marke--aktiv .dz-ring{opacity:.55}
-.dz-marke--aktiv .dz-ring{opacity:.9}
+.dz-marke--aktiv .dz-ring{r:25}
+@media(max-width:820px){
+  .dz-marke:hover .dz-ring,
+  .dz-marke:focus-visible .dz-ring,
+  .dz-marke--aktiv .dz-ring{r:30}
+}
+.dz-marke:focus-visible .dz-ring{stroke:var(--gold-2);stroke-width:4}
 .dz-marke:focus-visible .dz-treffer{stroke:var(--gold-2);stroke-width:2.5;
   stroke-dasharray:3 3}
 .dz-label{pointer-events:none}
@@ -2627,8 +2645,10 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 .merksatz span{display:block;color:var(--body);font-size:.93rem;line-height:1.55}
 
 @media(max-width:560px){
-  .verlauf__rahmen{overflow-x:auto;-webkit-overflow-scrolling:touch;position:relative}
-  .verlauf__svg{min-width:560px}
+  /* Das Diagramm stand frueher auf 560 Pixeln fest und der Rahmen war
+     seitlich beweglich. Jetzt skaliert es mit; die noetige Schriftgroesse
+     bringt es selbst mit, weil es mit groesserer Grundschrift und breiteren
+     Raendern gezeichnet wird (siehe tools/veedelkarten/brw-verlauf-zeichnen.py). */
 }
 @media(prefers-reduced-motion:reduce){
   .verlauf__svg .vl-linie{stroke-dasharray:none;stroke-dashoffset:0}
@@ -2785,4 +2805,287 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 @media(max-width:560px){
   .autorzeile{flex-direction:column;gap:12px}
   .autorzeile__bild img{width:62px;height:62px}
+}
+
+/* ==========================================================================
+   Veedelseite Köln-Ehrenfeld (v49)
+   --------------------------------------------------------------------------
+   Eigener Kopf, wie bei jeder Veedelseite: Deutz hat ein Vollbild mit dunklem
+   Verlauf, Sülz eine geteilte Fläche, Zollstock ein Panoramaband. Ehrenfeld
+   bekommt eine Waage — zwei Zahlen, die einander gegenüberstehen, weil genau
+   das die Lage im Stadtteil beschreibt: 141 verkaufte Neubauwohnungen gegen
+   112 verkaufte Bestandswohnungen. Nirgendwo sonst in Köln wechseln mehr
+   neue als gebrauchte Wohnungen den Besitzer.
+
+   Alle Bausteine sind von vornherein für das Telefon entworfen. Bei Deutz,
+   Sülz und Zollstock war die Karte auf ihre Entwurfsbreite festgenagelt und
+   musste seitlich gewischt werden; auf 390 Pixeln sah man weniger als die
+   Hälfte. Hier skaliert alles mit.
+   ========================================================================== */
+
+/* Kopf: die Waage ------------------------------------------------------- */
+.ehr-kopf{position:relative;background:var(--navy);color:#fff;overflow:hidden}
+.ehr-kopf__bild{position:absolute;inset:0}
+.ehr-kopf__bild img{width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+/* Der Verlauf reicht bis unter den Text. Beim Sülzer Kopf hatte ich ihn zu
+   früh enden lassen; am gerenderten Bild gemessen fiel der Kontrast dort auf
+   2,66:1 — aus dem Stylesheet ist das nicht ablesbar. */
+.ehr-kopf__schleier{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(9,20,36,.62) 0%,rgba(9,20,36,.78) 42%,rgba(9,20,36,.95) 100%)}
+.ehr-kopf__inhalt{position:relative;z-index:2;padding-block:clamp(38px,7vw,74px)}
+.ehr-kopf .breadcrumb{color:rgba(255,255,255,.72);margin-bottom:16px}
+.ehr-kopf .breadcrumb a{color:rgba(255,255,255,.9)}
+.ehr-kopf__auge{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.ehr-kopf h1{font-size:clamp(1.95rem,6.4vw,3.4rem);line-height:1.08;margin:0 0 16px;color:#fff}
+.ehr-kopf h1 em{font-style:normal;color:var(--gold);display:block}
+/* Spezifitaet mit .ehr-kopf davor: `.page-hero p` faerbt sonst den Lead
+   blaugrau ein und gewinnt gegen die einfache Klasse. */
+.ehr-kopf .ehr-kopf__lead{font-size:clamp(1rem,2.5vw,1.16rem);line-height:1.62;
+  color:rgba(255,255,255,.94);max-width:60ch;margin:0 0 26px}
+
+/* Die Waage selbst: zwei Werte, dazwischen das Verhältnis. Auf dem Telefon
+   untereinander, sonst nebeneinander — die Mitte trägt beide Male. */
+.ehr-waage{display:grid;gap:10px;margin:0 0 26px}
+.ehr-waage__seite{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.17);
+  border-radius:var(--radius);padding:15px 17px;min-width:0}
+.ehr-waage__seite--neu{background:rgba(196,154,72,.18);border-color:rgba(196,154,72,.42)}
+.ehr-waage__zahl{font-size:clamp(1.7rem,7vw,2.5rem);font-weight:800;line-height:1;
+  letter-spacing:-.02em;display:block;margin-bottom:5px}
+.ehr-waage__seite--neu .ehr-waage__zahl{color:var(--gold)}
+.ehr-waage__was{font-size:.93rem;line-height:1.42;color:rgba(255,255,255,.9);display:block}
+.ehr-waage__preis{font-size:.83rem;color:rgba(255,255,255,.68);display:block;margin-top:7px}
+.ehr-kopf__knoepfe{display:flex;flex-wrap:wrap;gap:11px}
+@media(min-width:760px){
+  .ehr-waage{grid-template-columns:1fr 1fr;gap:12px}
+}
+
+/* Der Aufschlag als eigene Aussage unter der Waage */
+.ehr-kopf .ehr-aufschlag{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
+  font-size:.93rem;color:rgba(255,255,255,.9);margin:0 0 24px}
+.ehr-aufschlag b{color:var(--gold);font-size:1.06rem}
+
+/* Karte ------------------------------------------------------------------ */
+/* Anders als die drei früheren Veedelkarten skaliert diese mit. Möglich ist
+   das, weil die Punkte Nummern statt Namen tragen: Eine Ziffer im Kreis
+   bleibt bei 358 Pixeln lesbar, "St. Franziskus-Hospital" nicht. */
+.ehrkarte{margin:26px 0 0}
+.ehrkarte__rahmen{border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;background:#fff;position:relative}
+.ehrkarte__svg{width:100%;height:auto;display:block}
+.ehrk-haeuser{fill:#E2E5E3}
+.ehrk-zonen,.ehrk-satzung{display:none}
+.ehrkarte--zonen .ehrk-zonen{display:block}
+.ehrkarte--satzung .ehrk-satzung{display:block}
+/* Groesse der Marken in CSS, nicht im SVG: So laesst sie sich fuer schmale
+   Fenster nachziehen. Bei 1040 Einheiten Entwurfsbreite auf 356 Pixeln
+   schrumpft eine 18er Ziffer auf gut sechs Pixel — unlesbar. */
+.ehrk-ring{r:21}
+.ehrk-nr{font-size:24px}
+.ehrk-treffer{r:34}
+@media(max-width:820px){
+  .ehrk-ring{r:26}
+  .ehrk-nr{font-size:30px}
+  .ehrk-treffer{r:42}
+}
+.ehrk-marke{cursor:pointer}
+.ehrk-marke .ehrk-ring{transition:r .16s ease}
+.ehrk-marke:hover .ehrk-ring,.ehrk-marke:focus-visible .ehrk-ring{r:25}
+@media(max-width:820px){.ehrk-marke:hover .ehrk-ring,.ehrk-marke:focus-visible .ehrk-ring{r:30}}
+.ehrk-marke:focus-visible{outline:none}
+.ehrk-marke:focus-visible .ehrk-ring{stroke:var(--gold);stroke-width:4}
+.ehrk-zone{cursor:pointer}
+.ehrk-zone:hover,.ehrk-zone:focus-visible{fill-opacity:.95;outline:none;stroke-width:2.6}
+
+/* Umschalter über der Karte */
+.ehrkarte__schalter{display:flex;gap:6px;margin-bottom:11px;flex-wrap:wrap}
+.ehrkarte__schalter button{flex:1 1 auto;min-height:44px;padding:9px 13px;font-size:.88rem;
+  font-weight:600;border:1px solid var(--border);background:#fff;color:var(--ink);
+  border-radius:999px;cursor:pointer;transition:background .14s,border-color .14s,color .14s}
+.ehrkarte__schalter button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+
+/* Punkteliste unter der Karte: hier stehen die Namen, in lesbarer Größe */
+.ehrk-liste{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+@media(min-width:700px){.ehrk-liste{grid-template-columns:1fr 1fr;gap:9px 18px}}
+/* Ein echter Knopf im li statt role="button" auf dem li selbst: Sonst
+   verliert die Liste ihre listitem-Kinder, und die Tastaturbedienung muesste
+   ich von Hand nachbauen. */
+.ehrk-liste li{margin:0;padding:0;min-width:0}
+.ehrk-liste__knopf{display:flex;gap:10px;align-items:flex-start;width:100%;
+  font-size:.92rem;font-family:inherit;line-height:1.45;text-align:left;
+  padding:11px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--card);color:var(--ink);cursor:pointer;min-height:44px;min-width:0}
+.ehrk-liste__knopf:hover,.ehrk-liste__knopf[aria-current="true"]{border-color:var(--blue);
+  background:#F2F7FC}
+.ehrk-liste__knopf:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.ehrk-liste__knopf b{display:flex;align-items:center;justify-content:center;flex:0 0 24px;
+  width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;
+  font-size:.79rem;font-weight:700}
+.ehrk-liste__knopf span{min-width:0}
+
+.ehrkarte__info{margin:13px 0 0;padding:13px 15px;background:var(--card);
+  border:1px solid var(--border);border-left:3px solid var(--blue);
+  border-radius:var(--radius-sm);font-size:.94rem;line-height:1.58;color:var(--ink)}
+.ehrkarte__stufen[hidden]{display:none}
+.ehrkarte__stufen{display:flex;flex-wrap:wrap;gap:7px 15px;margin:12px 0 0;
+  font-size:.79rem;color:var(--slate-2);align-items:center}
+.ehrkarte__stufen span{display:inline-flex;align-items:center;gap:6px}
+.ehrkarte__stufen i{width:15px;height:11px;border-radius:2px;display:inline-block;
+  border:1px solid rgba(0,0,0,.13)}
+
+/* Satzungsprüfer --------------------------------------------------------- */
+/* Der Blickfang der Seite. Die Fläche stammt aus dem Geoportal der Stadt
+   Köln; geprüft wird gegen die amtliche Geometrie, nicht gegen eine
+   nachgezeichnete Schätzung. Trotzdem bleibt es eine Orientierung — die
+   verbindliche Auskunft gibt allein die Stadt, und genau das steht auch da. */
+.satzung{background:linear-gradient(180deg,#FBF6F3 0%,#F7EFEA 100%);
+  border:1px solid #E8D5CB;border-radius:var(--radius-lg);padding:clamp(18px,4vw,30px);
+  margin:26px 0 0}
+.satzung__kopf{display:flex;gap:12px;align-items:flex-start;margin-bottom:16px}
+.satzung__zeichen{flex:0 0 auto;width:40px;height:40px;border-radius:10px;
+  background:#B4553A;color:#fff;display:flex;align-items:center;justify-content:center}
+.satzung__zeichen svg{width:21px;height:21px}
+.satzung h3{margin:0 0 5px;font-size:clamp(1.1rem,3.2vw,1.35rem);line-height:1.24}
+.satzung__unter{margin:0;font-size:.9rem;color:var(--slate-2);line-height:1.5}
+.satzung__felder{display:grid;gap:10px;margin:0 0 15px}
+@media(min-width:620px){.satzung__felder{grid-template-columns:1fr auto;align-items:end}}
+.satzung label{display:block;font-size:.86rem;font-weight:600;margin-bottom:6px;color:var(--ink)}
+.satzung select{width:100%;min-height:48px;padding:11px 13px;font-size:1rem;font-family:inherit;
+  border:1px solid var(--border);border-radius:var(--radius-sm);background:#fff;color:var(--ink)}
+.satzung__antwort{padding:15px 17px;border-radius:var(--radius);font-size:.96rem;
+  line-height:1.6;border:1px solid transparent}
+.satzung__antwort[data-lage="drin"]{background:#FBEFEA;border-color:#E3BBA9;color:#6F2E1B}
+.satzung__antwort[data-lage="raus"]{background:#EDF6EF;border-color:#BEDDC6;color:#22553A}
+.satzung__antwort[data-lage="leer"]{background:#fff;border-color:var(--border);color:var(--slate-2)}
+.satzung__antwort b{display:block;font-size:1.06rem;margin-bottom:5px}
+.satzung__folgen{list-style:none;margin:11px 0 0;padding:0;display:grid;gap:6px;font-size:.9rem}
+.satzung__folgen li{position:relative;padding-left:20px;line-height:1.5}
+.satzung__folgen li::before{content:"";position:absolute;left:5px;top:8px;width:6px;height:6px;
+  border-radius:50%;background:currentColor;opacity:.55}
+.satzung__quelle{margin:15px 0 0;font-size:.81rem;color:var(--slate-2);line-height:1.55}
+.satzung__quelle a{color:var(--blue)}
+
+/* Objektartentabelle ----------------------------------------------------- */
+.ehr-arten{display:grid;gap:11px;margin:20px 0 0}
+@media(min-width:680px){.ehr-arten{grid-template-columns:1fr 1fr}}
+.ehr-art{border:1px solid var(--border);border-radius:var(--radius);padding:16px 17px;
+  background:#fff;min-width:0}
+.ehr-art--hervor{border-color:#D8C08A;background:linear-gradient(180deg,#FFFDF7 0%,#FDF8EC 100%)}
+.ehr-art__was{font-size:.83rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--slate-2);margin:0 0 9px}
+.ehr-art--hervor .ehr-art__was{color:#8A6B22}
+.ehr-art__preis{font-size:clamp(1.35rem,4.2vw,1.7rem);font-weight:800;line-height:1;
+  color:var(--navy);margin:0 0 3px;letter-spacing:-.01em}
+.ehr-art__einheit{font-size:.87rem;color:var(--slate-2);margin:0 0 11px}
+.ehr-art__zeile{display:flex;justify-content:space-between;gap:12px;font-size:.88rem;
+  padding:6px 0;border-top:1px solid var(--border);color:var(--slate-2)}
+.ehr-art__zeile b{color:var(--ink);font-weight:600;text-align:right}
+
+/* Käufergruppen ---------------------------------------------------------- */
+.ehr-kaeufer{display:grid;gap:12px;margin:20px 0 0}
+@media(min-width:760px){.ehr-kaeufer{grid-template-columns:1fr 1fr}}
+.ehr-kaeufer__karte{border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 19px;background:#fff;min-width:0}
+.ehr-kaeufer__karte h3{margin:0 0 4px;font-size:1.08rem}
+.ehr-kaeufer__rolle{font-size:.82rem;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;margin:0 0 10px}
+.ehr-kaeufer__karte--eigen .ehr-kaeufer__rolle{color:var(--blue)}
+.ehr-kaeufer__karte--anleger .ehr-kaeufer__rolle{color:#7A4B8E}
+.ehr-kaeufer__fragen{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:7px}
+.ehr-kaeufer__fragen li{position:relative;padding-left:21px;font-size:.92rem;line-height:1.5;
+  color:var(--slate-2)}
+.ehr-kaeufer__fragen li::before{content:"?";position:absolute;left:0;top:0;
+  font-weight:700;color:var(--blue);opacity:.6}
+.ehr-kaeufer__karte--anleger .ehr-kaeufer__fragen li::before{color:#7A4B8E}
+
+/* Praxisfall ------------------------------------------------------------- */
+.ehr-fall{border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:var(--radius);background:var(--card);padding:18px 19px;margin:20px 0 0}
+.ehr-fall__auge{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:#8A6B22;margin:0 0 8px}
+.ehr-fall h3{margin:0 0 10px;font-size:1.08rem;line-height:1.3}
+.ehr-fall__zahlen{display:flex;flex-wrap:wrap;gap:9px;margin:13px 0 0}
+.ehr-fall__zahl{background:#fff;border:1px solid var(--border);border-radius:var(--radius-sm);
+  padding:9px 13px;min-width:0}
+.ehr-fall__zahl b{display:block;font-size:1.06rem;font-weight:700;color:var(--navy);line-height:1.2}
+.ehr-fall__zahl span{font-size:.79rem;color:var(--slate-2)}
+
+/* Bildstreifen und Nachweis --------------------------------------------- */
+.ehr-bilder{display:grid;gap:10px;margin:22px 0 0}
+@media(min-width:700px){.ehr-bilder{grid-template-columns:1fr 1fr}}
+.ehr-bilder figure{margin:0;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+.ehr-bilder img{width:100%;height:214px;object-fit:cover;display:block}
+.ehr-bilder figcaption{padding:10px 13px;font-size:.85rem;line-height:1.48;
+  color:var(--slate-2);background:var(--card)}
+
+@media(max-width:560px){
+  .ehr-bilder img{height:180px}
+  .ehrk-liste__knopf{font-size:.89rem}
+  .satzung{padding:16px 15px}
+}
+
+/* Die Links im Bildnachweis standen nur farblich vom Text ab. Wer Farben
+   schlecht unterscheidet, erkennt sie so nicht als Links. */
+.quelle-hinweis a{text-decoration:underline;text-underline-offset:2px}
+
+/* Namensliste unter den drei aelteren Veedelkarten (v49) --------------------
+   Die Karten tragen jetzt Ziffern; die Namen stehen hier, in lesbarer Groesse.
+   Auf dem Telefon ist diese Liste das eigentliche Bedienelement: Ein 44 Pixel
+   hoher Knopf trifft sich zuverlaessiger als ein Kartenpunkt. */
+.dz-liste{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+@media(min-width:700px){.dz-liste{grid-template-columns:1fr 1fr;gap:9px 18px}}
+.dz-liste li{margin:0;padding:0;min-width:0}
+.dz-liste__knopf{display:flex;gap:10px;align-items:flex-start;width:100%;
+  font-size:.92rem;font-family:inherit;line-height:1.45;text-align:left;
+  padding:11px;border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--card);color:var(--ink);cursor:pointer;min-height:44px;min-width:0}
+.dz-liste__knopf:hover,.dz-liste__knopf[aria-current="true"]{border-color:var(--blue);
+  background:#F2F7FC}
+.dz-liste__knopf:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.dz-liste__knopf b{display:flex;align-items:center;justify-content:center;flex:0 0 24px;
+  width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;
+  font-size:.79rem;font-weight:700}
+.dz-liste__knopf span{min-width:0}
+@media(max-width:560px){.dz-liste__knopf{font-size:.89rem}}
+
+/* Datentabellen auf dem Telefon (v49) ---------------------------------------
+   Vier Spalten nebeneinander sind auf 358 Pixeln nicht darstellbar. Bislang
+   liess sich die Tabelle seitlich wischen — gemessen hatte eine Zeile dort
+   187 Pixel Hoehe, weil die letzte Spalte mit ihrem Erklaertext ausserhalb
+   des Sichtbereichs lag und die Zeile auseinanderzog. Sichtbar waren also
+   vor allem leere Flaechen.
+
+   Auf schmalen Fenstern wird jede Zeile deshalb zu einem Block: Die
+   Kennzahl steht als Ueberschrift, darunter die Werte mit ihrem
+   Spaltennamen aus data-spalte. Nichts ist mehr verdeckt, und gewischt
+   werden muss auch nicht. */
+@media(max-width:700px){
+  .tabellenrahmen{overflow-x:visible}
+  .tabellenrahmen::after{display:none}
+  .datentabelle{min-width:0;width:100%;display:block}
+  .datentabelle thead{position:absolute;width:1px;height:1px;overflow:hidden;
+    clip:rect(0 0 0 0);white-space:nowrap}
+  .datentabelle tbody{display:block}
+  .datentabelle tr{display:block;border:1px solid var(--border);
+    border-radius:var(--radius-sm);padding:13px 15px;margin-bottom:10px;background:#fff}
+  .datentabelle td,.datentabelle th{display:block;border:none;padding:0;text-align:left}
+  /* Die erste Zelle jeder Zeile benennt sie und steht deshalb als
+     Ueberschrift oben, ohne ihren Spaltennamen zu wiederholen. */
+  .datentabelle tr > :first-child{font-weight:700;font-size:1rem;color:var(--ink);
+    margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+  .datentabelle tr > :first-child::before{content:none}
+  /* caption bekommt durch display:block auf der Tabelle sonst nur die Breite
+     ihres laengsten Wortes und bricht nach jedem Wort um. */
+  .datentabelle caption{display:block;width:100%;text-align:left;margin-bottom:11px}
+  .datentabelle tr > :not(:first-child){display:grid;
+    grid-template-columns:minmax(88px,auto) 1fr;gap:6px 14px;
+    padding:5px 0;font-size:.92rem;line-height:1.45;text-align:right}
+  .datentabelle tr > :not(:first-child)::before{content:attr(data-spalte);
+    color:var(--slate-2);font-weight:400;text-align:left}
+  /* Kurze Werte rechtsbuendig, lange Erklaertexte linksbuendig: Mehrzeiliger
+     Flattersatz nach rechts liest sich unruhig. */
+  .datentabelle tr > :last-child:not(:first-child){text-align:left;
+    grid-template-columns:1fr;gap:2px}
+  .datentabelle tr > :last-child:not(:first-child)::before{margin-top:3px}
+  .datentabelle .zahl{font-variant-numeric:tabular-nums;font-weight:600}
 }

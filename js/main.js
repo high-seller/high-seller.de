@@ -682,6 +682,30 @@
     marken.forEach(function (el) {
       verdrahten(el, "marke", parseInt(el.getAttribute("data-nr"), 10));
     });
+
+    /* Namensliste unter der Karte (v49). Die Karten tragen seit dem Umbau
+       Ziffern statt Namen, damit sie auf dem Telefon mitskalieren koennen.
+       Diese Liste traegt die Namen — und ist dort zugleich das bequemere
+       Bedienelement, weil ein 44 Pixel hoher Knopf sicherer zu treffen ist
+       als ein Kartenpunkt. */
+    var listenknoepfe = $$(".dz-liste__knopf", doc);
+    listenknoepfe.forEach(function (knopf) {
+      var nr = parseInt(knopf.getAttribute("data-nr"), 10);
+      on(knopf, "click", function () {
+        var ziel = marken.filter(function (m) {
+          return parseInt(m.getAttribute("data-nr"), 10) === nr;
+        })[0];
+        if (!ziel) return;
+        zeigen("marke", nr, ziel);
+        listenknoepfe.forEach(function (k) { k.removeAttribute("aria-current"); });
+        knopf.setAttribute("aria-current", "true");
+        /* Die Karte steht ueber der Liste. Ohne diesen Sprung tippt man einen
+           Namen an und sieht die zugehoerige Ziffer nicht. */
+        if (karte.getBoundingClientRect().top < 0) {
+          karte.scrollIntoView({ block: "center", behavior: "smooth" });
+        }
+      });
+    });
     zonen.forEach(function (el) {
       verdrahten(el, "zone", parseInt(el.getAttribute("data-zone"), 10));
     });
@@ -1106,5 +1130,156 @@
       });
     });
     rechnen();
+  })();
+
+  /* Ehrenfelder Lagekarte, Satzungspruefer (v49)
+     ---------------------------------------------------------------------
+     Drei Ansichten im selben SVG. Anders als bei den frueheren Veedelkarten
+     skaliert diese mit der Fensterbreite, statt auf ihrer Entwurfsbreite zu
+     stehen und seitlich gewischt zu werden. Moeglich ist das, weil die
+     Orientierungspunkte Nummern tragen und die Namen als Liste darunter
+     stehen: Eine Ziffer im Kreis bleibt bei 358 Pixeln lesbar, ein
+     Strassenname nicht.
+     Der Pruefer beantwortet, ob eine Adresse im Gebiet der Sozialen
+     Erhaltungssatzung Ehrenfeld-Ost liegt. Die Zuordnung ist im Bauskript
+     gegen die amtliche Geometrie aus dem Geoportal der Stadt Koeln geprueft
+     und steht als Wahrheitswert in den Daten — hier wird nichts gerechnet
+     und nichts geschaetzt. */
+  (function () {
+    var abschnitt = doc.getElementById("karte");
+    var rahmen = doc.getElementById("ehrkarte");
+    var feld = doc.getElementById("ehrkarte-info");
+    var quelle = doc.getElementById("ehrkarte-daten");
+    if (!abschnitt || !rahmen || !feld || !quelle) return;
+    var daten = {};
+    try { daten = JSON.parse(quelle.textContent || "{}"); } catch (e) { return; }
+    var leer = feld.textContent;
+    var stufen = abschnitt.querySelector(".ehrkarte__stufen");
+    var eintraege = $$(".ehrk-liste__knopf", abschnitt);
+    var marken = $$(".ehrk-marke", rahmen);
+    var zonen = $$(".ehrk-zone", rahmen);
+    var offen = null;
+    function zuruecksetzen() {
+      eintraege.forEach(function (li) { li.removeAttribute("aria-current"); });
+      offen = null;
+    }
+    function markeZeigen(nr) {
+      var m = (daten.marken || []).filter(function (x) { return x.nr === nr; })[0];
+      if (!m) return;
+      zuruecksetzen();
+      feld.innerHTML = "<b>" + m.nr + ". " + m.name + "</b> " + m.text;
+      offen = "m" + nr;
+      eintraege.forEach(function (li) {
+        if (parseInt(li.getAttribute("data-nr"), 10) === nr) li.setAttribute("aria-current", "true");
+      });
+    }
+    function zoneZeigen(el) {
+      var brw = el.getAttribute("data-brw");
+      var lage = el.getAttribute("data-lage") || "";
+      var gfz = el.getAttribute("data-gfz") || "";
+      zuruecksetzen();
+      /* Die Lagebezeichnungen aus BORIS enden teils selbst auf einem Punkt
+         ("Venloer Str./Philippstr."). Ohne diese Pruefung stehen zwei. */
+      var lageText = lage.replace(/\.$/, "");
+      feld.innerHTML = "<b>" + Number(brw).toLocaleString("de-DE") + " € je m² Grundstück</b> "
+        + el.getAttribute("data-nutzung") + (lageText ? ", Lage " + lageText : "")
+        + (gfz ? ". Zulässige Geschossflächenzahl " + gfz + "." : ".");
+      offen = "z" + brw + lage;
+    }
+    marken.forEach(function (el) {
+      var nr = parseInt(el.getAttribute("data-nr"), 10);
+      on(el, "click", function () {
+        if (offen === "m" + nr) { feld.innerHTML = leer; zuruecksetzen(); }
+        else markeZeigen(nr);
+      });
+      on(el, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); markeZeigen(nr); }
+      });
+    });
+    zonen.forEach(function (el) {
+      on(el, "click", function () { zoneZeigen(el); });
+      on(el, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zoneZeigen(el); }
+      });
+    });
+    eintraege.forEach(function (li) {
+      var nr = parseInt(li.getAttribute("data-nr"), 10);
+      function waehlen() {
+        markeZeigen(nr);
+        /* Die Karte steht oberhalb der Liste. Ohne diesen Sprung tippt man
+           auf einen Namen und sieht die zugehoerige Nummer nicht. */
+        if (rahmen.getBoundingClientRect().top < 0) {
+          rahmen.scrollIntoView({ block: "center", behavior: "smooth" });
+        }
+      }
+      /* Kein eigenes keydown noetig: Ein natives button loest bei Enter
+         und Leertaste selbst ein click aus. */
+      on(li, "click", waehlen);
+    });
+    var knoepfe = $$("[data-ansicht]", abschnitt);
+    knoepfe.forEach(function (b) {
+      on(b, "click", function () {
+        var ziel = b.getAttribute("data-ansicht");
+        rahmen.classList.toggle("ehrkarte--zonen", ziel === "zonen");
+        rahmen.classList.toggle("ehrkarte--satzung", ziel === "satzung");
+        if (stufen) stufen.hidden = ziel !== "zonen";
+        knoepfe.forEach(function (o) {
+          o.setAttribute("aria-pressed", o === b ? "true" : "false");
+        });
+        feld.innerHTML = ziel === "zonen"
+          ? "Tippen oder klicken Sie eine Fläche an: Sie zeigt den amtlichen Bodenrichtwert, die zulässige Nutzung und die Geschossflächenzahl."
+          : ziel === "satzung"
+            ? "Die rot umrandete Fläche ist das Gebiet der Sozialen Erhaltungssatzung Ehrenfeld-Ost. Innerhalb dieser Grenze sind Rückbau, Änderung und Nutzungsänderung genehmigungspflichtig."
+            : leer;
+        zuruecksetzen();
+      });
+    });
+    /* Der Pruefer unter der Karte */
+    var auswahl = doc.getElementById("satzung-ort");
+    var antwort = doc.getElementById("satzung-antwort");
+    if (!auswahl || !antwort) return;
+    var orte = (daten.marken || []).slice().sort(function (a, b) {
+      return a.name.localeCompare(b.name, "de");
+    });
+    orte.forEach(function (m) {
+      var o = doc.createElement("option");
+      o.value = String(m.nr);
+      o.textContent = m.name;
+      auswahl.appendChild(o);
+    });
+    var DRIN = "<b>Ja — hier gilt die Erhaltungssatzung.</b>"
+      + "<p>Für Immobilien in diesem Gebiet brauchen die folgenden Vorhaben eine zusätzliche Genehmigung der Stadt Köln:</p>"
+      + "<ul class=\"satzung__folgen\">"
+      + "<li>Rückbau baulicher Anlagen, auch teilweise</li>"
+      + "<li>Änderung baulicher Anlagen — dazu zählen etwa Grundrissänderungen und das Zusammenlegen von Wohnungen</li>"
+      + "<li>Nutzungsänderung, etwa von Wohnraum in Gewerbe oder umgekehrt</li>"
+      + "</ul>"
+      + "<p>Das gilt auch dann, wenn die Landesbauordnung Nordrhein-Westfalen für dieselbe Maßnahme keine Genehmigung verlangt. Wer mit Entwicklungsabsicht kauft oder verkauft, sollte das vor dem Vermarktungsstart klären.</p>";
+    var RAUS = "<b>Nein — hier gilt die Erhaltungssatzung nicht.</b>"
+      + "<p>Für diese Lage entfällt der zusätzliche erhaltungsrechtliche Genehmigungsvorbehalt. Es gelten die allgemeinen Regeln: Bauordnung, Bebauungsplan, Denkmalschutz und, bei Eigentumswohnungen, die Teilungserklärung und die Beschlüsse der Eigentümergemeinschaft.</p>"
+      + "<p>Für Käufer mit Entwicklungsabsicht kann genau das ein Vorteil sein — ein Konzept, das wenige Straßen weiter am Genehmigungsvorbehalt hängt, ist hier unter den allgemeinen Regeln zu prüfen.</p>";
+    on(auswahl, "change", function () {
+      var nr = parseInt(auswahl.value, 10);
+      if (!nr) {
+        antwort.setAttribute("data-lage", "leer");
+        antwort.innerHTML = "Wählen Sie einen Punkt aus der Liste. Sie erfahren, ob dort die Erhaltungssatzung gilt und was daraus folgt.";
+        return;
+      }
+      var m = (daten.marken || []).filter(function (x) { return x.nr === nr; })[0];
+      if (!m) return;
+      var drin = m.satzung === true;
+      antwort.setAttribute("data-lage", drin ? "drin" : "raus");
+      antwort.innerHTML = "<span style=\"display:block;font-size:.86rem;opacity:.8;margin-bottom:6px\">"
+        + m.name + "</span>" + (drin ? DRIN : RAUS);
+      /* Die Karte auf die Satzungsansicht stellen: Wer fragt, ob seine Lage
+         betroffen ist, will die Grenze auch sehen. */
+      var satzungKnopf = knoepfe.filter(function (b) {
+        return b.getAttribute("data-ansicht") === "satzung";
+      })[0];
+      if (satzungKnopf && satzungKnopf.getAttribute("aria-pressed") !== "true") {
+        satzungKnopf.click();
+      }
+      markeZeigen(nr);
+    });
   })();
 })();

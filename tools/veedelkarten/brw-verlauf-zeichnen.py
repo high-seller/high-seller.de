@@ -14,8 +14,8 @@ AUS = os.path.dirname(os.path.abspath(__file__))
 D = json.load(open(os.path.join(TMP, "brw-verlauf.json"), encoding="utf-8"))
 JAHRE = [2011, 2015, 2019, 2023, 2024, 2025, 2026]
 
-B, H = 720.0, 340.0
-L, R, O, U = 62.0, 96.0, 50.0, 44.0
+B, H = 760.0, 360.0
+L, R, O, U = 86.0, 128.0, 56.0, 52.0
 
 LINIE = "#1E3C64"
 FLAECHE = "#DCE7F3"
@@ -66,12 +66,12 @@ def bauen(stadtteil, name):
         yy = y(w)
         a(f'<line x1="{L:.0f}" y1="{yy:.1f}" x2="{B-R:.0f}" y2="{yy:.1f}" '
           f'stroke="{GITTER}" stroke-width="1"/>')
-        a(f'<text x="{L-10:.0f}" y="{yy+4:.1f}" font-size="12" fill="{GEDAEMPFT}" '
+        a(f'<text x="{L-12:.0f}" y="{yy+6:.1f}" font-size="17" fill="{GEDAEMPFT}" '
           f'text-anchor="end">{w:,}'.replace(",", ".") + '</text>')
         w += schritt
     a('</g>')
     for i, j in enumerate(JAHRE):
-        a(f'<text x="{x(i):.1f}" y="{H-U+22:.0f}" font-size="12" fill="{GEDAEMPFT}" '
+        a(f'<text x="{x(i):.1f}" y="{H-U+26:.0f}" font-size="17" fill="{GEDAEMPFT}" '
           f'text-anchor="middle">{j}</text>')
 
     punkte = [(x(i), y(w)) for i, w in enumerate(werte) if w]
@@ -96,18 +96,18 @@ def bauen(stadtteil, name):
 
     # Nur Höchststand und aktueller Wert beschriften
     i_hoch = werte.index(hoch)
-    a(f'<text x="{x(i_hoch):.1f}" y="{y(hoch)-16:.1f}" font-size="14" font-weight="700" '
+    a(f'<text x="{x(i_hoch):.1f}" y="{y(hoch)-20:.1f}" font-size="20" font-weight="700" '
       f'fill="{WARN}" text-anchor="middle">{int(hoch):,} €'.replace(",", ".") + '</text>')
-    a(f'<text x="{x(i_hoch):.1f}" y="{y(hoch)-32:.1f}" font-size="11.5" '
+    a(f'<text x="{x(i_hoch):.1f}" y="{y(hoch)-42:.1f}" font-size="16" '
       f'fill="{WARN}" text-anchor="middle">Höchststand</text>')
 
     letzt = werte[-1]
-    a(f'<text x="{B-R+12:.0f}" y="{y(letzt)+1:.1f}" font-size="15" font-weight="700" '
+    a(f'<text x="{B-R+14:.0f}" y="{y(letzt)+1:.1f}" font-size="21" font-weight="700" '
       f'fill="{TINTE}">{int(letzt):,} €'.replace(",", ".") + '</text>')
-    a(f'<text x="{B-R+12:.0f}" y="{y(letzt)+18:.1f}" font-size="11.5" '
+    a(f'<text x="{B-R+14:.0f}" y="{y(letzt)+24:.1f}" font-size="16" '
       f'fill="{GEDAEMPFT}">je m² heute</text>')
 
-    a(f'<text x="{L-10:.0f}" y="{O-12:.0f}" font-size="11.5" fill="{GEDAEMPFT}" '
+    a(f'<text x="{L-12:.0f}" y="{O-16:.0f}" font-size="16" fill="{GEDAEMPFT}" '
       f'text-anchor="end">€/m²</text>')
     a('</svg>')
 

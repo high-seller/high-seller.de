@@ -1,4 +1,89 @@
-# Highseller Immobilien & Finanzen — Website (Stand v48)
+# Highseller Immobilien & Finanzen — Website (Stand v49)
+
+## Was in v49 umgesetzt wurde
+
+### Veedelseite Köln-Ehrenfeld
+
+Vierte ausgebaute Stadtteilseite, von 754 auf 2.018 Wörter. Der Aufhänger
+kommt aus den Daten, nicht aus einer Textvorlage: **In Ehrenfeld wurden 2025
+mehr Neubau- als Bestandswohnungen verkauft** — 141 gegen 112 Verträge. Das
+ist in keinem der zwanzig ausgewerteten Kölner Stadtteile sonst so. Der Kopf
+der Seite stellt beide Zahlen als Waage gegenüber.
+
+Für Verkäufer ist der Preisabstand das Argument: Neubau kostete 7.149 Euro je
+Quadratmeter, Bestand 5.078 — ein Aufschlag von 41 Prozent. Für dieselbe
+Summe bekommt ein Käufer im Bestand rund 40 Prozent mehr Fläche. Damit wird
+aus der gefürchteten Neubaukonkurrenz ein Vergleichsmaßstab, der den eigenen
+Preis erklärt.
+
+**Der Blickfang: ein Satzungsprüfer.** Seit dem 24. Januar 2024 gilt in
+Ehrenfeld-Ost eine Soziale Erhaltungssatzung. Innerhalb des Gebiets brauchen
+Rückbau, Änderung und Nutzungsänderung eine zusätzliche Genehmigung der Stadt
+— auch dort, wo die Landesbauordnung keine verlangt. Die Seite beantwortet,
+ob eine Lage betroffen ist, geprüft gegen die **amtliche Gebietsgeometrie aus
+dem Geoportal der Stadt Köln** (Gebiet E31). Zuerst hatte ich nur die vier im
+Satzungstext genannten Grenzstraßen gezeichnet; die laufen aber weit über das
+Gebiet hinaus und ließen die Satzung größer wirken, als sie ist. Bei einer
+Genehmigungspflicht ist das nicht hinnehmbar. Die Abfrage bleibt ausdrücklich
+eine Orientierung — verbindlich ist allein die Auskunft der Stadt.
+
+Aus der Prüfung fiel ein Befund ab, der nirgends steht: **Die vier höchsten
+Bodenrichtwerte Ehrenfelds liegen sämtlich im Satzungsgebiet, die vier
+niedrigeren außerhalb.** Ausgerechnet dort, wo der Boden am meisten wert ist,
+sind bauliche Veränderungen genehmigungspflichtig.
+
+Ein zweiter Widerspruch wird auf der Seite aufgelöst: Ehrenfeld liegt beim
+Bodenrichtwert auf Rang 13, beim Wohnungspreis auf Rang 7. Billiger Boden,
+teure Wohnungen — die Erklärung sind Geschossflächenzahlen von 2,3 bis 2,8.
+Wo hoch gebaut wird, verteilt sich der Bodenanteil auf viele Wohnungen.
+
+### Alle Veedelkarten und Diagramme telefontauglich
+
+Deutz, Sülz und Zollstock hielten ihre Karten auf der Entwurfsbreite fest
+(`min-width: 820px`) und machten den Rahmen seitlich beweglich. **Am Gerät
+gemessen sah man davon 44 Prozent**, der Hinweis „seitlich scrollbar"
+verschwand hinter dem Kopfbereich, und niemand erfuhr, was fehlt.
+
+Grund für die feste Breite waren die Namen an den Kartenpunkten: bei voller
+Skalierung schrumpft „Bahnhof Köln-Ehrenfeld" auf knapp fünf Pixel. Die
+Lösung: **Die Punkte tragen Ziffern, die Namen stehen als Liste darunter.**
+Eine Ziffer im Kreis bleibt lesbar, ein Straßenname nicht. Auf dem Telefon
+ist die Liste zugleich das bequemere Bedienelement — ein 44 Pixel hoher Knopf
+trifft sich sicherer als ein Kartenpunkt.
+
+Dasselbe für die drei Verlaufsdiagramme (vorher 560 Pixel fest): Sie werden
+jetzt mit größerer Grundschrift und breiteren Rändern gezeichnet und
+skalieren mit.
+
+Die vier Datentabellen auf der Deutzer Seite brechen auf schmalen Fenstern zu
+Blöcken um. Vorher hatte dort eine Tabellenzeile **187 Pixel Höhe**, weil die
+letzte Spalte mit ihrem Erklärtext außerhalb des Sichtbereichs lag und die
+Zeile auseinanderzog — sichtbar waren vor allem leere Flächen.
+
+### Fallen bei diesem Stand
+
+- **Das erste `<svg>` einer Seite ist das Telefon-Icon im Kopfbereich.** Der
+  erste Anlauf des Einsetzskripts ersetzte genau dieses Icon und ließ die
+  Karte stehen. Jetzt wird gezielt nach der Kartenklasse gesucht, und ein
+  Fund unter 50.000 Zeichen gilt als Fehlgriff.
+- **`.dz-ring` war früher ein unsichtbarer Halo** (`opacity: 0`), der erst
+  bei Hover erschien; den sichtbaren Punkt trug ein dritter Kreis. Nach dem
+  Umbau trug der Ring die Ziffer — und war unsichtbar.
+- **`role="button"` auf einem `<li>`** nimmt der Liste ihre `listitem`-Kinder.
+  Lighthouse meldet das als fehlerhaften Accessibility-Baum. Ein echtes
+  `<button>` im `<li>` löst das und bringt die Tastaturbedienung mit.
+- **Das sichtbare Zeichen gehört ins `aria-label`.** Steht dort nur der Name,
+  findet die Sprachsteuerung den Punkt nicht, den der Nutzer benennt („Klick
+  auf 1").
+- **Kartenpunkte nie aus einer Bounding Box ableiten.** Leo-Amann-Park und
+  Gewerbeband lagen 100 beziehungsweise 180 Meter daneben, weil ich das
+  Minimum statt des Flächenschwerpunkts genommen hatte.
+- **`.page-hero p` schlägt eine einfache Klasse.** Der Ehrenfelder Lead war
+  blaugrau statt weiß, bis die Regel spezifischer wurde.
+
+Lighthouse mobil auf allen vier Veedelseiten 100/100/100/100.
+
+Cache-Buster: `styles.css?v=52` und `main.js?v=31`.
 
 ## Was in v48 umgesetzt wurde
 

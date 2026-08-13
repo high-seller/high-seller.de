@@ -245,16 +245,17 @@ VERSATZ = {"o": (15, 4.5, "start"), "w": (-15, 4.5, "end"),
 a('<g class="dz-marken">')
 for i, (lon, lat, name, text, art, richtung) in enumerate(MARKEN):
     x, y = xy(lon, lat)
-    dx, dy, anker = VERSATZ[richtung]
-    a(f'<g class="dz-marke" data-nr="{i}" tabindex="0" role="button" aria-label="{name}">'
-      f'<circle class="dz-treffer" cx="{x:.1f}" cy="{y:.1f}" r="19" fill="transparent"/>'
-      f'<circle class="dz-ring" cx="{x:.1f}" cy="{y:.1f}" r="11.5" fill="none" '
-      f'stroke="{FARBE[art]}" stroke-width="2.6"/>'
-      f'<circle cx="{x:.1f}" cy="{y:.1f}" r="6.8" fill="{FARBE[art]}" '
-      f'stroke="#fff" stroke-width="2.4"/>'
-      f'<text class="dz-label" x="{x + dx:.1f}" y="{y + dy:.1f}" text-anchor="{anker}" '
-      f'font-size="14" font-weight="600" fill="#12213A" paint-order="stroke" '
-      f'stroke="#F7F8F6" stroke-width="4.2" stroke-linejoin="round">{name}</text>'
+    # Ziffer statt Name: Bei voller Skalierung auf Telefonbreite
+    # schrumpft ein Straßenname auf knapp fünf Pixel. Die Namen stehen
+    # als Liste unter der Karte. Die sichtbare Ziffer gehört in das
+    # aria-label, sonst findet die Sprachsteuerung den Punkt nicht.
+    a(f'<g class="dz-marke" data-nr="{i}" tabindex="0" role="button" '
+      f'aria-label="{i + 1}. {name}">'
+      f'<circle class="dz-treffer" cx="{x:.1f}" cy="{y:.1f}" fill="transparent"/>'
+      f'<circle class="dz-ring" cx="{x:.1f}" cy="{y:.1f}" fill="{FARBE[art]}" '
+      f'stroke="#fff" stroke-width="3"/>'
+      f'<text class="dz-nr" x="{x:.1f}" y="{y:.1f}" text-anchor="middle" '
+      f'dominant-baseline="central" font-weight="700" fill="#fff">{i + 1}</text>'
       f'</g>')
 a('</g>')
 
