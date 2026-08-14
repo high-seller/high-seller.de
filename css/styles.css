@@ -3105,30 +3105,37 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
    steht der Text auf einer ruhigen Fläche, das Foto folgt als eigenes Band.
    ========================================================================== */
 
-.lind-kopf{background:linear-gradient(168deg,#FBF8F1 0%,#F4EEE1 58%,#EDE4D2 100%);
+/* Doppelte Klasse fuer die Spezifitaet: `.page-hero:not(.page-hero--img)`
+   legt sonst einen radialen Blauverlauf darueber, und der helle Kopf wird zu
+   dunklem Text auf dunklem Grund. Genau das war live passiert — sichtbar nur
+   im Browser, nicht im Stylesheet. */
+.page-hero.lind-kopf.lind-kopf{
+  background:linear-gradient(168deg,#FBF8F1 0%,#F4EEE1 58%,#EDE4D2 100%);
   border-bottom:1px solid #E2D6BF}
-.lind-kopf__inhalt{padding-block:clamp(30px,6vw,62px)}
-.lind-kopf .breadcrumb{color:#6E6350;margin-bottom:16px}
+.page-hero .lind-kopf__inhalt{padding-block:clamp(30px,6vw,62px)}
+.page-hero.lind-kopf .breadcrumb{color:#6E6350;margin-bottom:16px}
 .lind-kopf .breadcrumb a{color:#4A4235}
-.lind-kopf__auge{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.09em;
+.page-hero .lind-kopf__auge{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.09em;
   text-transform:uppercase;color:#8A6B22;margin-bottom:12px}
-.lind-kopf h1{font-size:clamp(1.9rem,6.2vw,3.3rem);line-height:1.09;margin:0 0 16px;
+.page-hero.lind-kopf h1{font-size:clamp(1.9rem,6.2vw,3.3rem);line-height:1.09;margin:0 0 16px;
   color:#241F16}
 .lind-kopf h1 em{font-style:normal;color:#8A6B22;display:block}
-.lind-kopf .lind-kopf__lead{font-size:clamp(1rem,2.5vw,1.15rem);line-height:1.62;
+.page-hero.lind-kopf .lind-kopf__lead{font-size:clamp(1rem,2.5vw,1.15rem);line-height:1.62;
   color:#453D30;max-width:62ch;margin:0 0 24px}
 
 /* Die grosse Zahl: Bodenrichtwert und sein Rang unter zwanzig Stadtteilen */
-.lind-zahl{display:flex;flex-wrap:wrap;align-items:flex-end;gap:11px 20px;margin:0 0 22px;
+.page-hero .lind-zahl{display:flex;flex-wrap:wrap;align-items:flex-end;gap:11px 20px;margin:0 0 22px;
   padding:17px 19px;background:rgba(255,255,255,.72);border:1px solid #E2D6BF;
   border-radius:var(--radius)}
-.lind-zahl__wert{font-size:clamp(2.1rem,8vw,3.1rem);font-weight:800;line-height:.95;
+.page-hero .lind-zahl__wert{font-size:clamp(2.1rem,8vw,3.1rem);font-weight:800;line-height:.95;
   color:#8A6B22;letter-spacing:-.02em}
-.lind-zahl__wert small{display:block;font-size:.9rem;font-weight:500;color:#6E6350;
-  letter-spacing:0;margin-top:6px}
-.lind-zahl__rang{flex:1 1 200px;min-width:0;font-size:.95rem;line-height:1.5;color:#453D30}
-.lind-zahl__rang b{color:#241F16}
-.lind-kopf__knoepfe{display:flex;flex-wrap:wrap;gap:11px}
+/* line-height muss hier gesetzt werden: Der Wert erbt sonst die .95 der
+   grossen Zahl, und die umgebrochene Unterzeile klebt zusammen. */
+.page-hero .lind-zahl__wert small{display:block;font-size:.9rem;font-weight:500;color:#6E6350;
+  letter-spacing:0;margin-top:8px;line-height:1.42}
+.page-hero .lind-zahl__rang{flex:1 1 200px;min-width:0;font-size:.95rem;line-height:1.5;color:#453D30}
+.page-hero .lind-zahl__rang b{color:#241F16}
+.page-hero .lind-kopf__knoepfe{display:flex;flex-wrap:wrap;gap:11px}
 
 /* Bildband unter dem Kopf, volle Breite */
 .lind-band{position:relative;overflow:hidden;background:#241F16}
@@ -3308,3 +3315,53 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 .umland-lesart{margin:16px 0 0;padding:14px 16px;background:#fff;
   border:1px solid var(--border);border-left:3px solid var(--blue);
   border-radius:var(--radius-sm);font-size:.95rem;line-height:1.6;color:var(--ink)}
+
+/* Lindenthal, zweiter Ausbau (v51) ------------------------------------------
+   Die Seite war mit 1.516 Wörtern die kürzeste der fünf Veedelseiten — Deutz
+   hat 2.767. Dazu kommen drei Abschnitte: die Zonen Straße für Straße, die
+   fünf Objektarten mit ihren jeweiligen Bewertungswegen und der Ablauf. */
+
+/* Zonen nach Adressen */
+.lind-adressen{display:grid;gap:11px;margin:20px 0 0}
+@media(min-width:640px){.lind-adressen{grid-template-columns:1fr 1fr}}
+@media(min-width:1040px){.lind-adressen{grid-template-columns:repeat(3,1fr)}}
+.lind-adresse{border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px 17px;background:#fff;min-width:0}
+.lind-adresse--hoch{border-color:#D9CBB0;background:linear-gradient(168deg,#FBF8F1,#F6F0E3)}
+.lind-adresse__wert{margin:0 0 5px;font-size:clamp(1.4rem,4.4vw,1.75rem);font-weight:800;
+  line-height:1;color:var(--navy);letter-spacing:-.015em}
+.lind-adresse--hoch .lind-adresse__wert{color:#8A6B22}
+.lind-adresse__zone{margin:0 0 9px;font-size:.83rem;color:var(--slate-2);line-height:1.4}
+.lind-adresse__was{margin:0;font-size:.92rem;line-height:1.55;color:var(--ink)}
+
+/* Objektarten */
+.lind-objekte{display:grid;gap:12px;margin:20px 0 0}
+@media(min-width:700px){.lind-objekte{grid-template-columns:1fr 1fr}}
+@media(min-width:1100px){.lind-objekte{grid-template-columns:repeat(3,1fr)}}
+.lind-objekt{border:1px solid var(--border);border-radius:var(--radius);
+  padding:17px 18px;background:#fff;min-width:0}
+.lind-objekt--hinweis{background:linear-gradient(168deg,#FBF8F1,#F4EEE1);
+  border-color:#E2D6BF}
+.lind-objekt h3{margin:0 0 8px;font-size:1.08rem;line-height:1.3}
+.lind-objekt p{margin:0;font-size:.93rem;line-height:1.58;color:var(--slate-2)}
+.lind-objekt__punkte{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.lind-objekt__punkte li{position:relative;padding-left:17px;font-size:.88rem;line-height:1.45;
+  color:var(--slate-2)}
+.lind-objekt__punkte li::before{content:"";position:absolute;left:3px;top:7px;width:6px;
+  height:6px;border-radius:50%;background:#8A6B22;opacity:.5}
+
+/* Ablauf in Schritten */
+.lind-ablauf{list-style:none;counter-reset:schritt;margin:20px 0 0;padding:0;
+  display:grid;gap:10px}
+@media(min-width:820px){.lind-ablauf{grid-template-columns:1fr 1fr;gap:11px 18px}}
+.lind-ablauf li{counter-increment:schritt;position:relative;padding:14px 16px 14px 52px;
+  border:1px solid var(--border);border-radius:var(--radius);background:#fff;
+  font-size:.93rem;line-height:1.55;color:var(--slate-2);min-width:0}
+.lind-ablauf li::before{content:counter(schritt);position:absolute;left:15px;top:14px;
+  width:26px;height:26px;border-radius:50%;background:#241F16;color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700}
+.lind-ablauf b{display:block;color:var(--ink);font-size:1rem;margin-bottom:4px}
+
+/* Hilfetext unter einem Eingabefeld */
+.bodenanteil__hilfe{display:block;margin-top:6px;font-size:.79rem;line-height:1.4;
+  color:var(--slate-2)}

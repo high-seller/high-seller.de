@@ -1346,7 +1346,21 @@
       function zeigen() {
         var lage = (el.getAttribute("data-lage") || "").replace(/\.$/, "");
         var gfz = el.getAttribute("data-gfz") || "";
+        var anzahl = parseInt(el.getAttribute("data-anzahl"), 10) || 1;
         zuruecksetzen();
+        if (anzahl > 1) {
+          /* Auf dieser Flaeche liegen mehrere Richtwerte. In den BORIS-Daten
+             tragen benachbarte Zonen teils dieselbe Umringgeometrie; welcher
+             Wert fuer welchen Teil gilt, geht daraus nicht hervor. Beide
+             nennen ist ehrlicher, als einen davon zu verschweigen. */
+          feld.innerHTML = "<b>" + euro(el.getAttribute("data-tief")) + " bis "
+            + euro(el.getAttribute("data-brw")) + " € je m² Grundstück</b> "
+            + "Für diese Fläche führt BORIS NRW " + anzahl + " Richtwerte: "
+            + (el.getAttribute("data-werte") || "") + ". Die amtlichen Umringe sind hier "
+            + "deckungsgleich abgelegt — welcher Wert für ein bestimmtes Flurstück gilt, "
+            + "beantwortet der Gutachterausschuss.";
+          return;
+        }
         feld.innerHTML = "<b>" + euro(el.getAttribute("data-brw")) + " € je m² Grundstück</b> "
           + el.getAttribute("data-nutzung") + (lage ? ", Lage " + lage : "")
           + (gfz ? ". Zulässige Geschossflächenzahl " + gfz + "." : ".");

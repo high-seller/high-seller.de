@@ -1,4 +1,67 @@
-# Highseller Immobilien & Finanzen — Website (Stand v50)
+# Highseller Immobilien & Finanzen — Website (Stand v51)
+
+## Was in v51 umgesetzt wurde
+
+### Lindenthal überarbeitet — der Kopf war live unlesbar
+
+Rückmeldung nach der Veröffentlichung: „sieht nicht gut aus, viele Fehler,
+zu kurz." Alle drei Punkte trafen zu.
+
+**Der Kopf war kaputt.** `.page-hero:not(.page-hero--img)` legt einen radialen
+Blauverlauf über jeden Seitenkopf und ist mit zwei Klassen spezifischer als
+`.lind-kopf`. Der helle Sandton kam deshalb nie an: Auf der Live-Seite stand
+dunkelbrauner Text auf dunkelblauem Grund. Dasselbe traf jeden Absatz im Kopf
+— `.page-hero p` färbte die große Zahl blaugrau und schrumpfte sie von 34 auf
+19 Pixel.
+
+Der Fehler war **nur im Browser sichtbar**, nicht im Stylesheet und nicht in
+den Messwerten. Beim Bauen hatte ich den Handy-Screenshot des Rechners
+geprüft, aber nie den Kopf am Rechner. Sämtliche Kopfregeln tragen jetzt
+`.page-hero` als Präfix.
+
+**Die Seite war zu kurz.** Mit 1.516 Wörtern die kürzeste der fünf
+Veedelseiten, Deutz hat 2.767. Drei Abschnitte kamen dazu:
+
+- **Zonen Straße für Straße.** Die acht Straßen aus der Textvorlage wurden
+  über Nominatim-Koordinaten und einen Punkt-in-Polygon-Test ihren amtlichen
+  Bodenrichtwertzonen zugeordnet. Ergebnis: Stadtwaldgürtel und
+  Karl-Schwering-Platz liegen in derselben Zone, Bachemer und Theresienstraße
+  ebenfalls — zwischen der günstigsten und teuersten Adresse liegen 1.300 Euro
+  je Quadratmeter.
+- **Fünf Objektarten** mit ihren jeweiligen Bewertungswegen: Villa, Haus,
+  Eigentumswohnung, Grundstück, Mehrfamilienhaus.
+- **Der Verkaufsablauf** in neun Schritten.
+
+Jetzt 2.478 Wörter — nach Deutz die zweitlängste Veedelseite.
+
+### Ein Datenfund in BORIS NRW
+
+Bei der Zuordnung der Straßen fiel auf, dass zwei Zonen dieselbe
+Umringgeometrie tragen. Nachgeprüft **direkt im Shapefile**: Es ist kein
+Lesefehler, die Records 12001 und 12002 haben tatsächlich identische
+Geometrien bei verschiedenen Werten, Lagebezeichnungen und
+Richtwertgrundstücken. Betroffen sind in Lindenthal drei Flächenpaare, in
+Ehrenfeld fünf und in Sülz zwei.
+
+Übereinandergezeichnet verdeckt eine Zone die andere, und die Karte behauptet
+etwas Falsches. Sie zeichnet solche Flächen jetzt **einmal** und nennt beim
+Antippen beide Werte mit dem Hinweis, dass die amtlichen Umringe hier
+deckungsgleich abgelegt sind. Aus zwölf übereinanderliegenden Zonen wurden
+neun saubere Flächen.
+
+### Weitere Korrekturen
+
+- Überschrift bricht kontrolliert um statt „Sie" allein in eine Zeile zu
+  setzen.
+- Der Hinweis „bei Eigentumswohnungen Ihr Anteil" steht unter dem Eingabefeld
+  statt im Label — dort drückte er das Feld aus der Reihe.
+- `line-height` der Kopf-Unterzeile gesetzt; sie erbte die .95 der großen Zahl
+  und klebte beim Umbruch zusammen.
+
+Kontraste am gerenderten Bild gemessen: schlechtester Wert 4,99:1.
+Lighthouse mobil 100/100/100/100.
+
+Cache-Buster: `styles.css?v=55` und `main.js?v=33`.
 
 ## Was in v50 umgesetzt wurde
 
