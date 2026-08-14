@@ -39,8 +39,8 @@ ihn am gerenderten Bild nachmessen zu müssen.
 Gemessen wiederholte jede dieser Seiten **rund 13 Prozent ihres eigenen
 Textes**: Lage- und Bebauungsbeschreibung standen einmal im Kopfabschnitt und
 ein zweites Mal weiter unten zwischen den Marktdaten. Entfernt wurden 4.673
-Wörter, im Schnitt 85 je Seite. Die Eigenwiederholung sank damit von 13,0 auf
-**5,1 Prozent**.
+Wörter, im Schnitt 136 je Seite. Die Eigenwiederholung sank damit von 13,0 auf
+**0,0 Prozent** — auf keiner der 55 Seiten steht noch ein Satz zweimal.
 
 **Was nicht funktioniert hat, und warum es hier steht:** Der erste Anlauf
 wollte die dreizehn Sätze ersetzen, die auf allen 55 Seiten wortgleich stehen
