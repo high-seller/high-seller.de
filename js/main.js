@@ -1282,4 +1282,200 @@
       markeZeigen(nr);
     });
   })();
+
+  /* Lindenthaler Lagekarte und Bodenanteil-Rechner (v50)
+     ---------------------------------------------------------------------
+     Drei Ansichten derselben Karte. Die dritte faerbt die Bodenrichtwert-
+     zonen nicht nach ihrem Wert je Quadratmeter Grundstueck, sondern nach
+     dem Wert je Quadratmeter Wohnflaeche — also Bodenrichtwert geteilt durch
+     zulaessige Geschossflaechenzahl. Dabei verschiebt sich die Rangfolge:
+     Die Zone mit dem niedrigsten Bodenrichtwert Lindenthals hat den
+     zweithoechsten Anteil, weil dort nur locker gebaut werden darf.
+
+     Der Rechner gibt eine Groessenordnung aus amtlichen Bodenrichtwerten.
+     Was das Gebaeude wert ist, kann er nicht wissen — deshalb steht das
+     Ergebnis ausdruecklich als Anteil am Vergleichswert da und nicht als
+     Immobilienbewertung. */
+  (function () {
+    var abschnitt = doc.getElementById("karte");
+    var rahmen = doc.getElementById("lindkarte");
+    var feld = doc.getElementById("lindkarte-info");
+    var quelle = doc.getElementById("lindkarte-daten");
+    if (!abschnitt || !rahmen || !feld || !quelle) return;
+
+    var daten = {};
+    try { daten = JSON.parse(quelle.textContent || "{}"); } catch (e) { return; }
+
+    var leer = feld.textContent;
+    var stufenBrw = doc.getElementById("lind-stufen-brw");
+    var stufenAnteil = doc.getElementById("lind-stufen-anteil");
+    var eintraege = $$(".lind-liste__knopf", abschnitt);
+    var marken = $$(".lind-marke", rahmen);
+    var offen = null;
+
+    function euro(n) { return Number(n).toLocaleString("de-DE"); }
+
+    function zuruecksetzen() {
+      eintraege.forEach(function (k) { k.removeAttribute("aria-current"); });
+      offen = null;
+    }
+
+    function markeZeigen(nr) {
+      var m = (daten.marken || []).filter(function (x) { return x.nr === nr; })[0];
+      if (!m) return;
+      zuruecksetzen();
+      feld.innerHTML = "<b>" + m.nr + ". " + m.name + "</b> " + m.text;
+      offen = "m" + nr;
+      eintraege.forEach(function (k) {
+        if (parseInt(k.getAttribute("data-nr"), 10) === nr) k.setAttribute("aria-current", "true");
+      });
+    }
+
+    marken.forEach(function (el) {
+      var nr = parseInt(el.getAttribute("data-nr"), 10);
+      on(el, "click", function () {
+        if (offen === "m" + nr) { feld.innerHTML = leer; zuruecksetzen(); }
+        else markeZeigen(nr);
+      });
+      on(el, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); markeZeigen(nr); }
+      });
+    });
+
+    $$(".lind-zone", rahmen).forEach(function (el) {
+      function zeigen() {
+        var lage = (el.getAttribute("data-lage") || "").replace(/\.$/, "");
+        var gfz = el.getAttribute("data-gfz") || "";
+        zuruecksetzen();
+        feld.innerHTML = "<b>" + euro(el.getAttribute("data-brw")) + " € je m² Grundstück</b> "
+          + el.getAttribute("data-nutzung") + (lage ? ", Lage " + lage : "")
+          + (gfz ? ". Zulässige Geschossflächenzahl " + gfz + "." : ".");
+      }
+      on(el, "click", zeigen);
+      on(el, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zeigen(); }
+      });
+    });
+
+    $$(".lind-anteilflaeche", rahmen).forEach(function (el) {
+      function zeigen() {
+        var lage = (el.getAttribute("data-lage") || "").replace(/\.$/, "");
+        zuruecksetzen();
+        feld.innerHTML = "<b>" + euro(el.getAttribute("data-jewohn"))
+          + " € Bodenwert je m² Wohnfläche</b> " + (lage ? lage + ": " : "")
+          + euro(el.getAttribute("data-brw")) + " € je m² Grundstück, geteilt durch die "
+          + "zulässige Geschossflächenzahl " + el.getAttribute("data-gfz") + ".";
+      }
+      on(el, "click", zeigen);
+      on(el, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zeigen(); }
+      });
+    });
+
+    eintraege.forEach(function (knopf) {
+      var nr = parseInt(knopf.getAttribute("data-nr"), 10);
+      on(knopf, "click", function () {
+        markeZeigen(nr);
+        if (rahmen.getBoundingClientRect().top < 0) {
+          rahmen.scrollIntoView({ block: "center", behavior: "smooth" });
+        }
+      });
+    });
+
+    var knoepfe = $$("[data-lansicht]", abschnitt);
+    knoepfe.forEach(function (b) {
+      on(b, "click", function () {
+        var ziel = b.getAttribute("data-lansicht");
+        rahmen.classList.toggle("lindkarte--zonen", ziel === "zonen");
+        rahmen.classList.toggle("lindkarte--anteil", ziel === "anteil");
+        if (stufenBrw) stufenBrw.hidden = ziel !== "zonen";
+        if (stufenAnteil) stufenAnteil.hidden = ziel !== "anteil";
+        knoepfe.forEach(function (o) {
+          o.setAttribute("aria-pressed", o === b ? "true" : "false");
+        });
+        feld.innerHTML = ziel === "zonen"
+          ? "Tippen oder klicken Sie eine Fläche an: Sie zeigt den amtlichen Bodenrichtwert je Quadratmeter Grundstück, die zulässige Nutzung und die Geschossflächenzahl."
+          : ziel === "anteil"
+            ? "Dieselben Zonen, umgerechnet auf einen Quadratmeter Wohnfläche. Je dunkler, desto mehr Bodenwert steckt in jedem Quadratmeter Wohnung. Zonen ohne amtliche Geschossflächenzahl bleiben leer."
+            : leer;
+        zuruecksetzen();
+      });
+    });
+
+    /* --- Der Rechner ---------------------------------------------------- */
+    var wahl = doc.getElementById("ba-zone");
+    var grund = doc.getElementById("ba-grund");
+    var wohn = doc.getElementById("ba-wohn");
+    var summe = doc.getElementById("ba-summe");
+    var formel = doc.getElementById("ba-formel");
+    var balken = doc.getElementById("ba-balken");
+    var anteilText = doc.getElementById("ba-anteil");
+    var lesart = doc.getElementById("ba-lesart");
+    if (!wahl || !grund || !wohn) return;
+
+    /* Vergleichswert: der amtliche Durchschnitt weiterverkaufter
+       Eigentumswohnungen in Lindenthal. Er ist keine Bewertung des einzelnen
+       Objekts, aber der einzige belastbare Massstab, den es gibt. */
+    var VERGLEICH = 5569;
+
+    var zonen = (daten.zonen || []).slice().sort(function (a, b) { return b.brw - a.brw; });
+    zonen.forEach(function (z, i) {
+      var o = doc.createElement("option");
+      o.value = String(i);
+      o.textContent = (z.lage || "Zone") + " — " + euro(z.brw) + " €/m²";
+      wahl.appendChild(o);
+    });
+    /* Mit der teuersten Zone stuende der Balken schon vor der ersten Eingabe
+       auf Anschlag. Voreingestellt ist deshalb die mittlere. */
+    wahl.value = String(Math.floor(zonen.length / 2));
+
+    function rechnen() {
+      var z = zonen[parseInt(wahl.value, 10) || 0];
+      if (!z) return;
+      var gf = Math.max(0, parseFloat(grund.value) || 0);
+      var wf = Math.max(1, parseFloat(wohn.value) || 1);
+      var boden = z.brw * gf;
+      var gesamt = VERGLEICH * wf;
+      var anteil = gesamt > 0 ? boden / gesamt : 0;
+
+      summe.textContent = euro(Math.round(boden)) + " €";
+      formel.textContent = euro(z.brw) + " € × " + euro(gf) + " m² Grundstück";
+
+      var prozent = Math.round(anteil * 100);
+      /* Der Balken kann nicht ueber die volle Breite hinaus, die Zahl schon —
+         und sie soll es auch: Ein gedeckelter Wert wuerde verschweigen, um
+         wie viel der Bodenwert den Vergleichswert uebersteigt. */
+      balken.style.width = Math.min(100, Math.max(6, prozent)) + "%";
+      anteilText.textContent = prozent + " % Boden";
+
+      var vergleichstext = "Gemessen am Lindenthaler Durchschnitt von "
+        + euro(VERGLEICH) + " € je m² Wohnfläche entspräche Ihre Immobilie rund "
+        + euro(Math.round(gesamt)) + " €. ";
+
+      if (prozent >= 100) {
+        lesart.innerHTML = vergleichstext + "<b>Der Bodenwert allein übersteigt diesen Vergleichswert.</b> "
+          + "Bei solchen Grundstücken kaufen Interessenten faktisch die Lage — das Gebäude wird "
+          + "häufig umgebaut oder ersetzt. Für die Vermarktung heißt das: Grundstück, Zuschnitt und "
+          + "Bebauungsmöglichkeiten gehören nach vorn, nicht die Ausstattung.";
+      } else if (prozent >= 55) {
+        lesart.innerHTML = vergleichstext + "<b>Über die Hälfte davon entfällt auf das Grundstück.</b> "
+          + "Modernisierungen heben den Preis hier meist weniger als erhofft. Wichtiger ist, was auf "
+          + "dem Grundstück zulässig wäre.";
+      } else if (prozent >= 30) {
+        lesart.innerHTML = vergleichstext + "Rund ein Drittel bis die Hälfte steckt im Boden — "
+          + "ein typisches Verhältnis für Lindenthaler Häuser. Grundstück und Gebäude tragen beide "
+          + "erkennbar zum Wert bei, und beide gehören ins Exposé.";
+      } else {
+        lesart.innerHTML = vergleichstext + "Der Bodenanteil ist gering — typisch für eine "
+          + "Eigentumswohnung, bei der sich das Grundstück auf alle Einheiten verteilt. Hier "
+          + "entscheiden Zustand, Grundriss, Ausstattung und Hausgeld über den Preis.";
+      }
+    }
+
+    on(wahl, "change", rechnen);
+    on(grund, "input", rechnen);
+    on(wohn, "input", rechnen);
+    rechnen();
+  })();
+
 })();

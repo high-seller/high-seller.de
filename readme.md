@@ -1,4 +1,66 @@
-# Highseller Immobilien & Finanzen — Website (Stand v49)
+# Highseller Immobilien & Finanzen — Website (Stand v50)
+
+## Was in v50 umgesetzt wurde
+
+### Veedelseite Köln-Lindenthal
+
+Fünfte ausgebaute Stadtteilseite, von 648 auf 1.512 Wörter. Der Aufhänger ist
+das genaue Gegenstück zu Ehrenfeld: **Lindenthal hat mit 2.120 Euro je
+Quadratmeter den zweithöchsten Bodenrichtwert der zwanzig ausgewerteten
+Kölner Stadtteile — beim Preis für eine weiterverkaufte Wohnung aber nur
+Rang 4.** In Ehrenfeld ist es umgekehrt.
+
+Die Erklärung steht in den amtlichen Daten: Die Geschossflächenzahl liegt in
+Lindenthal zwischen 0,8 und 2,0, in Ehrenfeld reicht sie bis 2,8. Wo locker
+gebaut werden darf, trägt weniger Wohnfläche denselben Boden.
+
+**Blickfang ist ein Bodenanteil-Rechner.** Er beantwortet, welcher Teil des
+Werts im Grundstück steckt — die Frage, die in einem Villenveedel über die
+Verkaufsstrategie entscheidet. Steckt der Wert im Gebäude, zahlt sich eine
+Modernisierung aus; steckt er im Boden, kaufen Interessenten die Lage. Der
+Rechner deckelt seine Prozentangabe **nicht** bei hundert: Wenn der Bodenwert
+den Vergleichswert übersteigt, ist genau das die Aussage.
+
+Die Karte hat eine dritte Ansicht, die es auf keiner anderen Seite gibt: Sie
+färbt die Bodenrichtwertzonen nicht nach ihrem Wert je Quadratmeter
+Grundstück, sondern **je Quadratmeter Wohnfläche**. Dabei dreht sich die
+Rangfolge — die Zone an der Werthmannstraße hat mit 1.220 Euro den
+*niedrigsten* Bodenrichtwert Lindenthals, wegen einer Geschossflächenzahl von
+0,8 aber mit rund 1.525 Euro fast den *höchsten* Anteil je Quadratmeter
+Wohnfläche.
+
+Erster heller Kopf der Reihe. Die vier Seiten davor arbeiten alle mit dunkler
+Fläche; Lindenthal bekommt Sandton, und das Foto folgt als eigenes Band unter
+dem Text statt dahinter — der Kontrast lässt sich so vorab bestimmen, statt
+ihn am gerenderten Bild nachmessen zu müssen.
+
+### Selbstwiederholung auf den 55 Umlandseiten entfernt
+
+Gemessen wiederholte jede dieser Seiten **rund 13 Prozent ihres eigenen
+Textes**: Lage- und Bebauungsbeschreibung standen einmal im Kopfabschnitt und
+ein zweites Mal weiter unten zwischen den Marktdaten. Entfernt wurden 4.673
+Wörter, im Schnitt 85 je Seite. Die Eigenwiederholung sank damit von 13,0 auf
+**5,1 Prozent**.
+
+**Was nicht funktioniert hat, und warum es hier steht:** Der erste Anlauf
+wollte die dreizehn Sätze ersetzen, die auf allen 55 Seiten wortgleich stehen
+— durch Sätze, die je Stadt gerechnete Zahlen tragen. Das Ergebnis war eine
+*höhere* gemessene Ähnlichkeit (77 → 79 Prozent), nicht eine niedrigere. Der
+Grund ist im Nachhinein offensichtlich: Die Ersatzsätze behielten denselben
+Satzbau und tauschten nur Ziffern, und das Prüfwerkzeug misst Wortketten. Ein
+zusätzlicher Zahlenabschnitt hatte denselben Effekt. Beide Änderungen sind
+zurückgenommen worden.
+
+Die Ähnlichkeit *zwischen* den Umlandseiten liegt weiter bei rund 79 Prozent.
+Sie lässt sich mit Textkosmetik nicht lösen — 55 Seiten, die dasselbe
+Angebot für verschiedene Orte beschreiben, ähneln sich zwangsläufig. Wer sie
+wirklich unterscheiden will, braucht je Ort eigene Inhalte: eigene Fotos,
+eigene Verkaufsfälle, eigene Marktbeobachtungen. Das ist eine inhaltliche
+Aufgabe, keine technische.
+
+Lighthouse mobil auf Lindenthal und den Umlandseiten 100/100/100/100.
+
+Cache-Buster: `styles.css?v=54` und `main.js?v=32`.
 
 ## Was in v49 umgesetzt wurde
 
