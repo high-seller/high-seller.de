@@ -2532,8 +2532,6 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 .veedel-hero--geteilt .breadcrumb,
 .veedel-hero--geteilt .breadcrumb a{color:rgba(255,255,255,.62)}
 .veedel-hero--geteilt .breadcrumb a:hover{color:#fff}
-.veedel-hero__auge{display:block;font-size:.82rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--gold);font-weight:700;margin:18px 0 10px}
 .veedel-hero--geteilt h1{color:#fff;margin:0 0 18px;
   font-size:clamp(2.1rem,4.6vw,3.5rem);line-height:1.06;letter-spacing:-.015em}
 .veedel-hero--geteilt h1 em{font-style:normal;color:var(--gold)}
@@ -2676,8 +2674,6 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 .zolli-hero__text{padding:clamp(24px,4vw,46px) 0 clamp(30px,5vw,56px)}
 .zolli-hero .breadcrumb,.zolli-hero .breadcrumb a{color:rgba(255,255,255,.6)}
 .zolli-hero .breadcrumb a:hover{color:#fff}
-.zolli-hero__auge{display:block;font-size:.82rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--gold);font-weight:700;margin:14px 0 10px}
 .zolli-hero h1{color:#fff;margin:0 0 16px;font-size:clamp(1.9rem,4.2vw,3.1rem);
   line-height:1.08;letter-spacing:-.015em;max-width:20ch}
 .zolli-hero__lead{color:rgba(255,255,255,.84);font-size:clamp(1rem,1.5vw,1.14rem);
@@ -2835,8 +2831,6 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 .ehr-kopf__inhalt{position:relative;z-index:2;padding-block:clamp(38px,7vw,74px)}
 .ehr-kopf .breadcrumb{color:rgba(255,255,255,.72);margin-bottom:16px}
 .ehr-kopf .breadcrumb a{color:rgba(255,255,255,.9)}
-.ehr-kopf__auge{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.09em;
-  text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .ehr-kopf h1{font-size:clamp(1.95rem,6.4vw,3.4rem);line-height:1.08;margin:0 0 16px;color:#fff}
 .ehr-kopf h1 em{font-style:normal;color:var(--gold);display:block}
 /* Spezifitaet mit .ehr-kopf davor: `.page-hero p` faerbt sonst den Lead
@@ -3115,8 +3109,6 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 .page-hero .lind-kopf__inhalt{padding-block:clamp(28px,4.5vw,48px)}
 .page-hero.lind-kopf .breadcrumb{color:#6E6350;margin-bottom:16px}
 .lind-kopf .breadcrumb a{color:#4A4235}
-.page-hero .lind-kopf__auge{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.09em;
-  text-transform:uppercase;color:#8A6B22;margin-bottom:12px}
 .page-hero.lind-kopf h1{font-size:clamp(1.9rem,6.2vw,3.3rem);line-height:1.09;margin:0 0 16px;
   color:#241F16;max-width:20ch}
 .lind-kopf h1 em{font-style:normal;color:#8A6B22;display:block}
@@ -3368,3 +3360,20 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 /* Hilfetext unter einem Eingabefeld */
 .bodenanteil__hilfe{display:block;margin-top:6px;font-size:.79rem;line-height:1.4;
   color:var(--slate-2)}
+
+/* Hauptkeyword in der H1 (v52) ----------------------------------------------
+   Bisher stand „Immobilienmakler Köln-…" als Augenbraue über der Überschrift.
+   Für die Suche war das eine vergebene Position — die H1 ist nach dem Titel
+   das stärkste Signal der Seite, und das Keyword stand nicht darin.
+
+   Jetzt trägt die H1 beides: das Keyword und den Aufhänger. Damit der
+   Aufhänger weiter wirkt, ist der Keyword-Teil typografisch untergeordnet —
+   kleiner, in der Akzentfarbe, mit Versalabstand. Für Google zählt der
+   Textinhalt der Überschrift, für den Leser ihre Gewichtung. Die Augenbraue
+   ist entfallen, sonst stünde dasselbe zweimal untereinander. */
+.h1-keyword{display:block;font-size:.8rem;font-weight:700;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:12px;line-height:1.35}
+/* Auf dem hellen Lindenthaler Kopf braucht es den dunkleren Goldton — das
+   helle Gold des dunklen Layouts käme dort auf 2,4:1. */
+.page-hero.lind-kopf .h1-keyword{color:#8A6B22}
+@media(min-width:760px){.h1-keyword{font-size:.85rem;margin-bottom:14px}}
