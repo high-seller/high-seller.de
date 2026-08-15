@@ -1492,4 +1492,98 @@
     rechnen();
   })();
 
+
+  /* Klettenberger Lagekarte (v53)
+     ---------------------------------------------------------------------
+     Zwei Ansichten. Eine dritte nach Bodenwert je Quadratmeter Wohnflaeche
+     gibt es hier bewusst nicht: Klettenberg hat nur zwei Zonen, die sich um
+     vier Prozent unterscheiden — eine Umrechnung brächte keinen
+     Erkenntnisgewinn, nur eine weitere Schaltflaeche. */
+  (function () {
+    var abschnitt = doc.getElementById("karte");
+    var rahmen = doc.getElementById("klettkarte");
+    var feld = doc.getElementById("klettkarte-info");
+    var quelle = doc.getElementById("klettkarte-daten");
+    if (!abschnitt || !rahmen || !feld || !quelle) return;
+
+    var daten = {};
+    try { daten = JSON.parse(quelle.textContent || "{}"); } catch (e) { return; }
+
+    var leer = feld.textContent;
+    var stufen = doc.getElementById("klett-stufen");
+    var eintraege = $$(".klett-liste__knopf", abschnitt);
+    var marken = $$(".klett-marke", rahmen);
+    var offen = null;
+
+    function euro(n) { return Number(n).toLocaleString("de-DE"); }
+
+    function zuruecksetzen() {
+      eintraege.forEach(function (k) { k.removeAttribute("aria-current"); });
+      offen = null;
+    }
+
+    function markeZeigen(nr) {
+      var m = (daten.marken || []).filter(function (x) { return x.nr === nr; })[0];
+      if (!m) return;
+      zuruecksetzen();
+      feld.innerHTML = "<b>" + m.nr + ". " + m.name + "</b> " + m.text;
+      offen = "m" + nr;
+      eintraege.forEach(function (k) {
+        if (parseInt(k.getAttribute("data-nr"), 10) === nr) k.setAttribute("aria-current", "true");
+      });
+    }
+
+    marken.forEach(function (el) {
+      var nr = parseInt(el.getAttribute("data-nr"), 10);
+      on(el, "click", function () {
+        if (offen === "m" + nr) { feld.innerHTML = leer; zuruecksetzen(); }
+        else markeZeigen(nr);
+      });
+      on(el, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); markeZeigen(nr); }
+      });
+    });
+
+    $$(".klett-zone", rahmen).forEach(function (el) {
+      function zeigen() {
+        var lage = (el.getAttribute("data-lage") || "").replace(/\.$/, "");
+        var gfz = el.getAttribute("data-gfz") || "";
+        zuruecksetzen();
+        feld.innerHTML = "<b>" + euro(el.getAttribute("data-brw")) + " € je m² Grundstück</b> "
+          + el.getAttribute("data-nutzung") + (lage ? ", Lage " + lage : "")
+          + (gfz ? ". Zulässige Geschossflächenzahl " + gfz + "." : ".");
+      }
+      on(el, "click", zeigen);
+      on(el, "keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zeigen(); }
+      });
+    });
+
+    eintraege.forEach(function (knopf) {
+      var nr = parseInt(knopf.getAttribute("data-nr"), 10);
+      on(knopf, "click", function () {
+        markeZeigen(nr);
+        if (rahmen.getBoundingClientRect().top < 0) {
+          rahmen.scrollIntoView({ block: "center", behavior: "smooth" });
+        }
+      });
+    });
+
+    var knoepfe = $$("[data-kansicht]", abschnitt);
+    knoepfe.forEach(function (b) {
+      on(b, "click", function () {
+        var ziel = b.getAttribute("data-kansicht");
+        rahmen.classList.toggle("klettkarte--zonen", ziel === "zonen");
+        if (stufen) stufen.hidden = ziel !== "zonen";
+        knoepfe.forEach(function (o) {
+          o.setAttribute("aria-pressed", o === b ? "true" : "false");
+        });
+        feld.innerHTML = ziel === "zonen"
+          ? "Zwei Zonen, 1.590 und 1.650 Euro je Quadratmeter Grundstück. Tippen oder klicken Sie eine Fläche an."
+          : leer;
+        zuruecksetzen();
+      });
+    });
+  })();
+
 })();

@@ -3377,3 +3377,184 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
    helle Gold des dunklen Layouts käme dort auf 2,4:1. */
 .page-hero.lind-kopf .h1-keyword{color:#8A6B22}
 @media(min-width:760px){.h1-keyword{font-size:.85rem;margin-bottom:14px}}
+
+/* ==========================================================================
+   Veedelseite Köln-Klettenberg (v53)
+   --------------------------------------------------------------------------
+   Sechste ausgebaute Stadtteilseite und die erste in Grün. Die fünf davor
+   arbeiten mit Navy (Deutz, Sülz, Zollstock, Ehrenfeld) und Sandton
+   (Lindenthal); Klettenberg bekommt ein dunkles Waldgrün — passend zu einem
+   Stadtteil mit über 42 Prozent Erholungsflächenanteil, und wieder etwas,
+   das keine andere Seite hat.
+
+   Gestalterisches Hauptelement ist die Preisskala im Kopf. Sie trägt die
+   Aussage der ganzen Seite: Der Durchschnitt liegt bei 5.339 Euro je
+   Quadratmeter, tatsächlich gezahlt wurden zwischen 2.858 und 8.459 — das
+   Dreifache. Weder die Lage noch das Baujahr erklären diese Spreizung.
+   ========================================================================== */
+
+.page-hero.klett-kopf.klett-kopf{
+  background:linear-gradient(165deg,#12301F 0%,#1B4029 55%,#16351F 100%);
+  border-bottom:1px solid rgba(255,255,255,.09)}
+.page-hero .klett-kopf__inhalt{padding-block:clamp(28px,4.5vw,50px)}
+.page-hero.klett-kopf .breadcrumb{color:rgba(255,255,255,.72)}
+.page-hero.klett-kopf .breadcrumb a{color:rgba(255,255,255,.9)}
+.page-hero.klett-kopf .h1-keyword{color:#8FCFA6}
+.page-hero.klett-kopf h1{font-size:clamp(1.9rem,6.2vw,3.2rem);line-height:1.1;
+  margin:0 0 16px;color:#fff;max-width:22ch}
+.page-hero.klett-kopf h1 em{font-style:normal;color:#8FCFA6;display:block}
+.page-hero.klett-kopf .klett-kopf__lead{font-size:clamp(1rem,2.5vw,1.14rem);
+  line-height:1.62;color:rgba(255,255,255,.9);max-width:70ch;margin:0 0 26px}
+
+/* Die Preisskala ---------------------------------------------------------- */
+/* Zeigt die tatsächlich gezahlten Quadratmeterpreise als Strecke: links das
+   Minimum, rechts das Maximum, dazwischen der Durchschnitt an seiner echten
+   Position. Genau dort wird sichtbar, dass der Mittelwert nicht in der Mitte
+   liegt — er sitzt bei 44 Prozent der Strecke. */
+.klett-skala{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--radius);padding:20px 21px 17px;margin:0 0 24px;max-width:760px}
+.klett-skala__kopf{display:flex;flex-wrap:wrap;justify-content:space-between;
+  gap:6px 16px;margin-bottom:14px;font-size:.85rem;color:rgba(255,255,255,.78)}
+/* Auf schmalen Fenstern rutscht der zweite Wert unter den ersten und stand
+   dort rechtsbuendig unter einer linksbuendigen Zeile. Beide untereinander
+   und linksbuendig liest sich ruhiger. */
+@media(max-width:560px){
+  .klett-skala__kopf{flex-direction:column;gap:12px}
+  .klett-skala__kopf span[style]{text-align:left!important}
+}
+.klett-skala__kopf b{color:#fff;font-size:1.05rem;font-weight:700;display:block;
+  margin-bottom:2px}
+.klett-skala__balken{position:relative;height:12px;border-radius:999px;
+  background:linear-gradient(90deg,#2A5138 0%,#3E7D53 44%,#8FCFA6 100%);
+  margin:0 0 8px}
+.klett-skala__marke{position:absolute;top:-7px;width:3px;height:26px;
+  background:#fff;border-radius:2px;box-shadow:0 0 0 3px rgba(18,48,31,.55)}
+.klett-skala__werte{display:flex;justify-content:space-between;font-size:.82rem;
+  color:rgba(255,255,255,.72);font-variant-numeric:tabular-nums}
+.klett-skala__schnitt{margin:13px 0 0;font-size:.92rem;line-height:1.55;
+  color:rgba(255,255,255,.88)}
+.klett-skala__schnitt b{color:#8FCFA6}
+.page-hero .klett-kopf__knoepfe{display:flex;flex-wrap:wrap;gap:11px}
+
+/* Bildband */
+.klett-band{position:relative;overflow:hidden;background:#12301F}
+.klett-band img{width:100%;height:clamp(190px,32vw,400px);object-fit:cover;
+  object-position:50% 56%;display:block}
+.klett-band figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 0 12px;
+  background:linear-gradient(180deg,rgba(10,26,16,0) 0%,rgba(10,26,16,.84) 62%)}
+.klett-band figcaption span{display:block;max-width:min(1180px,92vw);margin-inline:auto;
+  padding-inline:clamp(14px,3vw,24px);color:rgba(255,255,255,.94);font-size:.9rem;
+  line-height:1.5}
+
+/* Was die Spreizung erklärt — drei Faktoren im Vergleich ------------------- */
+.klett-faktoren{display:grid;gap:12px;margin:22px 0 0}
+@media(min-width:760px){.klett-faktoren{grid-template-columns:repeat(3,1fr)}}
+.klett-faktor{border:1px solid var(--border);border-radius:var(--radius);
+  padding:17px 18px;background:#fff;min-width:0}
+.klett-faktor--gross{border-color:#B9D8C4;background:linear-gradient(168deg,#F4FAF6,#E9F4ED)}
+.klett-faktor__wert{font-size:clamp(1.7rem,5.4vw,2.2rem);font-weight:800;line-height:1;
+  color:var(--navy);letter-spacing:-.02em;margin:0 0 6px}
+.klett-faktor--gross .klett-faktor__wert{color:#2F6B47}
+.klett-faktor__was{margin:0 0 9px;font-size:.9rem;font-weight:600;color:var(--ink)}
+.klett-faktor__erklaerung{margin:0;font-size:.88rem;line-height:1.5;color:var(--slate-2)}
+/* Ein Balken macht das Verhältnis der drei Faktoren unmittelbar sichtbar. */
+.klett-faktor__leiste{height:8px;border-radius:999px;background:var(--card);
+  margin:0 0 11px;overflow:hidden}
+.klett-faktor__leiste i{display:block;height:100%;border-radius:999px;
+  background:var(--slate-2);opacity:.5}
+.klett-faktor--gross .klett-faktor__leiste i{background:#3E7D53;opacity:1}
+
+/* Baujahrsgruppen als Tabelle ohne Tabelle */
+.klett-baujahre{display:grid;gap:10px;margin:20px 0 0}
+@media(min-width:700px){.klett-baujahre{grid-template-columns:repeat(3,1fr)}}
+.klett-baujahr{border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px 17px;background:#fff;min-width:0}
+.klett-baujahr__zeit{font-size:.83rem;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--slate-2);margin:0 0 9px}
+.klett-baujahr__preis{font-size:clamp(1.3rem,4vw,1.6rem);font-weight:800;line-height:1;
+  color:var(--navy);margin:0 0 4px}
+.klett-baujahr__zeile{display:flex;justify-content:space-between;gap:12px;
+  font-size:.87rem;padding:6px 0;border-top:1px solid var(--border);color:var(--slate-2)}
+.klett-baujahr__zeile b{color:var(--ink);font-weight:600}
+
+/* Objektarten mit Spanne */
+.klett-arten{display:grid;gap:11px;margin:20px 0 0}
+@media(min-width:640px){.klett-arten{grid-template-columns:1fr 1fr}}
+.klett-art{border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;
+  background:#fff;min-width:0}
+.klett-art h3{margin:0 0 10px;font-size:1.04rem}
+.klett-art__zeile{display:flex;justify-content:space-between;gap:12px;font-size:.9rem;
+  padding:6px 0;border-top:1px solid var(--border);color:var(--slate-2)}
+.klett-art__zeile:first-of-type{border-top:none}
+.klett-art__zeile b{color:var(--ink);font-weight:600;white-space:nowrap}
+.klett-art__spanne{margin:11px 0 0;padding:10px 12px;background:var(--card);
+  border-radius:var(--radius-sm);font-size:.86rem;line-height:1.5;color:var(--slate-2)}
+
+/* Karte ------------------------------------------------------------------- */
+.klettkarte{margin:24px 0 0}
+.klettkarte__rahmen{border:1px solid var(--border);border-radius:var(--radius-lg);
+  overflow:hidden;background:#fff;position:relative}
+.klettkarte__svg{width:100%;height:auto;display:block}
+.klett-haeuser{fill:#E2E5E3}
+.klett-zonen{display:none}
+.klettkarte--zonen .klett-zonen{display:block}
+.klett-ring{r:21}
+.klett-nr{font-size:24px}
+.klett-treffer{r:34}
+@media(max-width:820px){
+  .klett-ring{r:26}
+  .klett-nr{font-size:30px}
+  .klett-treffer{r:42}
+}
+.klett-marke{cursor:pointer}
+.klett-marke .klett-ring{transition:r .16s ease}
+.klett-marke:hover .klett-ring,.klett-marke:focus-visible .klett-ring{r:25}
+@media(max-width:820px){
+  .klett-marke:hover .klett-ring,.klett-marke:focus-visible .klett-ring{r:30}
+}
+.klett-marke:focus-visible{outline:none}
+.klett-marke:focus-visible .klett-ring{stroke:#8FCFA6;stroke-width:4}
+.klett-zone{cursor:pointer}
+.klett-zone:hover,.klett-zone:focus-visible{fill-opacity:.96;outline:none;stroke-width:2.6}
+
+.klettkarte__schalter{display:flex;gap:6px;margin-bottom:11px;flex-wrap:wrap}
+.klettkarte__schalter button{flex:1 1 auto;min-height:44px;padding:9px 13px;
+  font-size:.88rem;font-weight:600;border:1px solid var(--border);background:#fff;
+  color:var(--ink);border-radius:999px;cursor:pointer;
+  transition:background .14s,border-color .14s,color .14s}
+.klettkarte__schalter button[aria-pressed="true"]{background:#1B4029;border-color:#1B4029;
+  color:#fff}
+
+.klett-liste{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px}
+@media(min-width:700px){.klett-liste{grid-template-columns:1fr 1fr;gap:9px 18px}}
+.klett-liste li{margin:0;padding:0;min-width:0}
+.klett-liste__knopf{display:flex;gap:10px;align-items:flex-start;width:100%;
+  font-size:.92rem;font-family:inherit;line-height:1.45;text-align:left;padding:11px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);
+  color:var(--ink);cursor:pointer;min-height:44px;min-width:0}
+.klett-liste__knopf:hover,.klett-liste__knopf[aria-current="true"]{border-color:#2F6B47;
+  background:#F4FAF6}
+.klett-liste__knopf:focus-visible{outline:2px solid #2F6B47;outline-offset:2px}
+.klett-liste__knopf b{display:flex;align-items:center;justify-content:center;flex:0 0 24px;
+  width:24px;height:24px;border-radius:50%;background:#12301F;color:#fff;font-size:.79rem;
+  font-weight:700}
+.klett-liste__knopf span{min-width:0}
+.klettkarte__info{margin:13px 0 0;padding:13px 15px;background:#F4FAF6;
+  border:1px solid #C9E2D3;border-left:3px solid #2F6B47;border-radius:var(--radius-sm);
+  font-size:.94rem;line-height:1.58;color:var(--ink)}
+.klettkarte__stufen[hidden]{display:none}
+.klettkarte__stufen{display:flex;flex-wrap:wrap;gap:7px 15px;margin:12px 0 0;
+  font-size:.79rem;color:var(--slate-2);align-items:center}
+.klettkarte__stufen span{display:inline-flex;align-items:center;gap:6px}
+.klettkarte__stufen i{width:15px;height:11px;border-radius:2px;display:inline-block;
+  border:1px solid rgba(0,0,0,.13)}
+
+/* Bilder */
+.klett-bilder{display:grid;gap:10px;margin:22px 0 0}
+@media(min-width:700px){.klett-bilder{grid-template-columns:1fr 1fr}}
+.klett-bilder figure{margin:0;border-radius:var(--radius);overflow:hidden;
+  border:1px solid var(--border)}
+.klett-bilder img{width:100%;height:210px;object-fit:cover;display:block}
+.klett-bilder figcaption{padding:10px 13px;font-size:.85rem;line-height:1.48;
+  color:var(--slate-2);background:var(--card)}
+@media(max-width:560px){.klett-bilder img{height:178px}}

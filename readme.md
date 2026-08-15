@@ -1,4 +1,58 @@
-# Highseller Immobilien & Finanzen — Website (Stand v51)
+# Highseller Immobilien & Finanzen — Website (Stand v53)
+
+## Was in v53 umgesetzt wurde
+
+### Veedelseite Köln-Klettenberg
+
+Sechste ausgebaute Stadtteilseite, von 571 auf 1.629 Wörter. Der Aufhänger
+steht in der Textvorlage und ließ sich mit den amtlichen Daten belegen: Der
+Gutachterausschuss wertete für 2025 in Klettenberg 49 Wohnungsverkäufe aus.
+Der Durchschnitt lag bei 5.339 Euro je Quadratmeter — **tatsächlich gezahlt
+wurden zwischen 2.858 und 8.459 Euro.** Das Dreifache.
+
+Die eigentliche Erkenntnis entsteht erst im Vergleich dreier Faktoren:
+
+| | Spanne | Faktor |
+|---|---|---|
+| Bodenrichtwertzonen | 1.590 – 1.650 €/m² Grundstück | **1,04×** |
+| Baujahrsgruppen | 5.257 – 5.770 €/m² Wohnfläche | **1,10×** |
+| tatsächlich gezahlt | 2.858 – 8.459 €/m² Wohnfläche | **2,96×** |
+
+**Weder die Lage noch das Baujahr erklären die Spreizung.** Klettenberg hat
+nach Marienburg den homogensten Boden aller zwanzig ausgewerteten Kölner
+Stadtteile — nur zwei Zonen, die sich um vier Prozent unterscheiden. Was den
+Preis macht, ist das einzelne Objekt. Das ist das genaue Gegenstück zur
+Lindenthaler Seite, wo die Adresse entscheidet.
+
+Gestalterisch trägt der Kopf diese Aussage: eine Preisskala von 2.858 bis
+8.459 Euro, auf der der Durchschnitt an seiner echten Position sitzt — bei
+44 Prozent der Strecke, nicht in der Mitte. Erste Seite der Reihe in Grün;
+die fünf davor arbeiten mit Navy und Sandton.
+
+Dazu kommen die Baujahrsgruppen, die Häuserzahlen mit ihren kleinen
+Fallzahlen (vier beziehungsweise drei Verkäufe — ausdrücklich als solche
+gekennzeichnet), die Denkmal-AfA nach § 7i und § 10f EStG, und ein Abschnitt
+über die Unterlagen, die eine Bank vor der Finanzierungszusage sehen will.
+
+**Zwei Fallen bei dieser Seite:**
+
+- **`.replace(",", ".")` auf einem ganzen Textblock.** Gedacht war die
+  Eindeutschung der Tausendertrennzeichen aus der f-String-Formatierung —
+  getroffen hat es jedes Satzkomma: „bei einem Stadtteil. dessen Boden".
+  Sichtbar nur im Browser. Jetzt formatiert eine eigene Funktion die Zahlen.
+- **Vereinfachungstoleranz je Stadtteilgröße neu justieren.** Klettenberg ist
+  mit 1,2 km² deutlich kleiner als die bisherigen Veedel. Auf dem engen
+  Ausschnitt reduzierte die von Lindenthal übernommene Toleranz kleine Häuser
+  auf zwei Punkte — von 1.758 Gebäuden im Bild wurden nur 838 gezeichnet, die
+  Karte wirkte halbleer.
+
+Die dritte Kartenansicht nach Bodenwert je Quadratmeter Wohnfläche entfällt
+hier bewusst: Bei zwei Zonen mit vier Prozent Abstand bringt die Umrechnung
+keinen Erkenntnisgewinn.
+
+Lighthouse mobil 100/100/100/100.
+
+Cache-Buster: `styles.css?v=62` und `main.js?v=34`.
 
 ## Was in v51 umgesetzt wurde
 
