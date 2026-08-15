@@ -3077,10 +3077,11 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
   .datentabelle tr > :not(:first-child)::before{content:attr(data-spalte);
     color:var(--slate-2);font-weight:400;text-align:left}
   /* Kurze Werte rechtsbuendig, lange Erklaertexte linksbuendig: Mehrzeiliger
-     Flattersatz nach rechts liest sich unruhig. */
-  .datentabelle tr > :last-child:not(:first-child){text-align:left;
+     Flattersatz nach rechts liest sich unruhig. Kurze Zahlen sind davon
+     ausgenommen — sie bleiben in der Zeile. */
+  .datentabelle tr > :last-child:not(:first-child):not(.zahl){text-align:left;
     grid-template-columns:1fr;gap:2px}
-  .datentabelle tr > :last-child:not(:first-child)::before{margin-top:3px}
+  .datentabelle tr > :last-child:not(:first-child):not(.zahl)::before{margin-top:3px}
   .datentabelle .zahl{font-variant-numeric:tabular-nums;font-weight:600}
 }
 
@@ -3558,3 +3559,111 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 .klett-bilder figcaption{padding:10px 13px;font-size:.85rem;line-height:1.48;
   color:var(--slate-2);background:var(--card)}
 @media(max-width:560px){.klett-bilder img{height:178px}}
+
+/* ==========================================================================
+   Immobilienmarktbericht Köln (v54)
+   --------------------------------------------------------------------------
+   Kein Veedel, sondern ein Bericht — deshalb redaktionell gesetzt statt als
+   Landingpage: schmalere Textspalte, Kennzahlen als Auszeichnung im Lesefluss,
+   ruhiger Kopf ohne Foto. Die Seite lebt von Zahlen, nicht von Bildern.
+   ========================================================================== */
+
+.page-hero.mb-kopf.mb-kopf{
+  background:linear-gradient(168deg,#0F2038 0%,#16304F 60%,#112843 100%);
+  border-bottom:1px solid rgba(255,255,255,.09)}
+.page-hero .mb-kopf__inhalt{padding-block:clamp(28px,4.5vw,52px)}
+.page-hero.mb-kopf .breadcrumb{color:rgba(255,255,255,.7)}
+.page-hero.mb-kopf .breadcrumb a{color:rgba(255,255,255,.9)}
+.page-hero.mb-kopf .h1-keyword{color:var(--gold)}
+.page-hero.mb-kopf h1{font-size:clamp(1.75rem,5.4vw,2.9rem);line-height:1.13;
+  margin:0 0 16px;color:#fff;max-width:26ch}
+.page-hero.mb-kopf .mb-kopf__lead{font-size:clamp(1rem,2.4vw,1.13rem);line-height:1.65;
+  color:rgba(255,255,255,.9);max-width:72ch;margin:0 0 22px}
+.mb-meta{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:.85rem;
+  color:rgba(255,255,255,.66);margin:0 0 24px}
+.mb-meta span{display:inline-flex;align-items:center;gap:7px}
+.mb-meta b{color:rgba(255,255,255,.9);font-weight:600}
+
+/* Kurzfassung: die fünf Kernzahlen ---------------------------------------- */
+.mb-kurz{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--radius-lg);padding:clamp(17px,3.4vw,24px);margin:0 0 24px}
+.mb-kurz h2{font-size:1rem;margin:0 0 15px;color:#fff;letter-spacing:.02em}
+.mb-kurz__liste{list-style:none;margin:0;padding:0;display:grid;gap:13px}
+@media(min-width:820px){.mb-kurz__liste{grid-template-columns:1fr 1fr;gap:15px 26px}}
+.mb-kurz__liste li{display:flex;gap:13px;align-items:flex-start;min-width:0}
+.mb-kurz__wert{flex:0 0 auto;font-size:1.15rem;font-weight:800;color:var(--gold);
+  line-height:1.25;font-variant-numeric:tabular-nums;min-width:88px}
+.mb-kurz__text{font-size:.92rem;line-height:1.5;color:rgba(255,255,255,.88);min-width:0}
+
+/* Kennzahlenband im Fließtext --------------------------------------------- */
+.mb-zahlen{display:grid;gap:11px;margin:22px 0}
+@media(min-width:620px){.mb-zahlen{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}}
+.mb-zahl{border:1px solid var(--border);border-radius:var(--radius);padding:15px 17px;
+  background:#fff;min-width:0}
+.mb-zahl--hervor{border-color:#D8C08A;background:linear-gradient(168deg,#FFFDF7,#FDF8EC)}
+.mb-zahl b{display:block;font-size:clamp(1.35rem,4.2vw,1.7rem);font-weight:800;
+  line-height:1.05;color:var(--navy);letter-spacing:-.015em;margin-bottom:6px}
+.mb-zahl--hervor b{color:#8A6B22}
+.mb-zahl span{display:block;font-size:.89rem;line-height:1.45;color:var(--ink);
+  margin-bottom:5px}
+.mb-zahl small{display:block;font-size:.79rem;line-height:1.45;color:var(--slate-2)}
+
+/* Gegenüberstellung Angebot gegen Abschluss ------------------------------- */
+.mb-gegen{display:grid;gap:12px;margin:20px 0 0}
+@media(min-width:700px){.mb-gegen{grid-template-columns:1fr 1fr}}
+.mb-gegen__karte{border:1px solid var(--border);border-radius:var(--radius);
+  padding:17px 18px;background:#fff;min-width:0}
+.mb-gegen__karte--amt{border-color:#B9D0E6;background:linear-gradient(168deg,#F5F9FD,#EBF3FA)}
+.mb-gegen__quelle{font-size:.8rem;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--slate-2);margin:0 0 9px}
+.mb-gegen__karte--amt .mb-gegen__quelle{color:#2263AE}
+.mb-gegen__wert{font-size:clamp(1.4rem,4.4vw,1.8rem);font-weight:800;line-height:1;
+  color:var(--navy);margin:0 0 4px}
+.mb-gegen__was{margin:0 0 11px;font-size:.86rem;color:var(--slate-2)}
+.mb-gegen__karte p:last-child{margin:0;font-size:.9rem;line-height:1.55;color:var(--ink)}
+
+/* Prognose als nummerierte Punkte ----------------------------------------- */
+.mb-prognose{list-style:none;counter-reset:pg;margin:20px 0 0;padding:0;display:grid;gap:11px}
+.mb-prognose li{counter-increment:pg;position:relative;padding:15px 17px 15px 54px;
+  border:1px solid var(--border);border-left:3px solid var(--blue);
+  border-radius:var(--radius);background:#fff;font-size:.94rem;line-height:1.58;
+  color:var(--slate-2);min-width:0}
+.mb-prognose li::before{content:counter(pg);position:absolute;left:16px;top:15px;
+  width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700}
+.mb-prognose b{display:block;color:var(--ink);font-size:1rem;margin-bottom:4px}
+
+/* Handlungsempfehlungen nach Rolle */
+.mb-rollen{display:grid;gap:12px;margin:20px 0 0}
+@media(min-width:900px){.mb-rollen{grid-template-columns:repeat(3,1fr)}}
+.mb-rolle{border:1px solid var(--border);border-top:3px solid var(--gold);
+  border-radius:var(--radius);padding:17px 18px;background:#fff;min-width:0}
+.mb-rolle h3{margin:0 0 8px;font-size:1.04rem}
+.mb-rolle p{margin:0 0 12px;font-size:.92rem;line-height:1.57;color:var(--slate-2)}
+.mb-rolle .btn{width:100%;justify-content:center;min-height:44px}
+
+/* Teaser auf der Startseite ----------------------------------------------- */
+.mb-teaser{display:grid;gap:16px;align-items:center}
+@media(min-width:820px){.mb-teaser{grid-template-columns:1.15fr .85fr;gap:28px}}
+.mb-teaser__auge{font-size:.8rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--gold);margin:0 0 9px}
+.mb-teaser h2{margin:0 0 11px;font-size:clamp(1.3rem,3.6vw,1.75rem);line-height:1.22}
+.mb-teaser p{margin:0 0 16px;font-size:.97rem;line-height:1.62;color:var(--slate-2)}
+.mb-teaser__zahlen{display:grid;gap:9px}
+.mb-teaser__zahl{display:flex;gap:13px;align-items:baseline;padding:11px 14px;
+  border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--card);
+  min-width:0}
+.mb-teaser__zahl b{flex:0 0 auto;font-size:1.05rem;font-weight:800;color:var(--navy);
+  font-variant-numeric:tabular-nums;min-width:76px}
+.mb-teaser__zahl span{font-size:.87rem;line-height:1.42;color:var(--slate-2);min-width:0}
+
+/* Links im Fliesstext unterstreichen (v54) ----------------------------------
+   Farbe allein reicht nicht: Wer Farben schlecht unterscheidet, erkennt einen
+   Link im Absatz sonst nicht als solchen. Betrifft die Hinweiskaesten und die
+   Fliesstextspalten — Knoepfe und Navigation sind ausgenommen, die sind an
+   Form und Platzierung erkennbar. */
+.hinweis-box a:not(.btn),
+.prose a:not(.btn),
+.mb-gegen__karte a:not(.btn),
+.klett-art__spanne a:not(.btn){
+  text-decoration:underline;text-underline-offset:2px}

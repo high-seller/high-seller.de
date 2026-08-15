@@ -1,4 +1,62 @@
-# Highseller Immobilien & Finanzen — Website (Stand v53)
+# Highseller Immobilien & Finanzen — Website (Stand v54)
+
+## Was in v54 umgesetzt wurde
+
+### Immobilienmarktbericht Köln 2026
+
+Neue Seite unter `immobilienmarktbericht-koeln-2026.html`, 2.100 Wörter mit
+259 Zahlen. Grundlage war eine Textvorlage samt SEO-Vorgaben; alle darin
+genannten Zahlen wurden geprüft, soweit möglich nachgerechnet — mit drei
+Ergebnissen, die von der Vorlage abweichen.
+
+**Bodenrichtwerte selbst ausgewertet.** Statt eine Zahl zu übernehmen, sind
+die BORIS-Rohdaten (Stichtag 1.1.2026) direkt ausgewertet: 387 Kölner
+Wohnbauzonen, Median **870 Euro**, Spanne 370 bis 3.100 Euro. Die Vorlage
+nannte 930 Euro und 240 bis 3.550 Euro — die Obergrenze erscheint erst mit
+Mischgebieten, die Untergrenze ließ sich gar nicht reproduzieren. Auf der
+Seite stehen die nachgerechneten Werte mit ausgewiesener Abgrenzung.
+
+**Ein Faktenfehler korrigiert.** Die Vorlage nannte 2024 den „niedrigsten Wert
+seit Beginn der Erhebung 2015". Die Bautätigkeitsstatistik der Stadt Köln
+(Kölner Statistische Nachrichten 11/2025) zeigt: 1990 lag der Wert mit 1.628
+Wohnungen noch niedriger. Richtig ist der Rückgang um **48,5 Prozent**
+gegenüber dem Vorjahr.
+
+**Die stärkste Zahl kam aus der eigenen Recherche.** Der Bauüberhang liegt bei
+**10.308 genehmigten, aber nicht fertiggestellten Wohnungen** — historischer
+Höchststand. Davon sind **57 Prozent noch nicht einmal im Bau**. Genehmigungen
+sind also nicht der Engpass; es fehlt die Umsetzung. Diese Zahl stand in
+keiner Vorlage.
+
+**Ein Widerspruch zur eigenen Website aufgelöst.** Die Vorlage nannte für
+Lindenthal 6.000 bis 6.500 Euro je Quadratmeter — Angebotspreise aus Portalen.
+Unsere Lindenthal-Seite nennt 5.569 Euro aus 144 beurkundeten Kaufverträgen.
+Beides stimmt, misst aber Verschiedenes. Statt den Widerspruch stehenzulassen,
+macht die Seite ihn zum Thema: Der Abstand von zwölf Prozent zwischen Wunsch
+und Abschluss ist selbst die Nachricht.
+
+**Alle 85 Stadtteile als Tabelle.** Aus denselben Rohdaten je Stadtteil
+zusammengefasst — Median, Spanne, Zonenzahl. Zwischen Bayenthal (2.830 €) und
+Godorf (460 €) liegt der Faktor 6,2. Für Eigentümer ist aber die Spaltenspanne
+interessanter als die Rangfolge: In Müngersdorf entscheidet die Adresse über
+mehr als das Doppelte, in Klettenberg über vier Prozent.
+
+**Neubau gegen Bestand, selbst gerechnet:** In den acht Stadtteilen, für die
+der Gutachterausschuss beide Werte ausweist, liegt Neubau bei 7.556 Euro je
+Quadratmeter (316 Verträge), Bestand bei 4.934 Euro (751 Verträge) — ein
+Aufschlag von 53 Prozent.
+
+Das Schema folgt der Person-Autorschaft der übrigen Seiten statt der in der
+Vorlage genannten Organization; die dort angegebenen www-Adressen leiten weiter,
+und die genannte `logo.png` existiert nicht. Teaser auf der Startseite, Eintrag
+in Sitemap und Navigation, Weiterleitungen vom geplanten Slug.
+
+Nicht übernommen: „rund 750 Bankpartner" (unbelegt, § 5a UWG). Die Angabe
+steht allerdings weiterhin im Navigationsmenü und damit auf allen 231 Seiten.
+
+Lighthouse mobil 100/100/100/100.
+
+Cache-Buster: `styles.css?v=66` und `main.js?v=34`.
 
 ## Was in v53 umgesetzt wurde
 
