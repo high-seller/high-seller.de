@@ -1,4 +1,100 @@
-# Highseller Immobilien & Finanzen — Website (Stand v54)
+# Highseller Immobilien & Finanzen — Website (Stand v55)
+
+## Was in v55 umgesetzt wurde
+
+### Marktbericht auf Kampmeyer-Niveau ausgebaut
+
+Der Bericht deckte bisher nur den Kaufmarkt ab. Das war der Grund, warum er
+neben dem Marktbericht von Kampmeyer kürzer und dünner wirkte: Dort stehen
+Mieten, Prognosen und Neubauprojekte, hier standen sie nicht. Der Bericht ist
+von rund 2.900 auf **über 5.100 Wörter** gewachsen, die Zahl der belegten
+Angaben von 259 auf **499**.
+
+**Drei neue Kapitel, beide Quellen amtlich:**
+
+- `#mieten` — Grundlage ist *Kölner Statistische Nachrichten 9/2026, „Das
+  Mietwohnungsangebot in Köln 2025"* (Amt für Stadtentwicklung und Statistik,
+  Juni 2026). Ausgewertet sind dort 12.205 Mietangebote, davon 11.659
+  verwertbar. Median der Angebotsmieten 2025: **14,70 €/m²** nettokalt, +5 %
+  gegenüber 14,00 € im Vorjahr.
+- `#rendite` — Kaufpreisfaktoren, aus zwei amtlichen Quellen selbst gerechnet:
+  Kaufpreis je m² (Gutachterausschuss, Weiterverkäufe) geteilt durch zwölf
+  Monatsmieten je m² (KSN 9/2026).
+- `#bevoelkerung` — *KSN 12/2025, „Bevölkerungsvorausberechnung für Köln 2025
+  bis 2045"*, Basisvariante, kleinräumig bis 2035.
+
+**Die Befunde, die den Bericht tragen — alle nachrechenbar:**
+
+- Die Kölner Mietspanne beträgt **das Dreifache**: Neuehrenfeld 20,90 €/m²
+  gegen Chorweiler 7,00 €/m². Auf 70 m² sind das 1.463 € gegen 490 € im Monat.
+- **Kleine Wohnungen kosten je m² fast doppelt so viel**: unter 30 m² sind es
+  23,60 €, bei 60 bis 79 m² nur 13,30 € — und Letztere sind mit 28,3 % die
+  häufigste Angebotsgröße. Oberhalb von 40 m² ist der Quadratmeterpreis
+  bemerkenswert stabil (13,30 bis 14,60 €).
+- **Die teuerste Mietlage rentiert am besten.** Neuehrenfeld: 17,5
+  Jahresmieten, 5,72 % brutto. Chorweiler: 32,1 Jahresmieten, 3,11 %. Faktor
+  1,84 zugunsten der teuren Lage — weil dort die Miete hoch ist, der Kaufpreis
+  aber vergleichsweise moderat. „Günstig kaufen" ist in Köln keine
+  Renditestrategie.
+- **Drei von neun Stadtbezirken schrumpfen** bis 2035: Lindenthal −2,0 %,
+  Porz −0,9 %, Innenstadt −0,6 %. Rodenkirchen wächst um 8,6 % und trägt damit
+  **9.600 der 12.200 zusätzlichen Einwohner** — knapp vier Fünftel des
+  gesamten Wachstums. Ursache ist die Parkstadt Süd (über 3.000 Wohneinheiten
+  ab 2030, rund 8.500 Erstbezieher); Raderberg verdoppelt dadurch seine
+  Bevölkerung.
+- **Wachstum und Preisniveau hängen nicht zusammen** (r = 0,00 über die neun
+  Stadtbezirke). Die beiden teuersten Bezirke sind genau die, die schrumpfen —
+  wo alles bebaut ist, kann niemand zusätzlich einziehen.
+- **Möbliert vermieten hat sich verfünffacht**: Anteil 3 % (2015) auf 15 %
+  (2025), Preisabstand von 16 % auf 35 %. Die Statistik warnt selbst davor,
+  das als reinen Möblierungszuschlag zu lesen — dieser Vorbehalt steht auch
+  auf der Seite.
+
+**Eine Zahl wurde verworfen.** Eine frühere Recherche hatte für den amtlichen
+Mietspiegel rund 11,50 €/m² ergeben. Dieser Wert liess sich an der Primärquelle
+nicht belegen und steht deshalb nirgends auf der Seite. Der Kölner Mietspiegel
+2025 ist ein *einfacher* Mietspiegel nach § 558c BGB und weist Tabellenwerte
+nach Baualter, Grösse und Ausstattung aus, keinen einzelnen Durchschnitt.
+
+### Startseite
+
+Der Teaser nannte den Bericht, aber nichts von seinem Inhalt. Neu sind die
+aktualisierten Kennzahlen (14,70 €, Faktor 26,3, +1,1 % bis 2035) und eine
+**Liste von sechs Kapitelverweisen**, die direkt in die Ankerpunkte des
+Berichts springen.
+
+### Erstes Bild auf dem Marktbericht
+
+Das Prüfwerkzeug hatte fehlende Bilder als grössten einzelnen Mangel gemeldet.
+Gewählt ist ein Luftbild der **Neustadt/Süd** — nicht irgendein Kölnmotiv,
+sondern der Stadtteil mit den meisten ausgewerteten Mietangeboten (529), der
+im Miet- und im Renditekapitel mit eigenen Zahlen vorkommt. Die
+Bildunterschrift stellt diesen Bezug her.
+Achim Stump, CC BY-SA 4.0, über Wikimedia Commons.
+
+### Zwei Zugänglichkeitsfehler auf der Startseite behoben
+
+Beide bestanden schon vorher und fielen bei der Prüfung auf: Der Verweis aufs
+Google-Unternehmensprofil und die verlinkten Vertrauenskarten hoben sich
+**allein durch ihre Farbe** vom umgebenden Text ab (Kontrast 2,1:1 gegen
+geforderte 3:1). Wer Farben schlecht unterscheidet, konnte sie nicht als Links
+erkennen — Verstoss gegen WCAG 1.4.1. Beide sind jetzt unterstrichen.
+Lighthouse-Zugänglichkeit der Startseite: 97 → **100**.
+
+**Eine Falle beim Diagramm.** Die Beschriftung des Korridorbands („ab 40 m²:
+13,30–14,60 €") stand zunächst auf Höhe des Bandes — also genau auf dem Wert
+„13,30 €" des dritten Balkens, denn dieser Balken endet an der Bandunterkante.
+Im Stylesheet ist das nicht zu sehen; erst der Blick auf die gerenderte Seite
+zeigte die Überlappung. Die Beschriftung sitzt jetzt im freien Feld oben rechts,
+verbunden durch eine gestrichelte Führungslinie.
+
+**Geprüft:** Lighthouse mobil 100/100/100/100 auf dem Marktbericht,
+Zugänglichkeit 100 auf der Startseite. Kein seitlicher Überlauf. Tabellen
+brechen unter 700 px zu Blöcken um. Eigenwiederholung des Berichts 0,0 %,
+nächstverwandte Seite nur 25 %.
+
+**Cache-Buster:** `styles.css?v=67` auf allen 231 Seiten (`main.js` unverändert
+bei v=34).
 
 ## Was in v54 umgesetzt wurde
 
