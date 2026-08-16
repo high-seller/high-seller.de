@@ -1,4 +1,52 @@
-# Highseller Immobilien & Finanzen — Website (Stand v62)
+# Highseller Immobilien & Finanzen — Website (Stand v63)
+
+## Was in v63 umgesetzt wurde
+
+### Zollstock und Klettenberg ausgebaut — zwei gegensätzliche Befunde
+
+Beide waren mit rund 1.670 Wörtern die kürzesten der neun ausgebauten Seiten.
+Jetzt: **Zollstock 2.120, Klettenberg 2.145 Wörter.** Zahlen 90 → 133
+beziehungsweise 133 → 176, Geldangaben 36 → 32 und 22 → 42.
+
+Beiden fehlten dieselben drei Themen, die die neueren Seiten tragen: Mieten,
+Kaufpreisfaktor und die Einordnung in die Stadtentwicklung. Die Aufhänger sind
+dabei das genaue Gegenteil voneinander.
+
+**Zollstock: Kölns drittgrößte Baustelle — mit den kleinsten Wohnungen.**
+338 fertiggestellte Wohnungen 2025 sind Rang 3 unter allen 87 Stadtteilen,
+hinter Marienburg (568) und der Innenstadt (410). Zugleich steht der Stadtteil
+bei der Wohnungsgröße auf **Rang 77**: 64,6 m² gegen 77,3 in Köln, bei 58,3 %
+Einpersonenhaushalten (Rang 10). Daraus folgt eine klare Ansage für
+Eigentümer: Wer eine größere Bestandswohnung verkauft, konkurriert kaum mit
+diesen 338 Einheiten — die Käufergruppe ist eine andere. Wer eine kleine
+verkauft, steht dagegen in direkter Konkurrenz zu Erstbezug. Neu ist außerdem,
+dass Zollstock zum Plangebiet der Parkstadt Süd gehört.
+
+**Klettenberg: der Stadtteil, in dem fast nicht gebaut wird.** Neun neue
+Wohnungen im ganzen Jahr bei 5.693 Bestandswohnungen — 0,16 Prozent, Rang 66.
+Der Anteil geförderter Wohnungen liegt bei **null** (Rang 3 von 87). Und der
+Bodenrichtwert schwankt über den Stadtteil praktisch nicht: 1.590 und 1.650 €
+sind **Faktor 1,04**, Rang 3 der homogensten unter 81 Stadtteilen mit mehreren
+Zonen. Homogener sind nur Gremberghoven und Finkenberg — beides günstige
+Randlagen. Zum Vergleich: Junkersdorf 2,43, Rodenkirchen 2,45, Müngersdorf
+2,55.
+
+Für Verkäufer heißt das zweierlei, und beides steht auf der Seite: Knappheit
+als Argument (kaum Neubaukonkurrenz), aber auch wenige Vergleichswerte — bei
+49 beurkundeten Verkäufen im Jahr verschiebt ein einzelner ungewöhnlicher Fall
+den Durchschnitt spürbar.
+
+**Der Renditevergleich fällt entsprechend aus:** Zollstock 24,8 Jahresmieten
+und 4,04 % brutto (über dem Kölner Mittel von 3,80 %), Klettenberg 30,3 und
+3,30 % (darunter). Daraus folgt die Käufergruppe — in Zollstock sind
+Kapitalanleger eine ernsthafte Zielgruppe, in Klettenberg kaufen überwiegend
+Selbstnutzer, die nicht die Rendite bezahlen, sondern den Stadtteil.
+
+**Geprüft:** Tag-Balance über fünf Elementtypen, alle Sprungziele auf Existenz,
+keine doppelten IDs, Lighthouse mobil 100/100/100/100 auf beiden Seiten,
+FAQ-Schema unverändert stimmig (81 Seiten).
+
+**Cache-Buster:** `styles.css?v=78` auf allen 231 Seiten.
 
 ## Was in v62 umgesetzt wurde
 

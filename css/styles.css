@@ -4200,3 +4200,28 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 .mrb-gruppe b{display:block;font-family:var(--f-display);font-size:1.02rem;
   color:var(--ink);margin-bottom:6px}
 .mrb-gruppe span{display:block;font-size:.89rem;line-height:1.6;color:var(--body)}
+
+/* v63 — Zollstock und Klettenberg: Kennzahlen und Rendite ------------------ */
+.zolli-kennzahlen,.klett-kennzahlen{display:grid;gap:12px;margin:22px 0 0}
+@media(min-width:620px){.zolli-kennzahlen,.klett-kennzahlen{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.zolli-kennzahlen,.klett-kennzahlen{grid-template-columns:repeat(4,1fr)}}
+.zolli-kennzahl,.klett-kennzahl{border:1px solid var(--border);border-radius:var(--radius);
+  padding:17px 18px;background:#fff;min-width:0}
+.zolli-kennzahl b,.klett-kennzahl b{display:block;font-family:var(--f-display);
+  font-size:1.5rem;font-weight:800;line-height:1;color:var(--navy);margin-bottom:7px}
+.zolli-kennzahl span,.klett-kennzahl span{display:block;font-size:.9rem;color:var(--ink);
+  line-height:1.45}
+.zolli-kennzahl small,.klett-kennzahl small{display:block;margin-top:6px;font-size:.8rem;
+  color:var(--slate-2);line-height:1.45}
+
+.zolli-rendite,.klett-rendite{display:grid;gap:12px;margin:22px 0 0}
+@media(min-width:640px){.zolli-rendite,.klett-rendite{grid-template-columns:1fr 1fr}}
+.zolli-rendite__block,.klett-rendite__block{border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px 21px;background:linear-gradient(168deg,#F7FAFD,#EEF4FA);
+  min-width:0}
+.zolli-rendite__zahl,.klett-rendite__zahl{margin:0 0 8px;font-family:var(--f-display);
+  font-size:clamp(1.9rem,6vw,2.4rem);font-weight:800;line-height:1;color:var(--navy)}
+.zolli-rendite__was,.klett-rendite__was{margin:0 0 8px;font-size:.95rem;color:var(--ink);
+  line-height:1.45;font-weight:600}
+.zolli-rendite__fuss,.klett-rendite__fuss{margin:0;font-size:.84rem;color:var(--slate-2);
+  line-height:1.5}
