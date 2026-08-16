@@ -38,7 +38,7 @@ document.documentElement.classList.add('js');
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/spacegrotesk-latin.woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
-<link rel="stylesheet" href="css/styles.css?v=74">
+<link rel="stylesheet" href="css/styles.css?v=75">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://high-seller.de/"}, {"@type": "ListItem", "position": 2, "name": "Immobilienmakler Köln", "item": "https://high-seller.de/immobilienmakler-koeln.html"}, {"@type": "ListItem", "position": 3, "name": "Köln-Marienburg", "item": "https://high-seller.de/immobilienmakler-koeln-marienburg.html"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Wie läuft ein diskreter Villenverkauf in Marienburg ab?", "acceptedAnswer": {"@type": "Answer", "text": "Ohne Portale, ohne Schild, ohne Öffentlichkeit: Wir sprechen ausgewählte, bonitätsgeprüfte Interessenten aus unserer Käuferkartei direkt an. Besichtigungen finden nur mit vorab geprüften Käufern statt."}}, {"@type": "Question", "name": "Was bestimmt den Wert einer Villa in Marienburg?", "acceptedAnswer": {"@type": "Answer", "text": "Vor allem das Grundstück: Bodenrichtwerte in Marienburg gehören zu den höchsten in NRW. Dazu kommen Architektur, Substanz, Modernisierungsgrad und die konkrete Straßenlage. Eine seriöse Bewertung ist hier nur vor Ort möglich."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "RealEstateAgent", "@id": "https://high-seller.de/#highseller", "name": "Highseller Immobilien & Finanzen. Immobilienmakler Köln-Marienburg", "image": "https://high-seller.de/assets/img/logo.png", "url": "https://high-seller.de/immobilienmakler-koeln-marienburg.html", "telephone": "+49 162 8811110", "email": "info@high-seller.de", "address": {"@type": "PostalAddress", "streetAddress": "Im Zollhafen 18, Kranhaus 1", "postalCode": "50678", "addressLocality": "Köln", "addressCountry": "DE"}, "areaServed": {"@type": "Place", "name": "Köln-Marienburg"}, "geo": {"@type": "GeoCoordinates", "latitude": 50.9274066, "longitude": 6.9662166}, "sameAs": ["https://www.instagram.com/highseller.immobilien/", "https://www.tiktok.com/@baris.oelmez", "https://www.youtube.com/@highsellerimmobilien", "https://www.immobilienscout24.de/anbieter/profil/highseller-immobilien-und-finanzen", "https://www.immowelt.de/profil/156e7c6439c042c6a6bc0f736075b070", "https://www.kleinanzeigen.de/pro/Highseller-Immobilien-Baris-Oelmez"], "founder": {"@id": "https://high-seller.de/#baris-oelmez"}}</script>
@@ -298,6 +298,7 @@ document.documentElement.classList.add('js');
     <a href="#welle">Die Welle</a>
     <a href="#bodenrichtwert">Bodenrichtwert</a>
     <a href="#beispiel">Rechenbeispiel</a>
+    <a href="#denkmal">Denkmalschutz</a>
     <a href="#spitzenlagen">Spitzenlagen</a>
     <a href="#fragen">Fragen</a>
   </div>
@@ -372,6 +373,23 @@ document.documentElement.classList.add('js');
     </div>
 
     <p class="prose">Hinzu kommt eine Eigenheit, die in Marienburg stärker wiegt als anderswo: Der Bodenwert kann den Gebäudewert übersteigen.</p>
+
+    <h3>Rechnen Sie es für Ihr Grundstück nach</h3>
+    <p class="prose">Der Bodenrichtwert ist für ganz Marienburg derselbe. Was daraus für Ihr Grundstück folgt, hängt allein an der Fläche — und daran, wie viel Wohnfläche darauf steht.</p>
+
+    <div class="mrb-boden" data-mrb-boden>
+      <div class="mrb-boden__regler">
+        <label for="mrb-flaeche">Grundstücksfläche <output data-mrb-anzeige-grund></output></label>
+        <input type="range" id="mrb-flaeche" data-mrb-flaeche min="200" max="2500" step="50" value="700">
+      </div>
+      <div class="mrb-boden__regler">
+        <label for="mrb-wohn">Wohnfläche im Haus <output data-mrb-anzeige-wohn></output></label>
+        <input type="range" id="mrb-wohn" data-mrb-wohnflaeche min="80" max="600" step="10" value="250">
+      </div>
+      <div class="mrb-boden__ausgabe" data-mrb-ausgabe aria-live="polite"></div>
+      <p class="mrb-boden__fuss">Gerechnet wird ausschließlich mit dem amtlichen Bodenrichtwert von 2.100 € je Quadratmeter (BORIS NRW, Stichtag 1. Januar 2026) und dem Median der Kölner Wohnungsverkäufe. Das ist <b>keine Bewertung</b>: Zustand, Architektur, Denkmalschutz, Ausrichtung und Zuschnitt fehlen in dieser Rechnung vollständig — und genau sie entscheiden in Marienburg über den Preis.</p>
+    </div>
+
   </div>
 </section>
 
@@ -400,6 +418,71 @@ document.documentElement.classList.add('js');
   </div>
 </section>
 
+<section class="section" id="denkmal">
+  <div class="container">
+    <h2>Denkmalschutz: Einschränkung und Argument zugleich</h2>
+    <p class="prose">In einem Viertel, dessen Bestand großteils aus der Zeit vor dem Ersten Weltkrieg stammt, ist Denkmalschutz keine Randfrage. Er wirkt in beide Richtungen — und beides gehört vor die Vermarktung, nicht mittendrin geklärt.</p>
+
+    <div class="mrb-denkmal">
+      <div class="mrb-denkmal__seite">
+        <h3>Was er einschränkt</h3>
+        <ul class="mrb-denkmal__liste">
+          <li>Veränderungen am Erscheinungsbild brauchen eine denkmalrechtliche Erlaubnis — das betrifft Fenster, Dach, Fassade und oft auch die Farbgebung.</li>
+          <li>Energetische Modernisierung ist möglich, aber aufwendiger: Innendämmung statt Wärmedämmverbundsystem, Sonderlösungen bei Fenstern.</li>
+          <li>Anbauten und Aufstockungen sind schwieriger durchzusetzen als bei ungeschützten Objekten.</li>
+          <li>Auch das Umfeld kann geschützt sein — bei Ensembleschutz greifen die Regeln über das einzelne Gebäude hinaus.</li>
+        </ul>
+      </div>
+      <div class="mrb-denkmal__seite mrb-denkmal__seite--plus">
+        <h3>Was er wert ist</h3>
+        <ul class="mrb-denkmal__liste">
+          <li>Erhöhte Absetzung für Baudenkmäler nach den §§ 7i und 10f EStG — für Käufer ein handfester Rechenposten, der die Finanzierung verändert.</li>
+          <li>Die Substanz selbst ist das Verkaufsargument: originale Details, Raumhöhen und Bauqualität lassen sich nicht nachbauen.</li>
+          <li>Der Schutz gilt auch für die Nachbarschaft — das sichert das Umfeld gegen Veränderungen, die eine Lage entwerten könnten.</li>
+          <li>Die Käufergruppe ist kleiner, aber gezielter: Wer ein Denkmal sucht, sucht es bewusst.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="hinweis-box">
+      <p><b>Vor der Vermarktung zu klären.</b> Steht das Objekt in der Denkmalliste, und mit welchem Umfang? Gibt es Auflagen aus früheren Genehmigungen? Liegen die denkmalrechtlichen Erlaubnisse für bereits durchgeführte Arbeiten vor? Diese Fragen kommen von Kaufinteressenten und ihren Banken — und eine offene Antwort an dieser Stelle bremst den Verkauf spürbar. Steuerliche Fragen zur erhöhten Absetzung gehören zum Steuerberater; wir sorgen dafür, dass die Unterlagen vorliegen, auf die er sich stützen kann.</p>
+    <figure class="mrb-bild-innen">
+      <picture>
+        <source type="image/webp" srcset="assets/img/marienburg-suedpark-480.webp 480w, assets/img/marienburg-suedpark-960.webp 960w, assets/img/marienburg-suedpark-1280.webp 1280w, assets/img/marienburg-suedpark-1920.webp 1920w" sizes="(max-width:860px) 100vw, 55vw">
+        <img src="assets/img/marienburg-suedpark.jpg" alt="Der Südpark in Köln-Marienburg: weite Rasenfläche unter altem, dichtem Baumbestand" loading="lazy" decoding="async" width="1600" height="1071">
+      </picture>
+      <figcaption>Der Südpark. Für Käufer, die gezielt in Marienburg suchen, ist die Nähe zu solchen Flächen ein eigenständiges Kriterium — im Bodenrichtwert von 2.100 Euro taucht sie nicht auf, denn der gilt für den ganzen Stadtteil gleich.</figcaption>
+    </figure>
+    </div>
+  </div>
+</section>
+<section class="section section--soft" id="kaeufer">
+  <div class="container">
+    <h2>Wer kauft in Marienburg?</h2>
+    <p class="prose">Bei Kaufpreisen, die schnell im siebenstelligen Bereich liegen, ist die Käufergruppe klein. Sie über Reichweite erreichen zu wollen, führt vor allem zu Besichtigungen mit Menschen, die nicht kaufen können. Deshalb ist die erste Frage nicht, wie viele Interessenten sich melden, sondern welche.</p>
+
+    <div class="mrb-gruppen">
+      <div class="mrb-gruppe">
+        <b>Familien mit Platzbedarf</b>
+        <span>Die größte Gruppe bei Häusern. Sie achten auf Grundriss, Garten, Schulwege und darauf, ob sich das Haus in Abschnitten modernisieren lässt. Für sie zählt der Zustand mehr als die Adresse.</span>
+      </div>
+      <div class="mrb-gruppe">
+        <b>Selbstständige und Freiberufler</b>
+        <span>Oft mit dem Wunsch, Wohnen und Arbeiten zu verbinden. Hier entscheidet der Zuschnitt: ein separater Eingang, ein Raum mit eigener Erschließung, Stellplätze für Besucher.</span>
+      </div>
+      <div class="mrb-gruppe">
+        <b>Käufer aus dem Umland und Zuzügler</b>
+        <span>Sie vergleichen Marienburg mit Bonner und Düsseldorfer Lagen. Für sie ist die Anbindung ein wichtiges Argument — und die Frage, wie ruhig die konkrete Straße tatsächlich ist.</span>
+      </div>
+      <div class="mrb-gruppe">
+        <b>Wer verkleinern möchte</b>
+        <span>Eigentümer, deren Haus zu groß geworden ist, und die im Viertel bleiben wollen. Für sie sind die Neubauwohnungen der Welle eine echte Alternative — was den Bestandsmarkt für große Wohnungen belebt.</span>
+      </div>
+    </div>
+
+    <p class="prose" style="margin-top:22px">Aus dieser Gruppe ergibt sich auch, wie vermarktet wird. Ein öffentliches Inserat erreicht alle — auch die, die nur schauen wollen. Bei Objekten, deren Eigentümer nicht öffentlich mit dem Verkauf in Verbindung gebracht werden möchten, ist die gezielte Ansprache vorgemerkter Interessenten oft der bessere Weg. Was davon passt, hängt vom Objekt und von Ihren Vorstellungen ab und wird vorher besprochen.</p>
+  </div>
+</section>
 <section class="section" id="spitzenlagen">
   <div class="container">
     <h2>Marienburg unter Kölns Spitzenlagen</h2>
@@ -490,7 +573,7 @@ document.documentElement.classList.add('js');
 </section>
 <section class="section" style="padding-top:0">
   <div class="container">
-    <p class="quelle-hinweis">Bildnachweis: <a href="https://commons.wikimedia.org/wiki/File:Unter_den_Ulmen_96,_K%C3%B6ln-Marienburg.jpg" target="_blank" rel="noopener noreferrer">Unter den Ulmen 96</a>: Severinus1970, <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a> &middot; <a href="https://commons.wikimedia.org/wiki/File:Unter_den_Ulmen,_2,_Marienburg,_K%C3%B6ln.jpg" target="_blank" rel="noopener noreferrer">Unter den Ulmen 2</a>: GeorgDerReisende, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>, beide über Wikimedia Commons. Marktdaten: Gutachterausschuss für Grundstückswerte in der Stadt Köln, BORIS NRW und Statistischer Datenkatalog der Stadt Köln. Angaben zum Projekt „Die Welle" nach Herstellerangaben des ausführenden Bauunternehmens.</p>
+    <p class="quelle-hinweis">Bildnachweis: <a href="https://commons.wikimedia.org/wiki/File:Unter_den_Ulmen_96,_K%C3%B6ln-Marienburg.jpg" target="_blank" rel="noopener noreferrer">Unter den Ulmen 96</a>: Severinus1970, <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a> &middot; <a href="https://commons.wikimedia.org/wiki/File:Unter_den_Ulmen,_2,_Marienburg,_K%C3%B6ln.jpg" target="_blank" rel="noopener noreferrer">Unter den Ulmen 2</a>: GeorgDerReisende, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>, &middot; <a href="https://commons.wikimedia.org/wiki/File:S%C3%BCdpark,_K%C3%B6ln-Marienburg.jpg" target="_blank" rel="noopener noreferrer">Südpark</a>: Severinus1970, <a href="https://creativecommons.org/licenses/by-sa/3.0" target="_blank" rel="noopener noreferrer">CC BY-SA 3.0</a>, alle über Wikimedia Commons. Marktdaten: Gutachterausschuss für Grundstückswerte in der Stadt Köln, BORIS NRW und Statistischer Datenkatalog der Stadt Köln. Angaben zum Projekt „Die Welle" nach Herstellerangaben des ausführenden Bauunternehmens.</p>
   </div>
 </section>
 <section class="section autorzeile-abschnitt"><div class="container">
@@ -655,7 +738,7 @@ document.documentElement.classList.add('js');
     </div>
   </div>
 </div>
-<script src="js/main.js?v=36" defer></script>
+<script src="js/main.js?v=37" defer></script>
 
 </body>
 </html>

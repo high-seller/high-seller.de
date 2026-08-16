@@ -1764,4 +1764,71 @@
     zeichnen("kreuznacher");
   })();
 
+  /* Bodenwert-Rechner (Marienburg) -------------------------------------
+     Rechnet ausschließlich mit dem amtlichen Bodenrichtwert von 2.100 Euro
+     je Quadratmeter — keine geschätzten Zu- oder Abschläge. Gezeigt wird,
+     was der Boden allein wert ist und wie er sich zum Wohnungspreis
+     verhält, denn genau daran scheitert der Quadratmeterpreis bei
+     Villengrundstücken. */
+  (function () {
+    var wurzel = $("[data-mrb-boden]");
+    if (!wurzel) return;
+
+    var BRW = 2100;        // BORIS NRW, Stichtag 1.1.2026, eine Zone
+    var WOHNUNG = 5684;    // Median Weiterverkauf Eigentumswohnungen 2025
+
+    var regler = $("[data-mrb-flaeche]", wurzel);
+    var wohnRegler = $("[data-mrb-wohnflaeche]", wurzel);
+    var anzeigeGrund = $("[data-mrb-anzeige-grund]", wurzel);
+    var anzeigeWohn = $("[data-mrb-anzeige-wohn]", wurzel);
+    var ausgabe = $("[data-mrb-ausgabe]", wurzel);
+
+    function euro(n) {
+      return Math.round(n).toLocaleString("de-DE") + " €";
+    }
+
+    function rechnen() {
+      var grund = parseInt(regler.value, 10);
+      var wohn = parseInt(wohnRegler.value, 10);
+      var bodenwert = grund * BRW;
+      var jeWohnflaeche = bodenwert / wohn;
+      var wohnwert = wohn * WOHNUNG;
+      var anteil = bodenwert / wohnwert * 100;
+
+      anzeigeGrund.textContent = grund.toLocaleString("de-DE") + " m²";
+      anzeigeWohn.textContent = wohn.toLocaleString("de-DE") + " m²";
+
+      var satz;
+      if (anteil >= 100) {
+        satz = "Der Boden allein ist damit <b>mehr wert</b> als die gesamte Wohnfläche "
+             + "zum Kölner Wohnungspreis — ein Quadratmeterpreis für Wohnungen taugt "
+             + "hier als Maßstab nicht.";
+      } else if (anteil >= 60) {
+        satz = "Der Boden macht damit <b>" + Math.round(anteil) + " Prozent</b> dessen aus, "
+             + "was dieselbe Fläche als Eigentumswohnung kosten würde. Das Gebäude ist "
+             + "der kleinere Teil der Rechnung.";
+      } else {
+        satz = "Der Boden macht damit <b>" + Math.round(anteil) + " Prozent</b> dessen aus, "
+             + "was dieselbe Fläche als Eigentumswohnung kosten würde — hier trägt das "
+             + "Gebäude den größeren Teil.";
+      }
+
+      ausgabe.innerHTML =
+        '<p class="mrb-boden__gross">' + euro(bodenwert) + '</p>' +
+        '<p class="mrb-boden__was">reiner Bodenwert bei ' + BRW.toLocaleString("de-DE") +
+        ' € je m² Grundstück</p>' +
+        '<div class="mrb-boden__zeilen">' +
+          '<p><span>Je m² Wohnfläche entfallen auf den Boden</span><b>' +
+            euro(jeWohnflaeche) + '</b></p>' +
+          '<p><span>' + wohn + ' m² zum Kölner Wohnungspreis (5.684 €/m²)</span><b>' +
+            euro(wohnwert) + '</b></p>' +
+        '</div>' +
+        '<p class="mrb-boden__satz">' + satz + '</p>';
+    }
+
+    on(regler, "input", rechnen);
+    on(wohnRegler, "input", rechnen);
+    rechnen();
+  })();
+
 })();

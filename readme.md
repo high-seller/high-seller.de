@@ -1,4 +1,49 @@
-# Highseller Immobilien & Finanzen — Website (Stand v59)
+# Highseller Immobilien & Finanzen — Website (Stand v60)
+
+## Was in v60 umgesetzt wurde
+
+### Marienburg auf das Niveau der übrigen Seiten gebracht
+
+Marienburg war nach dem ersten Ausbau die schwächste der ausgebauten Seiten:
+1.757 Wörter gegen 2.219 bei Raderthal, nur zwei Bilder statt vier — und als
+einzige **ohne bedienbares Element**. Raderthal hat den Unterlagen-Prüfer,
+Raderberg den Mikrolagen-Wähler; hier fehlte das Gegenstück.
+
+Jetzt: **2.334 Wörter, 116 Zahlen, 28 Geldangaben, vier Bilder** — und ein
+Rechner, der genau zur Kernaussage der Seite passt.
+
+**Der Bodenwert-Rechner.** Zwei Schieberegler für Grundstücks- und
+Wohnfläche, gerechnet wird ausschließlich mit dem amtlichen Bodenrichtwert von
+2.100 Euro und dem Median der Kölner Wohnungsverkäufe — keine geschätzten
+Faktoren. Ausgegeben werden der reine Bodenwert, der Anteil je Quadratmeter
+Wohnfläche und ein Satz, der sich mitverändert: Bei 700 m² Grundstück und
+250 m² Wohnfläche ist der Boden allein mehr wert als die gesamte Wohnfläche
+zum Wohnungspreis. Bei 400 m² sind es 59 Prozent. Der Fußtext sagt
+ausdrücklich, dass das **keine Bewertung** ist und was in der Rechnung fehlt.
+
+**Zwei neue Kapitel.** Denkmalschutz — als Gegenüberstellung von
+Einschränkungen (Erlaubnispflicht, aufwendigere energetische Modernisierung,
+Ensembleschutz) und Wert (erhöhte Absetzung nach §§ 7i und 10f EStG, nicht
+nachbaubare Substanz, gesichertes Umfeld). Und die Käufergruppen, weil bei
+siebenstelligen Kaufpreisen nicht die Zahl der Anfragen zählt, sondern welche.
+
+**Viertes Bild:** der Südpark, die Lage, die in Baris' Vorlage ausdrücklich
+vorkommt.
+
+### Ein Strukturfehler beim Einbau — gefunden und behoben
+
+Beim Einfügen des vierten Bildes wurde ein zusätzliches `</div></section>`
+gesetzt, obwohl der Abschnitt an dieser Stelle bereits geschlossen war.
+Ergebnis: 14 öffnende gegen 15 schließende `section`-Tags und ein Bild, das
+zwischen zwei Abschnitten hing. Die Tag-Balance-Prüfung nach jedem Einbau hat
+das sofort gezeigt — ohne sie wäre es live gegangen. **Nach jedem
+Skript-Einbau die Tags zählen, nicht nur die Seite ansehen.**
+
+**Geprüft:** Lighthouse mobil 100/100/100/100 (59 bestandene Prüfungen), alle
+vier Reglerstellungen des Rechners durchgerechnet, Tag-Balance über neun
+Elementtypen, alle sieben Sprungziele auf Existenz geprüft.
+
+**Cache-Buster:** `styles.css?v=75` und `main.js?v=37` auf allen 231 Seiten.
 
 ## Was in v59 umgesetzt wurde
 

@@ -4143,3 +4143,60 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 .mrb-cta__knoepfe{display:flex;flex-wrap:wrap;gap:11px;margin:20px 0 0}
 .mrb-cta__tel{margin:16px 0 0;font-size:.9rem;color:var(--slate-2)}
 .mrb-cta__tel a{font-weight:700;color:var(--ink)}
+
+/* v60 — Marienburg: Bodenwert-Rechner, Denkmalschutz, Käufergruppen -------- */
+.mrb-boden{margin:22px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:#fff;padding:20px 20px 22px}
+.mrb-boden__regler{margin-bottom:18px}
+.mrb-boden__regler label{display:flex;justify-content:space-between;align-items:baseline;
+  gap:12px;font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:9px}
+.mrb-boden__regler output{font-family:var(--f-display);font-size:1.05rem;font-weight:800;
+  color:#2F6B4F}
+.mrb-boden input[type=range]{width:100%;height:36px;appearance:none;background:none;
+  cursor:pointer}
+.mrb-boden input[type=range]::-webkit-slider-runnable-track{height:6px;border-radius:3px;
+  background:linear-gradient(90deg,#2F6B4F,#8FC4A8)}
+.mrb-boden input[type=range]::-moz-range-track{height:6px;border-radius:3px;
+  background:linear-gradient(90deg,#2F6B4F,#8FC4A8)}
+.mrb-boden input[type=range]::-webkit-slider-thumb{appearance:none;width:26px;height:26px;
+  border-radius:50%;background:#fff;border:3px solid #2F6B4F;margin-top:-10px;
+  box-shadow:var(--shadow-sm)}
+.mrb-boden input[type=range]::-moz-range-thumb{width:26px;height:26px;border-radius:50%;
+  background:#fff;border:3px solid #2F6B4F;box-shadow:var(--shadow-sm)}
+.mrb-boden input[type=range]:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.mrb-boden__ausgabe{margin-top:4px;padding:18px 18px 16px;border-radius:var(--radius-sm);
+  background:linear-gradient(168deg,#F3F8F5,#E9F2ED);border:1px solid #CFE2D7}
+.mrb-boden__gross{margin:0;font-family:var(--f-display);
+  font-size:clamp(1.7rem,6vw,2.2rem);font-weight:800;line-height:1;color:#1C3328}
+.mrb-boden__was{margin:7px 0 15px;font-size:.86rem;color:var(--slate-2);line-height:1.45}
+.mrb-boden__zeilen{display:grid;gap:8px;margin-bottom:14px}
+.mrb-boden__zeilen p{display:flex;justify-content:space-between;align-items:baseline;
+  gap:14px;margin:0;padding-bottom:8px;border-bottom:1px solid rgba(28,51,40,.1)}
+.mrb-boden__zeilen span{font-size:.87rem;color:var(--body);line-height:1.4}
+.mrb-boden__zeilen b{font-family:var(--f-display);font-size:1rem;color:var(--ink);
+  white-space:nowrap}
+.mrb-boden__satz{margin:0;font-size:.9rem;line-height:1.6;color:var(--ink)}
+.mrb-boden__fuss{margin:15px 0 0;font-size:.82rem;line-height:1.55;color:var(--slate-2)}
+
+/* Denkmalschutz */
+.mrb-denkmal{display:grid;gap:13px;margin:22px 0 0}
+@media(min-width:820px){.mrb-denkmal{grid-template-columns:1fr 1fr}}
+.mrb-denkmal__seite{border:1px solid var(--border);border-radius:var(--radius);
+  padding:19px 20px;background:#fff;min-width:0}
+.mrb-denkmal__seite--plus{border-color:#BFDCC9;
+  background:linear-gradient(168deg,#F4FAF6,#EAF4EE)}
+.mrb-denkmal__seite h3{margin:0 0 13px;font-size:1.05rem}
+.mrb-denkmal__liste{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.mrb-denkmal__liste li{position:relative;padding-left:21px;font-size:.9rem;
+  line-height:1.55;color:var(--body)}
+.mrb-denkmal__liste li::before{content:"";position:absolute;left:2px;top:.55em;
+  width:8px;height:8px;border-radius:50%;background:#2F6B4F;opacity:.5}
+.mrb-denkmal__seite--plus .mrb-denkmal__liste li::before{opacity:1}
+
+/* Käufergruppen */
+.mrb-gruppen{display:grid;gap:12px;margin:22px 0 0}
+@media(min-width:700px){.mrb-gruppen{grid-template-columns:1fr 1fr}}
+.mrb-gruppe{border-left:3px solid #2F6B4F;padding:3px 0 3px 16px;min-width:0}
+.mrb-gruppe b{display:block;font-family:var(--f-display);font-size:1.02rem;
+  color:var(--ink);margin-bottom:6px}
+.mrb-gruppe span{display:block;font-size:.89rem;line-height:1.6;color:var(--body)}
