@@ -1,4 +1,53 @@
-# Highseller Immobilien & Finanzen — Website (Stand v60)
+# Highseller Immobilien & Finanzen — Website (Stand v61)
+
+## Was in v61 umgesetzt wurde
+
+### 238 Fragen, die sichtbar auf der Website standen, aber für Suchmaschinen unsichtbar waren
+
+Beim Vergleich der Veedelseiten fiel auf, dass mehrere Seiten Fragen und
+Antworten im Text tragen, ohne dass diese im strukturierten Datensatz
+auftauchen. Die Prüfung über alle 233 Seiten ergab: **Nur 22 Seiten hatten
+überhaupt ein FAQPage-Schema**, obwohl 87 Seiten sichtbare FAQ-Bereiche haben.
+
+Für Leser macht das keinen Unterschied. Für Suchmaschinen entfällt damit die
+Chance auf erweiterte Suchergebnisse, in denen die Fragen direkt unter dem
+Treffer erscheinen — bei einer Website, deren Stärke Fachfragen sind, ein
+erheblicher Verlust.
+
+Neu ist `tools/faq-schema-pflegen.py`. Es liest die sichtbaren Fragen in den
+**drei Bauarten**, die auf der Website vorkommen, und schreibt sie ins Schema:
+
+- `<details class="faq-item">` mit `<summary>` — die neueren Veedelseiten
+- `<dl>` mit `<dt>`/`<dd>` — die Themenseiten
+- `<h3>` mit Folgeabsätzen — Deutz, Sülz, Zollstock
+
+Ergebnis: **87 Seiten mit FAQPage statt 22, 260 Fragen im Schema**, davon 254
+verschiedene. Keine Frage steht auf mehr als drei Seiten — die FAQ sind
+durchgehend seitenspezifisch, es entsteht kein Duplikat.
+
+### Zwei Fehler beim ersten Anlauf — beide gefunden, bevor sie live gingen
+
+**1. Zwischenüberschriften als Fragen.** Der erste Parser übernahm alles, was
+als `<h3>` in einem FAQ-Abschnitt stand — auch „Was wir übernehmen" und
+„Makler und Finanzierer in einem". Auf 60 Seiten wären damit 240 falsche
+Einträge ins Schema gewandert. Für Suchmaschinen ist eine irreführende
+Auszeichnung schlechter als gar keine. Der Lauf wurde zurückgerollt und das
+Werkzeug um eine Prüfung ergänzt: **Nur was auf ein Fragezeichen endet, gilt
+als Frage.**
+
+**2. Zwei FAQPage-Knoten auf einer Seite.** Marienburg trug bereits einen
+eigenständigen FAQPage-Block mit zwei alten Fragen; beim Ausbau kam ein
+zweiter im `@graph`-Knoten hinzu. Zwei Auszeichnungen sind kein doppelter
+Nutzen — für Suchmaschinen ist dann nicht bestimmt, welche gilt. Der alte
+Block ist entfernt, und das Werkzeug meldet solche Doppelungen jetzt
+ausdrücklich.
+
+**Geprüft:** JSON aller 233 Seiten auf Gültigkeit, Tag-Balance über sechs
+Elementtypen auf allen 68 geänderten Seiten, keine Seite mit mehr als einem
+FAQPage-Knoten, Stichprobe der Schemainhalte gegen den sichtbaren Text,
+Lighthouse mobil 100/100/100/100.
+
+**Cache-Buster:** `styles.css?v=76` auf allen 231 Seiten.
 
 ## Was in v60 umgesetzt wurde
 
