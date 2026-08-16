@@ -3676,7 +3676,14 @@ a.trustline__i:hover,a.trustline__i:focus-visible{background:var(--gold-soft)}
 .hinweis-box a:not(.btn),
 .prose a:not(.btn),
 .mb-gegen__karte a:not(.btn),
-.klett-art__spanne a:not(.btn){
+.klett-art__spanne a:not(.btn),
+/* Bildunterschriften und Quellenzeilen tragen regelmäßig Verweise auf
+   Quellen und Nachbarseiten. Ohne Unterstreichung heben sie sich nur durch
+   ihre Farbe ab — auf der Raderberg-Seite gemessene 2,1:1 gegen den
+   umgebenden Text, gefordert sind 3:1 (WCAG 1.4.1). */
+figcaption a:not(.btn),
+.quellenzeile a:not(.btn),
+.quelle-hinweis a:not(.btn){
   text-decoration:underline;text-underline-offset:2px}
 
 /* ==========================================================================
