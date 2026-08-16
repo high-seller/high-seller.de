@@ -1,4 +1,75 @@
-# Highseller Immobilien & Finanzen — Website (Stand v57)
+# Highseller Immobilien & Finanzen — Website (Stand v58)
+
+## Was in v58 umgesetzt wurde
+
+### Raderberg vertieft — jetzt die stärkste Veedelseite
+
+Die Seite war nach ihrem ersten Ausbau messbar schwächer als die älteren:
+1.970 Wörter gegen 2.000 bis 2.800, 65 Zahlen gegen 90 bis 158 und nur acht
+Geldangaben gegen 26 bis 37. Jetzt steht sie mit **2.968 Wörtern, 128 Zahlen
+und 30 Geldangaben** an der Spitze aller acht ausgebauten Seiten — vor Deutz.
+
+**Die Parkstadt Süd bekommt ein eigenes Kapitel mit belegten Zahlen** — und
+mit dem Punkt, den Werbetexte auslassen: Das Vorhaben ist **noch nicht
+beschlossen, sondern in Planung**. Der Aufstellungsbeschluss datiert vom
+7. November 2024, die frühzeitige Öffentlichkeitsbeteiligung lief vom
+26. Februar bis 21. März 2025. Belegt sind außerdem 115 Hektar Planungsgebiet,
+46 Hektar im laufenden Bebauungsplan, rund 3.400 Wohneinheiten für etwa 7.700
+Menschen, 4.300 Arbeitsplätze und über 30 Hektar Zuwachs für den Inneren
+Grüngürtel.
+
+Daraus folgt die **Drei-Phasen-Darstellung**, die den eigentlichen Wert der
+Seite ausmacht: Heute ist die Fläche Planungsgebiet und ein Käufer zahlt für
+Ankündigungen nichts. In der Bauphase prägen Baustellenverkehr und Lärm das
+Umfeld — die schwierigste Zeit für einen Verkauf in unmittelbarer Nähe. Nach
+Fertigstellung ist die Infrastruktur da, aber Tausende neue Wohnungen stehen
+im Wettbewerb. Das ist die ehrliche Antwort auf die Frage, ob die Parkstadt
+Süd gut für den eigenen Verkaufspreis ist, und sie lautet: kommt darauf an,
+wann.
+
+**Neu ist auch der Vergleich der drei betroffenen Stadtteile.** Das Plangebiet
+liegt in Zollstock, Raderberg und Bayenthal — und die stehen wirtschaftlich
+weit auseinander: Bayenthal hat mit 2.830 € fast den doppelten Bodenrichtwert
+Raderbergs, aber nur 16 Prozent höhere Wohnungspreise. Zollstock ist mit
+23.729 Einwohnern und 338 fertigen Wohnungen 2025 das Volumen, mit dem
+Raderberger Verkäufer konkurrieren.
+
+**Die greifbarste Zahl der Seite:** Wer in Raderberg 500.000 Euro ausgibt,
+bekommt im Bestand rund 98 Quadratmeter — im Neubau nur 68. Dazu kommen
+Rechenbeispiele für 60, 80 und 100 Quadratmeter sowie eine Überschlagsrechnung
+zum Bodenanteil am Kaufpreis (15 bis 25 Prozent je nach Bebauungsdichte).
+
+### Sprungnavigation auf den beiden langen Seiten
+
+Raderberg war auf **22 Bildschirmhöhen** gewachsen — ohne Navigation heißt das
+für Leser: scrollen, bis man findet, was man sucht, oder aufgeben. Die
+`.jumpbar` existierte bereits vollständig (sticky, mit Markierung des aktiven
+Abschnitts), wurde aber nur auf der Startseite verwendet. Sie steht jetzt auch
+auf Raderberg und Raderthal, jeweils mit sechs Zielen und bewusst **hinter**
+dem Aufmacher, damit der Kopf unverstellt bleibt.
+
+**Auf den sechs älteren Veedelseiten geht das noch nicht:** Deutz und Zollstock
+haben gar keine Abschnitts-IDs, Sülz eine, Ehrenfeld und Klettenberg je drei,
+Lindenthal vier. Dort wäre erst eine Strukturierung nötig — ein eigener
+Arbeitsschritt.
+
+### Was nicht möglich war
+
+Eine Karte, wie sie die sechs älteren Veedelseiten haben, ließ sich nicht
+bauen. Die BORIS-Rohdaten liegen nicht im Worktree (400 MB, in `.gitignore`),
+und weder opengeodata.nrw.de noch die OSM-Hauptschnittstelle noch das
+Geoportal der Stadt Köln waren aus dieser Umgebung erreichbar. Eine nach
+Augenmaß gezeichnete Karte wäre schlechter als keine — dieser Fehler ist bei
+Deutz schon einmal gemacht worden. Der Ausbau ging deshalb in Daten und
+Recherche statt in Geometrie.
+
+**Geprüft:** Lighthouse mobil 100/100/100/100 auf beiden Seiten (Raderberg
+jetzt 59 statt 56 bestandene Prüfungen), kein seitlicher Überlauf,
+Kollisionsprüfung aller Diagrammbeschriftungen, Sprungleiste auf Kleben und
+aktive Markierung getestet.
+
+**Cache-Buster:** `styles.css?v=70` auf allen 231 Seiten (`main.js` unverändert
+bei v=36).
 
 ## Was in v57 umgesetzt wurde
 

@@ -3997,3 +3997,47 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 .rb-cta__knoepfe{display:flex;flex-wrap:wrap;gap:11px;margin:20px 0 0}
 .rb-cta__tel{margin:16px 0 0;font-size:.9rem;color:var(--slate-2)}
 .rb-cta__tel a{font-weight:700;color:var(--ink)}
+
+/* v57b — Raderberg: Parkstadt-Fakten, Zeitphasen, Stadtteilvergleich ------ */
+.rb-fakten{display:grid;gap:12px;margin:22px 0 0}
+@media(min-width:620px){.rb-fakten{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.rb-fakten{grid-template-columns:repeat(4,1fr)}}
+.rb-fakt{border:1px solid var(--border);border-radius:var(--radius);padding:17px 18px;
+  background:#fff;min-width:0}
+.rb-fakt b{display:block;font-family:var(--f-display);font-size:1.5rem;font-weight:800;
+  line-height:1;color:#7B2D1F;margin-bottom:7px}
+.rb-fakt span{display:block;font-size:.9rem;color:var(--ink);line-height:1.45}
+.rb-fakt small{display:block;margin-top:6px;font-size:.8rem;color:var(--slate-2);line-height:1.45}
+
+/* Drei Phasen des Projekts */
+.rb-zeit{display:grid;gap:12px;margin:22px 0 0;counter-reset:ph}
+@media(min-width:860px){.rb-zeit{grid-template-columns:repeat(3,1fr)}}
+.rb-zeit__stufe{counter-increment:ph;position:relative;border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px 19px;background:#fff;min-width:0}
+.rb-zeit__stufe--mitte{border-color:#E0B4A6;background:linear-gradient(168deg,#FDF6F3,#FBEDE7)}
+.rb-zeit__wann{margin:0 0 10px;font-family:var(--f-display);font-size:1.02rem;
+  font-weight:800;color:var(--ink);padding-left:30px;position:relative;line-height:1.3}
+.rb-zeit__wann::before{content:counter(ph);position:absolute;left:0;top:-1px;
+  width:22px;height:22px;border-radius:50%;background:#7B2D1F;color:#fff;
+  font-size:.78rem;display:grid;place-items:center;font-weight:700}
+.rb-zeit__was{margin:0;font-size:.9rem;line-height:1.6;color:var(--body)}
+
+/* Vergleichsdiagramm */
+.rb-vgl-rahmen{margin:22px 0 0;padding:0;border:1px solid var(--border);
+  border-radius:var(--radius);background:#fff;overflow:hidden}
+.rb-vgl{display:block;width:100%;height:auto;padding:6px 0 0}
+.rb-vgl-rahmen figcaption{margin:0;padding:12px 18px 14px;font-size:.83rem;
+  line-height:1.55;color:var(--slate-2);border-top:1px solid var(--border);
+  background:var(--bg-soft)}
+.rb-vgl__achse{font-family:var(--f-body);font-size:14px;fill:var(--slate-2)}
+.rb-vgl__wert{font-family:var(--f-display);font-size:15px;font-weight:700;fill:var(--navy)}
+.rb-vgl__ort{font-family:var(--f-display);font-size:17px;font-weight:700;fill:var(--ink)}
+.rb-vgl__einw{font-family:var(--f-body);font-size:13px;fill:var(--slate-2)}
+.rb-vgl__legende{font-family:var(--f-body);font-size:13px;fill:var(--body)}
+@media(max-width:640px){
+  .rb-vgl__achse{font-size:16px}
+  .rb-vgl__wert{font-size:17px}
+  .rb-vgl__ort{font-size:19px}
+  .rb-vgl__einw{font-size:15px}
+  .rb-vgl__legende{font-size:14px}
+}
