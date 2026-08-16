@@ -1681,4 +1681,87 @@
     zeichnen("haus");
   })();
 
+  /* Mikrolagen-Wähler (Raderberg) --------------------------------------
+     Macht den zentralen Gedanken bedienbar: Käufer erleben keine
+     Durchschnittslage. Je Straße zeigt die Tafel, welche Eigenschaften dort
+     über den Preis entscheiden und welche Käufergruppe zuerst hinschaut. */
+  (function () {
+    var wurzel = $("[data-rb-lagen]");
+    if (!wurzel) return;
+
+    var LAGEN = {
+      kreuznacher: {
+        name: "Kreuznacher Straße",
+        lage: "Am westlichen Rand Raderbergs, nah am Vorgebirgspark.",
+        zaehlt: ["Entfernung zum Park in Gehminuten",
+                 "Ruhe der Straße zu unterschiedlichen Tageszeiten",
+                 "Balkon oder Terrasse zur begrünten Seite",
+                 "Stellplatzsituation im Umfeld"],
+        kaeufer: "Menschen, denen Grün im Alltag wichtig ist: Familien, Hundehaltende, Ältere mit festen Wegen.",
+        hinweis: "Hier ist die Nähe zur Grünfläche ein eigenständiges Verkaufsargument — sie gehört ins Exposé, nicht in den Nebensatz."
+      },
+      bruehler: {
+        name: "Brühler Straße",
+        lage: "Verkehrsgeprägte Hauptachse mit direkter Anbindung.",
+        zaehlt: ["Lage der Wohnung im Gebäude — vorn oder rückwärtig",
+                 "Ausrichtung von Schlafräumen und Balkon",
+                 "Schallschutz der Fenster, Baujahr und Nachrüstung",
+                 "Garage oder fester Stellplatz"],
+        kaeufer: "Pendelnde und Kapitalanlegende, für die Anbindung und Vermietbarkeit zählen.",
+        hinweis: "Eine rückwärtig ausgerichtete Wohnung an einer Hauptstraße ist etwas völlig anderes als eine zur Straße hin — dieser Unterschied entscheidet über den Preis und muss aktiv gezeigt werden."
+      },
+      mannsfelder: {
+        name: "Mannsfelder Straße",
+        lage: "Wohnstraße im gewachsenen Teil des Stadtteils.",
+        zaehlt: ["Etage und Vorhandensein eines Aufzugs",
+                 "Grundriss und Schnitt der Räume",
+                 "Ausrichtung von Balkon und Wohnräumen",
+                 "Zustand des Gemeinschaftseigentums und Erhaltungsrücklage"],
+        kaeufer: "Selbstnutzende, die in der Nachbarschaft bleiben oder aus einem größeren Objekt verkleinern wollen.",
+        hinweis: "In gewachsenen Wohnlagen entscheidet das Gebäude mit: Wirtschaftsplan, Rücklage und beschlossene Maßnahmen prüfen Käufer genau."
+      },
+      raderberger: {
+        name: "Raderberger Straße",
+        lage: "Zentrale Achse Richtung Innenstadt und Grüngürtel.",
+        zaehlt: ["Nähe zu Nahversorgung und Haltestellen",
+                 "Wie sich die Umgebung durch die Parkstadt Süd verändert",
+                 "Zuschnitt und Nutzbarkeit bei Häusern und Grundstücken",
+                 "Bestehende Bebauung im direkten Umfeld"],
+        kaeufer: "Käufer, die auf die Entwicklung des Stadtteils setzen — und solche, die deshalb zögern.",
+        hinweis: "Hier ist die Stadtentwicklung tatsächlich ein Thema im Verkaufsgespräch. Sie sollte belegt angesprochen werden, nicht als Werbeversprechen."
+      }
+    };
+
+    var tafel = $("[data-rb-tafel]", wurzel);
+    var knoepfe = $$(".rb-lagen__knopf", wurzel);
+
+    function zeichnen(schluessel) {
+      var l = LAGEN[schluessel];
+      if (!l) return;
+      tafel.innerHTML =
+        '<p class="rb-lagen__ort">' + l.name + '</p>' +
+        '<p class="rb-lagen__lage">' + l.lage + '</p>' +
+        '<p class="rb-lagen__titel">Was hier über den Preis entscheidet</p>' +
+        '<ul class="rb-lagen__liste">' +
+          l.zaehlt.map(function (z) { return "<li>" + z + "</li>"; }).join("") +
+        '</ul>' +
+        '<p class="rb-lagen__titel">Wer zuerst hinschaut</p>' +
+        '<p class="rb-lagen__kaeufer">' + l.kaeufer + '</p>' +
+        '<p class="rb-lagen__hinweis">' + l.hinweis + '</p>';
+    }
+
+    knoepfe.forEach(function (b) {
+      on(b, "click", function () {
+        knoepfe.forEach(function (o) {
+          var aktiv = o === b;
+          o.classList.toggle("is-aktiv", aktiv);
+          o.setAttribute("aria-pressed", aktiv ? "true" : "false");
+        });
+        zeichnen(b.getAttribute("data-lage"));
+      });
+    });
+
+    zeichnen("kreuznacher");
+  })();
+
 })();

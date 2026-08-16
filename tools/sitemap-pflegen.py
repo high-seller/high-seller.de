@@ -38,6 +38,7 @@ UEBERARBEITET = {
     "immobilienmakler-koeln-lindenthal.html":  ("2026-08-14", "0.8"),
     "immobilienmakler-koeln-klettenberg.html": ("2026-08-15", "0.8"),
     "immobilienmakler-koeln-raderthal.html":   ("2026-08-16", "0.8"),
+    "immobilienmakler-koeln-raderberg.html":   ("2026-08-16", "0.8"),
     "immobilienmarktbericht-koeln-2026.html":  ("2026-08-16", "0.9"),
 }
 

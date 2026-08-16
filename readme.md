@@ -1,4 +1,84 @@
-# Highseller Immobilien & Finanzen — Website (Stand v56)
+# Highseller Immobilien & Finanzen — Website (Stand v57)
+
+## Was in v57 umgesetzt wurde
+
+### Köln-Raderberg ausgebaut
+
+Achte Veedelseite, **682 auf 1.902 Wörter** redaktionellen Text.
+Eigenwiederholung 10,9 → **0,0 %**, Bausteinanteil 23 → **3 %**, Bilder 1 → 3.
+Grundlage waren fünf Textvorlagen von Baris, verdichtet statt übernommen.
+
+**Der Aufhänger ist für Köln einzigartig.** Raderberg hat 2025 insgesamt
+**234 Wohnungen fertiggestellt** — bei 3.990 Bestandswohnungen sind das 5,86
+Prozent Zuwachs in einem einzigen Jahr und **Rang 3 unter allen 87 Kölner
+Stadtteilen** (hinter Marienburg und Elsdorf). Und der große Teil kommt erst:
+Die Parkstadt Süd bringt ab 2030 über 3.000 Wohneinheiten, wodurch Raderberg
+laut amtlicher Vorausberechnung bis 2035 **seine Bevölkerung verdoppelt**.
+
+Die ehrliche Einordnung dieser Zahl trägt die Seite — und sie stammt aus
+Baris' eigenem Text: „Aus einer großen Stadtentwicklung lässt sich nicht
+automatisch der Wert Ihrer einzelnen Immobilie ableiten." Genau so steht es
+dort: Wer 2030 verkauft, konkurriert mit Tausenden neuen Wohnungen, die genau
+die Käufer ansprechen, die Erstbezug und aktuellen Energiestandard suchen. Die
+Parkstadt Süd ist für Eigentümer deshalb vor allem ein **Grund, den
+Verkaufszeitpunkt bewusst zu wählen** — keine pauschal gute Nachricht.
+
+**Zweiter Befund:** Der Abstand zwischen Neubau (7.309 €/m²) und Bestand
+(5.113 €/m²) beträgt in Raderberg nur 43 Prozent. Für Kölner Verhältnisse ist
+das gering — Junkersdorf liegt bei 130 Prozent, Brück bei 114. Der Bestand ist
+hier also gut bewertet und gilt Käufern als eigenständige Alternative, nicht
+als billigere Notlösung.
+
+**Blickfang ist ein Mikrolagen-Wähler** über die vier Straßen aus Baris'
+Vorlage: Kreuznacher, Brühler, Mannsfelder und Raderberger Straße. Je Lage
+zeigt er, welche Eigenschaften dort über den Preis entscheiden, welche
+Käufergruppe zuerst hinschaut und was daraus für die Vermarktung folgt. Damit
+wird sein Kerngedanke bedienbar: Käufer erleben keine Durchschnittslage.
+
+### Ein SEO-Fehler in beiden Wählern behoben
+
+Der Unterlagen-Prüfer (Raderthal) und der Mikrolagen-Wähler (Raderberg) bauten
+ihren Inhalt **ausschließlich per JavaScript** auf. Im ausgelieferten HTML
+standen nur die Knöpfe. Für Leser funktioniert das, für Suchmaschinen ist es
+schlechter: Google rendert JavaScript zwar, aber verzögert und ohne Garantie —
+Inhalt, der ranken soll, gehört ins Markup.
+
+Beide Elemente liefern jetzt ihre erste Ansicht direkt im HTML aus; das Skript
+überschreibt sie beim ersten Klick. Für Raderthal sind das zehn Unterlagen mit
+Herkunft, für Raderberg die vollständige Tafel zur Kreuznacher Straße. Die
+Darstellung ändert sich nicht, nur der Auslieferungszustand.
+
+### Sichtbarkeitswerkzeuge vervollständigt
+
+`tools/fusszeile-standorte.py` liegt jetzt im Repo (vorher nur im
+Arbeitsverzeichnis) und leitet seinen Pfad selbst ab. Zusammen mit
+`tools/sitemap-pflegen.py` sind damit beide Schritte nach jeder Überarbeitung
+wiederholbar:
+
+    python3 tools/sitemap-pflegen.py        # lastmod und priority
+    python3 tools/fusszeile-standorte.py    # interne Verlinkung
+    python3 tools/autorschaft-pflegen.py    # sichtbares Datum
+
+Alle acht ausgebauten Seiten sind jetzt von 230 Seiten verlinkt und stehen auf
+`priority 0.8`.
+
+### Eine Falle bei dieser Seite
+
+**Ein flacher Balken trägt keine zwei Textzeilen.** In der Bautreppe standen
+Zahl und Beschreibung übereinander im Balken. Beim niedrigsten Balken (234
+Wohnungen, 30 Prozent der Höhe) reichte der Platz nicht, und die
+Beschriftungen überlappten — sichtbar erst in der Kollisionsprüfung am
+gerenderten SVG, nicht im Stylesheet. Jetzt steht nur die Zahl im Balken,
+alles Weitere darunter.
+
+**Nicht übernommen:** die „rund 750 Banken" aus den Vorlagen (unbelegt,
+§ 5a UWG — diesmal viermal genannt).
+
+**Geprüft:** Lighthouse mobil 100/100/100/100 auf Raderberg und Raderthal,
+kein seitlicher Überlauf, alle vier Lagen des Wählers durchgeklickt,
+Startansicht im HTML gegen das Skript geprüft.
+
+**Cache-Buster:** `styles.css?v=69` und `main.js?v=36` auf allen 231 Seiten.
 
 ## Was in v56 umgesetzt wurde
 
