@@ -42,11 +42,19 @@ und 4,04 % brutto (über dem Kölner Mittel von 3,80 %), Klettenberg 30,3 und
 Kapitalanleger eine ernsthafte Zielgruppe, in Klettenberg kaufen überwiegend
 Selbstnutzer, die nicht die Rendite bezahlen, sondern den Stadtteil.
 
+### Raderthal: viertes Bild
+
+Raderthal war die einzige der neun Seiten mit nur drei Bildern. Ergänzt ist das
+**Naturtheater im Fritz-Encke-Volkspark** — die kreisrunde Grasarena mit
+Sitzstufen aus den 1920er Jahren. Der Bezug ist unmittelbar: Die
+Volksparksiedlung, die den Aufmacher der Seite trägt, verdankt dem Park ihren
+Namen und ihren Baumbestand (Willy Horsch, CC BY 2.5).
+
 **Geprüft:** Tag-Balance über fünf Elementtypen, alle Sprungziele auf Existenz,
 keine doppelten IDs, Lighthouse mobil 100/100/100/100 auf beiden Seiten,
 FAQ-Schema unverändert stimmig (81 Seiten).
 
-**Cache-Buster:** `styles.css?v=78` auf allen 231 Seiten.
+**Cache-Buster:** `styles.css?v=79` auf allen 231 Seiten.
 
 ## Was in v62 umgesetzt wurde
 
