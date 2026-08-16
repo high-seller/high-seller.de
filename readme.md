@@ -1,4 +1,72 @@
-# Highseller Immobilien & Finanzen — Website (Stand v63)
+# Highseller Immobilien & Finanzen — Website (Stand v64)
+
+## Was in v64 umgesetzt wurde
+
+### Köln-Hahnwald — bewusst anders gebaut
+
+Phillip hat angemerkt, dass die Veedelseiten sich zu ähnlich werden. Zu Recht:
+Zuletzt hatten alle denselben Bauplan aus Kennzahlen-Kacheln, Diagramm,
+bedienbarem Element und Tabellen. Hahnwald bekommt deshalb eine andere Machart,
+die zugleich besser zum Segment passt.
+
+**Die ganze Seite ist als Frage-Antwort-Folge gebaut.** Jede Überschrift ist
+eine Frage — so sind auch Baris' fünf Vorlagen geschrieben. Das ersetzt den
+FAQ-Block am Ende und liefert nebenbei das FAQPage-Schema mit sechs echten
+Fragen direkt aus der Seitenstruktur.
+
+**Eine einzige Grafik statt mehrerer:** die Spanne der zehn tatsächlichen
+Hausverkäufe. Sie trägt die Kernaussage allein. Dazu eine schmalere
+Textspalte, keine Farbflächen, feine Trennlinien statt Kacheln — im
+Premiumsegment wirkt Zurückhaltung glaubwürdiger als Betonung.
+
+**Der Aufhänger ist Baris' eigener Befund, geschärft durch die Ränge:** 2025
+lagen die zehn ausgewerteten Hausverkäufe zwischen **1,35 und 5,2 Millionen
+Euro** — Faktor 3,85, je Quadratmeter zwischen 4.091 und 15.758 €. Und das in
+einem Stadtteil, der **drei Kölner Spitzenwerte** hält: Rang 1 bei der
+Wohnfläche je Wohnung (224,2 m² gegen 117,6 auf Rang 2), Rang 1 je Einwohner
+(98,7 m²) und Rang 1 beim Wohnungspreis (7.952 €/m²). Wenn selbst hier die
+Spanne beim Vierfachen liegt, sagt ein Stadtteilname nichts über den Preis.
+
+**Neu ist außerdem ein Straßenverzeichnis** mit allen 31 Straßen — aufklappbar,
+mit dem Hinweis, dass mehrere über die Grenze nach Rodenkirchen verlaufen und
+der Straßenname allein keinen Wert bestimmt.
+
+**Drei Angaben aus den Vorlagen sind nicht übernommen:**
+
+- die „rund 750 Banken" und das „Maklernetzwerk mit über 450 Immobilienmaklern"
+  — beides unbelegt (§ 5a UWG);
+- die Aufzählung prominenter Bewohner. Baris schreibt selbst, dass Wohnorte
+  sich ändern und die Angaben aus Medienberichten stammen. Namen lebender
+  Personen mit ihrer Wohnanschrift zu verknüpfen berührt deren
+  Persönlichkeitsrecht — und ausgerechnet auf einer Seite, deren stärkstes
+  Argument Diskretion ist, wäre das ein Widerspruch. Ein eigener Absatz
+  begründet das offen;
+- die Adresse `B.oelmez@highseller-immobilien.koeln` (Domain aufgegeben).
+
+### Unterstrichene Links: jetzt strukturell statt nach Klassennamen
+
+Zum dritten Mal an einem Tag meldete Lighthouse Links, die sich nur durch ihre
+Farbe vom Text abheben — diesmal in den neuen Hahnwald-Klassen. Die
+Sammelregel zählte einzelne Klassennamen auf und lief damit jeder neuen Seite
+hinterher.
+
+Sie greift jetzt strukturell: **Links in Absätzen, Listen, Definitionslisten
+und Bildunterschriften innerhalb von `main`** werden unterstrichen. Betroffen
+sind 1.118 Fließtext-Links; Schaltflächen, Navigation und Fußzeile bleiben
+unberührt.
+
+**Eine Falle dabei:** Die Regel traf auch Kachel-Links — die Kapitelverweise
+des Marktberichts auf der Startseite sind Karten mit Überschrift und
+Beschreibung, unterstrichen sahen sie aus wie ein Fehler. Die Ausnahme dafür
+brauchte zwei Anläufe: Der erste Versuch (`.mb-kapitel a`) hatte mit (0,1,1)
+weniger Spezifität als die Grundregel `main li a:not(.btn)` mit (0,1,3) und
+blieb wirkungslos. Erst `main .mb-kapitel ul li a` greift.
+
+**Geprüft:** Lighthouse mobil 100/100/100/100 auf Hahnwald und der Startseite,
+Kollisionsprüfung der Spannengrafik, Tag-Balance über vier Elementtypen,
+Kachel- und Fließtext-Links einzeln nachgemessen (0/6 gegen 4/4).
+
+**Cache-Buster:** `styles.css?v=80` auf allen 231 Seiten.
 
 ## Was in v63 umgesetzt wurde
 

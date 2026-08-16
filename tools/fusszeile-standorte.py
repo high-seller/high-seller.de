@@ -34,6 +34,7 @@ FEST = [
     ("immobilienmakler-koeln-raderthal.html", "Köln Raderthal"),
     ("immobilienmakler-koeln-raderberg.html", "Köln Raderberg"),
     ("immobilienmakler-koeln-marienburg.html", "Köln Marienburg"),
+    ("immobilienmakler-koeln-hahnwald.html", "Köln Hahnwald"),
     ("immobilienmakler-koeln-rodenkirchen.html", "Köln Rodenkirchen"),
 ]
 FESTE_DATEIEN = {d for d, _ in FEST}
