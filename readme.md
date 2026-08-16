@@ -1,4 +1,90 @@
-# Highseller Immobilien & Finanzen — Website (Stand v55)
+# Highseller Immobilien & Finanzen — Website (Stand v56)
+
+## Was in v56 umgesetzt wurde
+
+### Köln-Raderthal ausgebaut
+
+Siebte Veedelseite, von **577 auf 2.123 Wörter** redaktionellen Text.
+Eigenwiederholung 10,4 → **0,0 %**, Bausteinanteil 25 → **3 %**, Bilder 1 → 3.
+Grundlage waren acht Textvorlagen von Baris, verdichtet statt übernommen —
+so ausdrücklich gewünscht.
+
+**Der Aufhänger kommt wieder aus den Daten.** Raderthal hat keinen einzigen
+Spitzenwert: Rang 42 von 87 bei der Wohnungsgröße, Rang 25 beim
+Durchschnittsalter, Rang 55 bei den Haushalten mit Kindern, Rang 20 beim
+Wohnungspreis. Ein Stadtteil der Mittelwerte.
+
+Genau das trägt die Seite. Denn Baris' eigener Verkauf in der Hitzelerstraße
+lag mit **5.506 €/m² neunzehn Prozent über** dem amtlichen Stadtteilmedian von
+4.628 €/m². Und der Bodenrichtwert schwankt innerhalb Raderthals zwischen
+1.090 und 1.770 € — **Faktor 1,62 in einem einzigen Stadtteil**. Beides belegt
+denselben Satz, der sich durch alle acht Vorlagen zieht: Der Durchschnitt sagt
+nichts über die einzelne Immobilie.
+
+**Blickfang ist ein Unterlagen-Prüfer.** Aus der längsten Vorlage (einer sehr
+langen Aufzählung) wurde ein bedienbares Element: Objektart wählen, und die
+Liste zeigt, was gebraucht wird — mit Herkunft je Posten. Haus 10, Wohnung 12,
+Grundstück 7, Mehrfamilienhaus 11 Unterlagen. Beim Grundstück entfallen
+Energieausweis, Grundrisse und Wohnflächenberechnung automatisch.
+
+**Drei echte Verkaufsfälle** stehen erstmals auf einer Veedelseite: die
+Hitzelerstraße mit ihrem Aufschlag, der Vergleich zweier Grundstücke
+(Raderthal rund ein Monat, Bayenthal deutlich länger wegen
+Bodenverunreinigungen) und die Markusstraße, wo ein Käufer an fehlenden
+Unterlagen scheiterte. Das ist genau das Material, das den Seiten bisher
+fehlte — Erfahrungswissen, das kein Wettbewerber abschreiben kann.
+
+**Nicht übernommen** wurden die „rund 750 Finanzierungspartner" (unbelegt,
+§ 5a UWG — in den Vorlagen dreimal genannt) sowie alles, was Rechtsberatung
+wäre. Der Abschnitt zu Notarkosten nennt die Unterscheidung und verweist für
+die verbindliche Auskunft ans Notariat.
+
+### Sichtbarkeit der überarbeiteten Seiten — zwei stille Fehler behoben
+
+Phillip hatte darum gebeten, dass die überarbeiteten Seiten auch tatsächlich
+in die Sichtbarkeit kommen. Die Prüfung förderte zwei Befunde zutage:
+
+**1. Veraltete `lastmod`-Daten.** Ehrenfeld, Lindenthal und Klettenberg
+standen nach ihrer Überarbeitung noch auf dem 28. Juli. Das wirkt doppelt: Ein
+`lastmod` vor dem Änderungsdatum sagt Google, an der Seite habe sich nichts
+getan — und `tools/autorschaft-pflegen.py` liest dasselbe Datum aus, um es als
+sichtbares „zuletzt geprüft am" auf die Seite zu schreiben. Es stand also auch
+für Leser das falsche Datum da.
+
+Dafür gibt es jetzt **`tools/sitemap-pflegen.py`** mit einer Tabelle der
+inhaltlichen Überarbeitungsstände. Das Commit-Datum taugt dafür nicht: Ein
+Cache-Buster-Lauf fasst alle 231 Dateien an, ohne einen Inhalt zu ändern.
+Aufruf mit `--pruefen` meldet nur Abweichungen. Ausgebaute Seiten stehen jetzt
+auf `priority 0.8`, der Marktbericht auf 0.9 statt gemeinsam mit 167 anderen
+auf 0.7.
+
+**2. Ungleiche interne Verlinkung.** Die Fußzeile trug vier feste Verweise —
+Köln, Lindenthal, Sülz, Ehrenfeld — plus einen Selbstverweis. Ergebnis:
+Lindenthal, Sülz und Ehrenfeld waren von 230 Seiten verlinkt, **Deutz aber nur
+von 14, Zollstock von 16, Klettenberg von 17 und Raderthal von 11.**
+Ausgerechnet die aufwendig ausgebauten Seiten bekamen also das geringste
+interne Gewicht. Die feste Liste enthält jetzt alle sieben ausgebauten Veedel;
+alle sind von 230 Seiten verlinkt.
+
+### Zwei Fallen bei dieser Seite
+
+- **Beschriftungen im SVG kollidieren, wenn Werte dicht beieinanderliegen.**
+  Auf der Bodenrichtwert-Skala überlappte „1.220 €" (Median) mit „1.090 €"
+  (günstigste Zone), weil beide auf einer Achse von 950 bis 1.900 nur
+  130 Euro auseinanderliegen. Der Median sitzt jetzt auf einer eigenen Ebene
+  unterhalb, angebunden mit einer gestrichelten Linie. Im Stylesheet ist so
+  etwas nicht zu sehen — es braucht eine Kollisionsprüfung am gerenderten
+  Element.
+- **`re.sub` ersetzt nichts, wenn das Element fehlt.** Das erste
+  Sitemap-Werkzeug setzte `priority` bei drei Einträgen scheinbar erfolgreich,
+  obwohl diese Einträge gar kein `<priority>` hatten. Die Meldung sagte
+  „geändert", die Datei blieb gleich. Jetzt wird ergänzt statt nur ersetzt.
+
+**Geprüft:** Lighthouse mobil 100/100/100/100, kein seitlicher Überlauf, alle
+vier Objektarten des Prüfers durchgeklickt, Fußzeile auf 231 Seiten
+kontrolliert, `sitemap.xml` als XML validiert.
+
+**Cache-Buster:** `styles.css?v=68` und `main.js?v=35` auf allen 231 Seiten.
 
 ## Was in v55 umgesetzt wurde
 

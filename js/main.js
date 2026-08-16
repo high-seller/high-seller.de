@@ -1586,4 +1586,99 @@
     });
   })();
 
+  /* Unterlagen-Prüfer (Raderthal) --------------------------------------
+     Zeigt je Objektart, welche Unterlagen für Verkauf und Käuferfinanzierung
+     gebraucht werden. Die Herkunft steht dabei: Was der Eigentümer selbst
+     hat, was eine Behörde ausstellt, was über die Verwaltung kommt. */
+  (function () {
+    var wurzel = $("[data-rad-pruefer]");
+    if (!wurzel) return;
+
+    var GEMEINSAM = [
+      ["Aktueller Grundbuchauszug", "Amtsgericht — Beschaffung über unser Notariatsnetzwerk möglich"],
+      ["Flurkarte / Liegenschaftskarte", "Stadt Köln, online bestellbar"],
+      ["Nachvollziehbare Grundrisse", "Eigentümer oder Bauakte; bei Umbauten aktualisieren"],
+      ["Wohn- bzw. Nutzflächenberechnung", "Eigentümer; fehlt sie, über Architekt oder Sachverständigen"],
+      ["Gültiger Energieausweis", "gilt zehn Jahre; sonst über Energieberater"]
+    ];
+
+    var ARTEN = {
+      haus: {
+        name: "Einfamilienhaus, Reihenhaus oder Doppelhaushälfte",
+        zusatz: [
+          ["Bauzeichnungen, Ansichten, Schnitte", "Bauakte der Stadt Köln, falls nicht vorhanden"],
+          ["Baugenehmigungen", "besonders wichtig bei An- und Ausbauten"],
+          ["Nachweise zu Modernisierungen", "Rechnungen und Handwerkerbelege"],
+          ["Baulastenauskunft", "Bauaufsicht; klärt Einschränkungen der Nutzung"],
+          ["Angaben zur Heizung und zum energetischen Zustand", "Eigentümer, Wartungsunterlagen"]
+        ]
+      },
+      wohnung: {
+        name: "Eigentumswohnung",
+        zusatz: [
+          ["Teilungserklärung und Gemeinschaftsordnung", "Eigentümer oder Hausverwaltung"],
+          ["Aufteilungsplan", "Eigentümer oder Hausverwaltung"],
+          ["Aktueller Wirtschaftsplan", "Hausverwaltung"],
+          ["Jahresabrechnungen und Hausgeldangaben", "Hausverwaltung"],
+          ["Stand der Erhaltungsrücklage", "Hausverwaltung — für Käufer und Bank besonders relevant"],
+          ["Protokolle der letzten drei Eigentümerversammlungen", "Hausverwaltung"],
+          ["Beschlüsse zu geplanten Maßnahmen", "zeigt bevorstehende Sonderumlagen"]
+        ]
+      },
+      grundstueck: {
+        name: "Grundstück",
+        zusatz: [
+          ["Baulastenauskunft", "Bauaufsicht Stadt Köln"],
+          ["Auskunft zu Altlasten und Bodenverunreinigungen", "Altlastenkataster — löst sonst später Prüfbedarf aus"],
+          ["Angaben zu Erschließungsbeiträgen", "Stadt Köln; offene Beiträge treffen sonst den Käufer"],
+          ["Auskunft zum geltenden Baurecht", "bestimmt, was entstehen darf"],
+          ["Eingetragene Dienstbarkeiten", "Grundbuch, Abteilung II — etwa Wege- oder Leitungsrechte"]
+        ],
+        entfaellt: ["Gültiger Energieausweis", "Wohn- bzw. Nutzflächenberechnung", "Nachvollziehbare Grundrisse"]
+      },
+      mehrfamilien: {
+        name: "Mehrfamilienhaus",
+        zusatz: [
+          ["Mietvertragsübersicht und Mieterliste", "Eigentümer oder Verwaltung"],
+          ["Aufstellung der Ist-Mieten", "Grundlage des Ertragswertverfahrens"],
+          ["Betriebskostenabrechnungen", "letzte zwei bis drei Jahre"],
+          ["Nachweise zu Instandhaltung und Sanierung", "belegt den Zustand gegenüber Bank und Käufer"],
+          ["Angaben zu Leerstand und Mietrückständen", "wird von finanzierenden Banken geprüft"],
+          ["Baulastenauskunft", "Bauaufsicht Stadt Köln"]
+        ]
+      }
+    };
+
+    var liste = $("[data-rad-liste]", wurzel);
+    var stand = $("[data-rad-stand]", wurzel);
+    var knoepfe = $$(".rad-pruefer__knopf", wurzel);
+
+    function zeichnen(schluessel) {
+      var art = ARTEN[schluessel];
+      if (!art) return;
+      var weg = art.entfaellt || [];
+      var posten = GEMEINSAM.filter(function (g) {
+        return weg.indexOf(g[0]) === -1;
+      }).concat(art.zusatz);
+
+      liste.innerHTML = posten.map(function (p) {
+        return '<li><b>' + p[0] + '</b><span>' + p[1] + '</span></li>';
+      }).join("");
+      stand.textContent = art.name + ": " + posten.length + " Unterlagen, die üblicherweise gebraucht werden.";
+    }
+
+    knoepfe.forEach(function (b) {
+      on(b, "click", function () {
+        knoepfe.forEach(function (o) {
+          var aktiv = o === b;
+          o.classList.toggle("is-aktiv", aktiv);
+          o.setAttribute("aria-pressed", aktiv ? "true" : "false");
+        });
+        zeichnen(b.getAttribute("data-art"));
+      });
+    });
+
+    zeichnen("haus");
+  })();
+
 })();
