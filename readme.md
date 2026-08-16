@@ -1,4 +1,60 @@
-# Highseller Immobilien & Finanzen — Website (Stand v58)
+# Highseller Immobilien & Finanzen — Website (Stand v59)
+
+## Was in v59 umgesetzt wurde
+
+### Köln-Marienburg ausgebaut
+
+Neunte Veedelseite, **564 auf 1.757 Wörter** redaktionellen Text. Zahlen 37 →
+**112**, Geldangaben 4 → **26**, Bilder 1 → 3, Eigenwiederholung bleibt bei 0 %.
+
+**Der Aufhänger widerspricht dem Image des Stadtteils vollständig — und ist
+eindeutig belegt: Marienburg ist Kölns größte Wohnbaustelle.** 568
+fertiggestellte Wohnungen 2025 sind **Rang 1 unter allen 87 Stadtteilen**,
+absolut wie gemessen am Bestand (12,9 Prozent Zuwachs in einem Jahr).
+Gleichzeitig bleibt es das Villenviertel: Rang 2 in Köln bei der Wohnfläche je
+Einwohner (65,9 m² gegen 40,6 in Köln).
+
+Daraus folgt die Aussage der Seite, die Baris' Schlusssatz („Marienburg
+verkauft man nicht nach Schema F") mit Zahlen unterlegt: **Der Stadtteil hat
+zwei Märkte.** Bestandswohnungen 5.684 €/m² aus 47 Kaufverträgen, Neubau
+9.888 €/m² aus elf — dazwischen liegen 4.204 € je Quadratmeter oder über
+630.000 € bei einer 150-m²-Wohnung. Ein gemittelter Quadratmeterpreis
+beschreibt keine der beiden Wirklichkeiten.
+
+**Woher die 568 Wohnungen kommen, ist recherchiert:** „Die Welle" am
+Raderberggürtel 50, dem früheren Gelände der Deutschen Welle — 752 Wohnungen
+in drei Baufeldern (257, 249, 246), davon 70 öffentlich gefördert, dazu rund
+6.100 m² Gewerbefläche und eine Kita mit sechs Gruppen, Fertigstellung 2026.
+Ein einzelnes Projekt fügt einem Stadtteil mit 4.416 Wohnungen also gut ein
+Sechstel hinzu.
+
+**Der zweite Befund ist der amtliche Beleg für Baris' Kernfrage.** Marienburg
+ist einer von nur **vier** Kölner Stadtteilen mit einer **einzigen**
+Bodenrichtwertzone (2.100 €). Dellbrück hat fünfzehn, Rath-Heumar und Brück je
+vierzehn. Der amtliche Bodenwert kann in Marienburg also gar nicht zwischen
+der ruhigen Villenlage und dem Grundstück an der Hauptstraße unterscheiden.
+
+Daran schließt das Rechenbeispiel an: Bei 2.100 € je m² Grundstück liegt der
+**reine Bodenwert** eines 700-m²-Grundstücks bei 1,47 Millionen Euro — mehr
+als die 1,42 Millionen, die der Wohnungs-Quadratmeterpreis für 250 m²
+Wohnfläche ergäbe. Ein Villengrundstück lässt sich mit einem Wohnungspreis
+nicht bewerten.
+
+### Ein eigener Fehler auf der Raderberg-Seite korrigiert
+
+Das dort verwendete Luftbild zeigt das frühere Deutsche-Welle-Gelände. Die
+Bildunterschrift ließ die geräumte Fläche als Teil Raderbergs erscheinen —
+tatsächlich liegt sie am Raderberggürtel **50** und gehört zu Marienburg,
+während das Funkhaus des Deutschlandfunks an Nummer **40** in Raderberg steht.
+Bildunterschrift und Alt-Text benennen die Stadtteilgrenze jetzt und verlinken
+nach Marienburg. Aufgefallen ist das erst bei der Recherche zu „Die Welle".
+
+**Geprüft:** Lighthouse mobil 100/100/100/100 (59 bestandene Prüfungen),
+Kollisionsprüfung der Diagrammbeschriftungen, kein seitlicher Überlauf,
+Sprungleiste mit sechs Zielen, Sitemap und Fußzeile über die Werkzeuge
+gepflegt — Marienburg jetzt von 230 Seiten verlinkt.
+
+**Cache-Buster:** `styles.css?v=72` auf allen 231 Seiten.
 
 ## Was in v58 umgesetzt wurde
 
