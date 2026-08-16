@@ -49,12 +49,32 @@ während das Funkhaus des Deutschlandfunks an Nummer **40** in Raderberg steht.
 Bildunterschrift und Alt-Text benennen die Stadtteilgrenze jetzt und verlinken
 nach Marienburg. Aufgefallen ist das erst bei der Recherche zu „Die Welle".
 
+### Zwei Fehler, die erst der Live-Test zeigte
+
+**1. Die Einblendung machte jeden Text kurzzeitig unlesbar.** `.reveal` fuhr
+die Deckkraft über 0,6 Sekunden von 0 auf 1. In diesem Fenster hat jeder Text
+darin zu wenig Kontrast — Lighthouse maß auf der Live-Seite Werte bis
+**1,79:1**, auch auf Schaltflächen. Dunklere Farben lösen das nicht: Bei
+Deckkraft 0,3 hilft keine Farbe mehr. Die Animation blendet deshalb nicht mehr
+auf, sondern lässt die Elemente nur noch hereingleiten (`transform`, 28 statt
+22 Pixel). Der Effekt bleibt sichtbar, der Text ist zu jedem Zeitpunkt lesbar.
+Das betrifft alle 231 Seiten.
+
+**2. Namenskonflikt im Stylesheet.** Das Kürzel `mb-` war bereits vom
+**Marktbericht** belegt (88 Klassen). Für Marienburg dasselbe zu wählen war
+ein Fehler: Beide Seiten definierten `mb-kopf` und `mb-kopf__lead` mit
+verschiedenen Farben, und welche gewann, hing allein an Spezifität und
+Reihenfolge. Sichtbar wurde es an der Augenbraue des Marienburg-Kopfes, die im
+Blau des Marktberichts erschien statt im Grünton. Marienburg trägt jetzt
+durchgehend `mrb-` — 20 Klassen in HTML und Stylesheet umbenannt, die
+Marktbericht-Regeln unberührt.
+
 **Geprüft:** Lighthouse mobil 100/100/100/100 (59 bestandene Prüfungen),
 Kollisionsprüfung der Diagrammbeschriftungen, kein seitlicher Überlauf,
 Sprungleiste mit sechs Zielen, Sitemap und Fußzeile über die Werkzeuge
 gepflegt — Marienburg jetzt von 230 Seiten verlinkt.
 
-**Cache-Buster:** `styles.css?v=72` auf allen 231 Seiten.
+**Cache-Buster:** `styles.css?v=73` auf allen 231 Seiten.
 
 ## Was in v58 umgesetzt wurde
 
