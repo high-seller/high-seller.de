@@ -38,7 +38,7 @@ document.documentElement.classList.add('js');
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/spacegrotesk-latin.woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
-<link rel="stylesheet" href="css/styles.css?v=80">
+<link rel="stylesheet" href="css/styles.css?v=82">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "RealEstateAgent", "@id": "https://high-seller.de/#highseller", "name": "Immobilienmakler Köln Hahnwald | Highseller", "image": "https://high-seller.de/assets/img/logo.png", "url": "https://high-seller.de/immobilienmakler-koeln-hahnwald.html", "telephone": "+49 162 8811110", "email": "info@high-seller.de", "address": {"@type": "PostalAddress", "streetAddress": "Im Zollhafen 18, Kranhaus 1", "postalCode": "50678", "addressLocality": "Köln", "addressCountry": "DE"}, "areaServed": {"@type": "Place", "name": "Köln-Hahnwald"}, "geo": {"@type": "GeoCoordinates", "latitude": 50.9274066, "longitude": 6.9662166}, "sameAs": ["https://www.instagram.com/highseller.immobilien/", "https://www.tiktok.com/@baris.oelmez", "https://www.youtube.com/@highsellerimmobilien", "https://www.immobilienscout24.de/anbieter/profil/highseller-immobilien-und-finanzen", "https://www.immowelt.de/profil/156e7c6439c042c6a6bc0f736075b070", "https://www.kleinanzeigen.de/pro/Highseller-Immobilien-Baris-Oelmez"], "founder": {"@id": "https://high-seller.de/#baris-oelmez"}}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://high-seller.de/"}, {"@type": "ListItem", "position": 2, "name": "Köln", "item": "https://high-seller.de/immobilienmakler-koeln.html"}, {"@type": "ListItem", "position": 3, "name": "Köln-Hahnwald", "item": "https://high-seller.de/immobilienmakler-koeln-hahnwald.html"}]}</script>
 <script type="application/ld+json">{
@@ -166,6 +166,14 @@ document.documentElement.classList.add('js');
         },
         {
           "@type": "Question",
+          "name": "Hahnwald oder Marienburg — was unterscheidet die beiden?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Beide gelten als Kölns Villenviertel, und beide liegen im Stadtbezirk Rodenkirchen. Wirtschaftlich funktionieren sie jedoch gegensätzlich. Wer zwischen ihnen vergleicht — als Verkäufer oder als Käufer —, sollte die Unterschiede kennen."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Muss eine Villa in Hahnwald öffentlich angeboten werden?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -284,6 +292,7 @@ document.documentElement.classList.add('js');
     <a href="#warum">Warum so weit</a>
     <a href="#grundstueck">Grundstück</a>
     <a href="#kaeufer">Käufer</a>
+    <a href="#vergleich">Vergleich</a>
     <a href="#diskretion">Diskretion</a>
     <a href="#strassen">Straßen</a>
     <a href="#gespraech">Gespräch</a>
@@ -319,8 +328,41 @@ document.documentElement.classList.add('js');
 
     <p class="hw-text"><b>Fünf Prozent sind hier eine sechsstellige Zahl.</b> Bei einem durchschnittlichen Kaufpreis von 2,575 Millionen Euro entsprechen fünf Prozent rund 129.000 Euro; bei vier Millionen sind es 200.000. Ein Angebotspreis, der um wenige Prozentpunkte danebenliegt, kostet in diesem Segment mehr, als andernorts eine ganze Wohnung wert ist — in beide Richtungen.</p>
 
+
+    <div class="tabellenrahmen">
+      <table class="datentabelle">
+        <caption>Was der Gutachterausschuss für Hahnwald ausweist, Auswertungsjahr 2025</caption>
+        <thead><tr><th>Segment</th><th>Ausgewertete Verkäufe</th><th>Spanne</th><th>Mittel</th></tr></thead>
+        <tbody>
+        <tr><td data-spalte="Segment">Freistehende Häuser</td><td data-spalte="Verkäufe" class="zahl">10</td><td data-spalte="Spanne" class="zahl">1,35 – 5,2 Mio €</td><td data-spalte="Mittel" class="zahl">2,575 Mio €</td></tr>
+        <tr><td data-spalte="Segment">… je m² Wohnfläche</td><td data-spalte="Verkäufe" class="zahl">10</td><td data-spalte="Spanne" class="zahl">4.091 – 15.758 €</td><td data-spalte="Mittel" class="zahl">7.689 €</td></tr>
+        <tr><td data-spalte="Segment">Eigentumswohnungen</td><td data-spalte="Verkäufe" class="zahl">5</td><td data-spalte="Spanne" class="zahl">bis 3,83 Mio €</td><td data-spalte="Mittel" class="zahl">1,84 Mio €</td></tr>
+        <tr><td data-spalte="Segment">… je m² Wohnfläche</td><td data-spalte="Verkäufe" class="zahl">5</td><td data-spalte="Spanne" class="zahl">—</td><td data-spalte="Mittel" class="zahl">7.952 €</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hw-quelle">Grundstücksmarktbericht 2026 des Gutachterausschusses für Grundstückswerte in der Stadt Köln. Die Häuser hatten im Mittel 357 m² Wohnfläche auf 1.785 m² Grundstück. Bei zehn beziehungsweise fünf ausgewerteten Fällen verschiebt jeder einzelne Verkauf das Mittel spürbar — das ist keine Schwäche der Statistik, sondern die Eigenart eines kleinen Marktes.</p>
+
     <h3>Und die Eigentumswohnungen?</h3>
     <p class="hw-text">Hahnwald ist nicht nur ein Häusermarkt, auch wenn er so wahrgenommen wird. Für 2025 sind zusätzlich fünf Weiterverkäufe von Eigentumswohnungen ausgewertet, im Mittel bei rund 1,84 Millionen Euro; ein Verkauf erreichte etwa 3,83 Millionen. Bezogen auf die Wohnfläche liegt Hahnwald damit bei <b>7.952 Euro je Quadratmeter — dem höchsten Wert aller 79 Kölner Stadtteile</b>, für die der Gutachterausschuss einen Wohnungspreis ausweist.</p>
+
+    <h3>Wo läge Ihre Immobilie in dieser Spanne?</h3>
+    <p class="hw-text">Die folgende Einordnung ist <b>keine Bewertung</b> — sie rechnet nur Ihre Angaben gegen die tatsächlich beurkundeten Werte. Was sie zeigt: In welchem Bereich der Spanne Sie sich bewegen und was ein Prozentpunkt in diesem Segment bedeutet.</p>
+
+    <div class="hw-einordner" data-hw-einordner>
+      <div class="hw-einordner__felder">
+        <div>
+          <label for="hw-flaeche">Wohnfläche <output data-hw-anzeige-flaeche></output></label>
+          <input type="range" id="hw-flaeche" data-hw-flaeche min="120" max="700" step="10" value="357">
+        </div>
+        <div>
+          <label for="hw-preis">Ihre Preisvorstellung <output data-hw-anzeige-preis></output></label>
+          <input type="range" id="hw-preis" data-hw-preis min="800000" max="6000000" step="50000" value="2575000">
+        </div>
+      </div>
+      <div class="hw-einordner__ausgabe" data-hw-ausgabe aria-live="polite"></div>
+      <p class="hw-einordner__fuss">Gerechnet wird ausschließlich mit den Werten des Grundstücksmarktberichts. Grundstücksgröße, Zustand, Architektur, Ausstattung und mitverkauftes Inventar fehlen in dieser Rechnung vollständig — und genau sie entscheiden in Hahnwald über den Preis.</p>
+    </div>
   </div>
 </section>
 
@@ -344,6 +386,14 @@ document.documentElement.classList.add('js');
       <figcaption>Am Waldpark. Ein Haus wie dieses zeigt, warum die Spanne so weit ist: Hahnwald besteht nicht nur aus Neubauvillen, sondern zu großen Teilen aus Bestand der 1960er und 1970er Jahre — auf denselben großzügigen Grundstücken, aber mit ganz anderem Modernisierungsbedarf.</figcaption>
     </figure>
 
+    <figure class="hw-bild">
+      <picture>
+        <source type="image/webp" srcset="assets/img/hahnwald-zehnpfennigshof-480.webp 480w, assets/img/hahnwald-zehnpfennigshof-960.webp 960w, assets/img/hahnwald-zehnpfennigshof-1280.webp 1280w, assets/img/hahnwald-zehnpfennigshof-1920.webp 1920w" sizes="(max-width:860px) 100vw, 760px">
+        <img src="assets/img/hahnwald-zehnpfennigshof.jpg" alt="Moderner weißer Flachdachbau mit umlaufenden Bandfenstern am Zehnpfennigshof in Köln-Hahnwald, davor Rasenfläche und alter Kiefernstamm" loading="lazy" decoding="async" width="1600" height="952">
+      </picture>
+      <figcaption>Am Zehnpfennigshof: ein Bau, der architektonisch das Gegenteil des Hauses am Waldpark ist. Beide stehen in Hahnwald, beide auf großzügigem Grund — und sie sprechen völlig verschiedene Käufer an. Genau daraus entsteht die Preisspanne.</figcaption>
+    </figure>
+
     <h3>Was zählt zur Immobilie — und was ist Inventar?</h3>
     <p class="hw-text">Bei hochwertigen Objekten kommt eine Frage hinzu, die eine reine Flächenbewertung nicht kennt: Was genau bekommt der Käufer für seinen Kaufpreis? Eine Einbauküche, die einmal 50.000 oder 100.000 Euro gekostet hat, erhöht den Immobilienwert nicht um denselben Betrag. Sie kann aber sehr wohl beeinflussen, wie ein Käufer das Gesamtbild bewertet — und was er insgesamt zu zahlen bereit ist.</p>
     <p class="hw-text">Deshalb trennen wir vor der Preisfindung drei Dinge: die <b>Immobilie</b> selbst, die <b>fest verbundene Ausstattung</b> und das <b>mitverkaufte Inventar</b>. Diese Trennung ist nicht nur eine Frage der Bewertung. Sie wirkt sich auch auf den Kaufvertrag aus, weil beweglicher Hausrat anders behandelt wird als das Grundstück samt Gebäude.</p>
@@ -359,6 +409,14 @@ document.documentElement.classList.add('js');
     <h3>Was darf auf dem Grundstück tatsächlich entstehen?</h3>
     <p class="hw-text">Diese Frage ist wirtschaftlich oft die wichtigste. Ein großes Grundstück nützt einem Käufer wenig, wenn sich seine Vorstellungen dort planungsrechtlich nicht umsetzen lassen. In Hahnwald gilt das sehr konkret: Für den Bereich Kiesgrubenweg besteht der Bebauungsplan Nr. 69370/02, für andere Lagen gelten andere Vorgaben. Was zulässig ist, lässt sich deshalb nicht für den Stadtteil beantworten, sondern nur für das einzelne Grundstück.</p>
     <p class="hw-text">Vor der Vermarktung gehören außerdem auf den Prüfstand: Eintragungen im Grundbuch, Baulasten, Erschließungssituation und die Frage, ob eine vorhandene Bebauung erhalten bleiben soll oder nicht.</p>
+
+    <figure class="hw-bild">
+      <picture>
+        <source type="image/webp" srcset="assets/img/hahnwald-bonner-landstrasse-480.webp 480w, assets/img/hahnwald-bonner-landstrasse-960.webp 960w, assets/img/hahnwald-bonner-landstrasse-1280.webp 1280w" sizes="(max-width:860px) 100vw, 760px">
+        <img src="assets/img/hahnwald-bonner-landstrasse.jpg" alt="Verschlossenes Metalltor an der Bonner Landstraße in Köln-Hahnwald, dahinter ein geräumtes, unbebautes Grundstück mit alten Bäumen" loading="lazy" decoding="async" width="1600" height="1200">
+      </picture>
+      <figcaption>Bonner Landstraße: ein geräumtes Grundstück hinter verschlossenem Tor. Für den einen Käufer ist so etwas eine Baulücke, für den anderen die eigentliche Chance — welche Lesart gilt, entscheidet über die Vermarktung.</figcaption>
+    </figure>
 
     <h3>Wann ist das Grundstück wichtiger als das Haus darauf?</h3>
     <p class="hw-text">Bei einer älteren Villa auf großzügigem Grund sehen drei Interessenten drei verschiedene Objekte: Der eine sieht Modernisierungsbedarf, der zweite erhaltenswerte Architektur, der dritte vor allem die Fläche und ihre Möglichkeiten. Dasselbe Anwesen kann für alle drei wertvoll sein — aus völlig verschiedenen Gründen und zu verschiedenen Preisen.</p>
@@ -388,6 +446,29 @@ document.documentElement.classList.add('js');
     <h3>Reicht es, einen vermögenden Käufer zu finden?</h3>
     <p class="hw-text">Nein — und das ist der häufigste Denkfehler in diesem Segment. Wer mehrere Millionen aufwenden kann, hat Alternativen: eine andere Villa, ein Grundstück zum Neubau, oder schlicht Zeit zu warten. Die Vorstellung, für ein Anwesen in Hahnwald finde sich „schon jemand", verkennt, dass die Zahl geeigneter Käufer klein ist und ihre Ansprüche präzise.</p>
     <p class="hw-text">Deshalb beginnt die Arbeit nicht bei der Frage, wo inseriert wird, sondern bei einer anderen: <b>Was muss ein Käufer an diesem Objekt erkennen, damit aus Interesse eine Entscheidung wird?</b> Erst daraus ergeben sich Fotografie, Exposé, Ansprache und der Ablauf der Besichtigung.</p>
+  </div>
+</section>
+
+<section class="section section--soft" id="vergleich">
+  <div class="container hw-schmal">
+    <h2>Hahnwald oder Marienburg — was unterscheidet die beiden?</h2>
+    <p class="hw-text">Beide gelten als Kölns Villenviertel, und beide liegen im Stadtbezirk Rodenkirchen. Wirtschaftlich funktionieren sie jedoch gegensätzlich. Wer zwischen ihnen vergleicht — als Verkäufer oder als Käufer —, sollte die Unterschiede kennen.</p>
+
+    <div class="hw-werte">
+      <p><span>Wohnungspreis im Weiterverkauf</span><b>7.952 € / 5.684 €</b><small>Hahnwald liegt 40 Prozent über Marienburg — und ist damit Kölns teuerster Stadtteil</small></p>
+      <p><span>Bodenrichtwert je m²</span><b>1.270 € / 2.100 €</b><small>Umgekehrt: Marienburgs Boden ist 65 Prozent teurer</small></p>
+      <p><span>Wohnfläche je Wohnung</span><b>224,2 m² / 108,1 m²</b><small>In Hahnwald steht doppelt so viel Haus je Wohneinheit</small></p>
+      <p><span>Neubauwohnungen 2025</span><b>17 / 568</b><small>Marienburg ist Kölns größte Baustelle, Hahnwald verändert sich kaum</small></p>
+      <p><span>Einwohner</span><b>1.940 / 7.240</b><small>Hahnwald ist Kölns zweitkleinster Stadtteil</small></p>
+    </div>
+
+    <h3>Warum ist der Boden günstiger, das Haus aber teurer?</h3>
+    <p class="hw-text">Das wirkt zunächst widersprüchlich, hat aber einen einfachen Grund: <b>Bebauungsdichte.</b> Der Bodenrichtwert bildet ab, was je Quadratmeter Grundstück gebaut werden darf — nicht, wie exklusiv eine Lage wirkt. In Hahnwald steht wenig Haus auf viel Grund; in Marienburg deutlich mehr. Derselbe Quadratmeter Boden trägt dort also mehr Wohnfläche und ist entsprechend höher bewertet.</p>
+    <p class="hw-text">Für Eigentümer folgt daraus zweierlei. Erstens: In Hahnwald macht die <b>Grundstücksgröße</b> einen größeren Anteil des Werts aus, weil die Flächen größer sind — 1.785 Quadratmeter im Mittel der ausgewerteten Verkäufe. Zweitens: Eine Bewertung, die den Bodenrichtwert einfach mit der Fläche multipliziert, führt hier weiter in die Irre als anderswo.</p>
+
+    <h3>Und was heißt das für den Wettbewerb?</h3>
+    <p class="hw-text">Der wichtigste Unterschied steht in der Neubauzeile. In Marienburg entstehen gerade 752 Wohnungen auf dem früheren Deutsche-Welle-Gelände; wer dort verkauft, muss sich davon abgrenzen. In Hahnwald gab es 2025 ganze 17 neue Wohneinheiten. Neubaukonkurrenz existiert praktisch nicht — der Wettbewerb entsteht ausschließlich mit den wenigen vergleichbaren Objekten, die gleichzeitig angeboten werden.</p>
+    <p class="hw-text">Bei zehn ausgewerteten Hausverkäufen im Jahr heißt das: Über die Monate gerechnet stehen selten mehr als zwei oder drei Anwesen gleichzeitig am Markt. Diese Knappheit ist Ihr stärkstes Argument — und zugleich der Grund, warum sich der richtige Zeitpunkt und die richtige Käuferansprache hier stärker auswirken als in jedem anderen Kölner Stadtteil.</p>
   </div>
 </section>
 
@@ -482,7 +563,7 @@ document.documentElement.classList.add('js');
 </section>
 <section class="section" style="padding-top:0">
   <div class="container hw-schmal">
-    <p class="hw-quelle">Bildnachweis: <a href="https://commons.wikimedia.org/wiki/File:K%C3%B6ln-Hahnwald_Am_Waldpark_44_(2).jpg" target="_blank" rel="noopener noreferrer">Am Waldpark 44</a>: Leit, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>, über Wikimedia Commons. Marktdaten: Gutachterausschuss für Grundstückswerte in der Stadt Köln (Grundstücksmarktbericht 2026, Auswertungsjahr 2025), BORIS NRW zum Stichtag 1. Januar 2026 sowie Amt für Stadtentwicklung und Statistik der Stadt Köln.</p>
+    <p class="hw-quelle">Bildnachweis: <a href="https://commons.wikimedia.org/wiki/File:K%C3%B6ln-Hahnwald_Am_Waldpark_44_(2).jpg" target="_blank" rel="noopener noreferrer">Am Waldpark 44</a>: Leit, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a> &middot; <a href="https://commons.wikimedia.org/wiki/File:Am_Zehnpfennigshof_22,_K%C3%B6ln-Hahnwald_-_7057.jpg" target="_blank" rel="noopener noreferrer">Am Zehnpfennigshof 22</a>: Elke Wetzig, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a> &middot; <a href="https://commons.wikimedia.org/wiki/File:K%C3%B6ln-Hahnwald_Bonner_Landstra%C3%9Fe_119_Haus_Birkhof_(3).jpg" target="_blank" rel="noopener noreferrer">Bonner Landstraße 119</a>: Leit, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>, alle über Wikimedia Commons. Marktdaten: Gutachterausschuss für Grundstückswerte in der Stadt Köln (Grundstücksmarktbericht 2026, Auswertungsjahr 2025), BORIS NRW zum Stichtag 1. Januar 2026 sowie Amt für Stadtentwicklung und Statistik der Stadt Köln.</p>
   </div>
 </section>
 <section class="section autorzeile-abschnitt"><div class="container">
@@ -639,7 +720,7 @@ document.documentElement.classList.add('js');
     </div>
   </div>
 </div>
-<script src="js/main.js?v=37" defer></script>
+<script src="js/main.js?v=38" defer></script>
 
 </body>
 </html>

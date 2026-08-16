@@ -1831,4 +1831,70 @@
     rechnen();
   })();
 
+  /* Spannen-Einordner (Hahnwald) ---------------------------------------
+     Rechnet die eingegebene Wohnfläche und Preisvorstellung gegen die
+     tatsächlich beurkundeten Werte des Grundstücksmarktberichts. Das ist
+     bewusst keine Bewertung — es verortet eine Zahl in belegten Zahlen und
+     zeigt, was ein Prozentpunkt in diesem Segment bedeutet. */
+  (function () {
+    var wurzel = $("[data-hw-einordner]");
+    if (!wurzel) return;
+
+    var MIN = 4091, MAX = 15758, MITTEL = 7689;   // €/m², Häuser 2025
+
+    var rFlaeche = $("[data-hw-flaeche]", wurzel);
+    var rPreis = $("[data-hw-preis]", wurzel);
+    var aFlaeche = $("[data-hw-anzeige-flaeche]", wurzel);
+    var aPreis = $("[data-hw-anzeige-preis]", wurzel);
+    var ausgabe = $("[data-hw-ausgabe]", wurzel);
+
+    function euro(n) { return Math.round(n).toLocaleString("de-DE") + " €"; }
+    function mio(n) {
+      return (n / 1e6).toLocaleString("de-DE", {minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2}) + " Mio €";
+    }
+
+    function rechnen() {
+      var flaeche = parseInt(rFlaeche.value, 10);
+      var preis = parseInt(rPreis.value, 10);
+      var jeQm = preis / flaeche;
+      var anteil = Math.max(0, Math.min(100, (jeQm - MIN) / (MAX - MIN) * 100));
+
+      aFlaeche.textContent = flaeche.toLocaleString("de-DE") + " m²";
+      aPreis.textContent = mio(preis);
+
+      var satz;
+      if (jeQm < MIN) {
+        satz = "Das liegt <b>unterhalb</b> aller zehn ausgewerteten Verkäufe. Entweder "
+             + "bringt die Immobilie Besonderheiten mit, die den Abstand erklären — oder "
+             + "die Vorstellung ist zu vorsichtig.";
+      } else if (jeQm > MAX) {
+        satz = "Das liegt <b>oberhalb</b> aller zehn ausgewerteten Verkäufe. Erreichbar "
+             + "ist so etwas, aber es braucht Merkmale, die den Abstand tragen — und "
+             + "Käufer, die sie erkennen.";
+      } else if (jeQm < MITTEL) {
+        satz = "Das liegt in der <b>unteren Hälfte</b> der tatsächlichen Verkäufe, unter "
+             + "dem Mittel von 7.689 € je m².";
+      } else {
+        satz = "Das liegt in der <b>oberen Hälfte</b> der tatsächlichen Verkäufe, über "
+             + "dem Mittel von 7.689 € je m².";
+      }
+
+      ausgabe.innerHTML =
+        '<p class="hw-einordner__gross">' + euro(jeQm) + ' <span>je m² Wohnfläche</span></p>' +
+        '<div class="hw-einordner__skala" role="img" aria-label="Einordnung in die Spanne ' +
+          'von 4.091 bis 15.758 Euro je Quadratmeter">' +
+          '<span class="hw-einordner__marke" style="left:' + anteil.toFixed(1) + '%"></span>' +
+        '</div>' +
+        '<div class="hw-einordner__enden"><span>4.091 €</span><span>15.758 €</span></div>' +
+        '<p class="hw-einordner__satz">' + satz + '</p>' +
+        '<p class="hw-einordner__prozent">Ein Prozentpunkt entspricht bei diesem Preis ' +
+          '<b>' + euro(preis / 100) + '</b> — fünf Prozent sind ' + euro(preis / 20) + '.</p>';
+    }
+
+    on(rFlaeche, "input", rechnen);
+    on(rPreis, "input", rechnen);
+    rechnen();
+  })();
+
 })();

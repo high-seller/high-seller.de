@@ -43,6 +43,41 @@ der Straßenname allein keinen Wert bestimmt.
   begründet das offen;
 - die Adresse `B.oelmez@highseller-immobilien.koeln` (Domain aufgegeben).
 
+### Hahnwald nachgebessert — auf volle Qualität
+
+Nach dem ersten Ausbau war Hahnwald mit 1.763 Wörtern die kürzeste der zehn
+Veedelseiten und hatte als einzige weder ein bedienbares Element noch eine
+Tabelle, dazu nur zwei Bilder. Jetzt: **2.278 Wörter, 113 Zahlen, 21
+Geldangaben, vier Bilder, sieben Fragen im Schema.**
+
+**Der Spannen-Einordner.** Zwei Schieberegler für Wohnfläche und
+Preisvorstellung; gerechnet wird ausschließlich gegen die beurkundeten Werte
+des Grundstücksmarktberichts. Die Ausgabe verortet die Eingabe auf einer Skala
+von 4.091 bis 15.758 € je Quadratmeter, sagt ob sie über oder unter dem Mittel
+von 7.689 € liegt — und rechnet aus, was ein Prozentpunkt bei diesem Preis
+bedeutet. Bei 2,6 Millionen sind das 26.000 €. Der Fußtext benennt
+ausdrücklich, dass Grundstück, Zustand, Architektur und Inventar in dieser
+Rechnung fehlen.
+
+**Drei Bilder statt eines, und sie erzählen die Spanne:** ein
+1970er-Backsteinhaus hinter schmiedeeisernem Zaun am Waldpark, ein moderner
+weißer Flachdachbau am Zehnpfennigshof und ein verschlossenes Tor an der
+Bonner Landstraße mit geräumtem Grundstück dahinter. Drei Objektarten, drei
+Käufergruppen, drei Preisniveaus.
+
+**Neu ist außerdem der Vergleich Hahnwald gegen Marienburg** — die beiden
+Kölner Villenviertel funktionieren gegensätzlich: Hahnwalds Wohnungspreis
+liegt 40 Prozent höher (7.952 gegen 5.684 €/m²), sein Bodenrichtwert aber
+65 Prozent niedriger (1.270 gegen 2.100 €). Der Grund ist die
+Bebauungsdichte: In Hahnwald steht wenig Haus auf viel Grund. Und die
+Neubauzeile erklärt den Wettbewerb: 17 neue Wohnungen gegen 568.
+
+**Zum zweiten Mal derselbe Einbaufehler:** Beim Einfügen des Einordners landete
+ein zusätzliches `</div></section>` in der Datei — der Abschnitt war an dieser
+Stelle bereits geschlossen. Die Tag-Zählung nach jedem Skript-Einbau hat es
+wieder sofort gezeigt. **Beim Einfügen vor einem Abschnittsanfang gehört kein
+eigener Abschluss dazu.**
+
 ### Unterstrichene Links: jetzt strukturell statt nach Klassennamen
 
 Zum dritten Mal an einem Tag meldete Lighthouse Links, die sich nur durch ihre
@@ -66,7 +101,7 @@ blieb wirkungslos. Erst `main .mb-kapitel ul li a` greift.
 Kollisionsprüfung der Spannengrafik, Tag-Balance über vier Elementtypen,
 Kachel- und Fließtext-Links einzeln nachgemessen (0/6 gegen 4/4).
 
-**Cache-Buster:** `styles.css?v=80` auf allen 231 Seiten.
+**Cache-Buster:** `styles.css?v=82` und `main.js?v=38` auf allen 231 Seiten.
 
 ## Was in v63 umgesetzt wurde
 
