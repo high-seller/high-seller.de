@@ -38,7 +38,7 @@ document.documentElement.classList.add('js');
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/inter-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="assets/fonts/spacegrotesk-latin.woff2" crossorigin>
 <link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
-<link rel="stylesheet" href="css/styles.css?v=76">
+<link rel="stylesheet" href="css/styles.css?v=77">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Start", "item": "https://high-seller.de/"}, {"@type": "ListItem", "position": 2, "name": "Immobilienmakler Köln", "item": "https://high-seller.de/immobilienmakler-koeln.html"}, {"@type": "ListItem", "position": 3, "name": "Köln-Zollstock", "item": "https://high-seller.de/immobilienmakler-koeln-zollstock.html"}]}</script>
 <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -182,7 +182,17 @@ document.documentElement.classList.add('js');
     <a class="btn btn--wa btn--block" href="https://wa.me/491628811110?text=Hallo%20Highseller%2C%20ich%20interessiere%20mich%20f%C3%BCr%20eine%20Beratung." target="_blank" rel="noopener">Per WhatsApp schreiben</a>
     <a class="btn btn--ghost btn--block" href="tel:+491628811110">+49 162 8811110 anrufen</a>
   </div>
-</div><main><section class="page-hero zolli-hero">
+</div><main><nav class="jumpbar" id="jumpbar" aria-label="Abschnitte dieser Seite">
+  <div class="jumpbar__track">
+    <a href="#quellen">Preisquellen</a>
+    <a href="#neubau">Neubau</a>
+    <a href="#zonen">Bodenzonen</a>
+    <a href="#denkmal">Denkmalschutz</a>
+    <a href="#grundstuecke">Grundstücke</a>
+    <a href="#fragen">Fragen</a>
+  </div>
+</nav>
+<section class="page-hero zolli-hero" id="quellen">
   <div class="zolli-hero__band">
     <picture>
       <source type="image/webp" srcset="assets/img/zollstock-suedstadion-luftbild-480.webp 480w, assets/img/zollstock-suedstadion-luftbild-960.webp 960w, assets/img/zollstock-suedstadion-luftbild-1280.webp 1280w, assets/img/zollstock-suedstadion-luftbild-1920.webp 1920w" sizes="100vw">
@@ -266,7 +276,7 @@ document.documentElement.classList.add('js');
   <p class="quellen__fuss">Bei Häusern kehrt sich das Verhältnis um: Dort nennt ImmoScout24 den höheren Wert. Für Häuser weist der Gutachterausschuss in Zollstock keinen eigenen Quadratmeterpreis aus, weil zu wenige Verträge für eine belastbare Auswertung vorliegen — deshalb stehen dort nur zwei Quellen. Wir bilden aus den Werten bewusst keinen Mittelwert: Ein gemittelter Wunschwert wäre genauso wenig belastbar wie ein einzelner.</p>
 </div></section>
 
-<section class="section section--soft"><div class="container">
+<section class="section section--soft" id="neubau"><div class="container">
   <div class="section-head reveal"><span class="eyebrow eyebrow--gold">Der Markt dahinter</span>
     <h2 class="headline">Zollstock baut — und das verändert Ihre Ausgangslage</h2></div>
   <div class="prose">
@@ -277,7 +287,7 @@ document.documentElement.classList.add('js');
   </div>
 </div></section>
 
-<section class="section"><div class="container">
+<section class="section" id="zonen"><div class="container">
   <div class="section-head reveal"><span class="eyebrow eyebrow--gold">Mikrolage</span>
     <h2 class="headline">Sechs Zonen, Faktor achteinhalb</h2></div>
   <div class="prose">
@@ -6690,7 +6700,7 @@ document.documentElement.classList.add('js');
   </div>
 </div></section>
 
-<section class="section section--soft"><div class="container">
+<section class="section section--soft" id="denkmal"><div class="container">
   <div class="section-head reveal"><span class="eyebrow eyebrow--gold">Was kaum jemand auf dem Schirm hat</span>
     <h2 class="headline">Denkmalschutz: Pflicht — und Steuervorteil</h2></div>
   <div class="prose">
@@ -6725,7 +6735,7 @@ document.documentElement.classList.add('js');
   </div>
 </div></section>
 
-<section class="section"><div class="container">
+<section class="section" id="grundstuecke"><div class="container">
   <div class="section-head reveal"><span class="eyebrow eyebrow--gold">Fünfzehn Jahre in einer Kurve</span>
     <h2 class="headline">Was aus Zollstocker Grundstücken geworden ist</h2></div>
   <div class="prose">
@@ -6787,7 +6797,7 @@ document.documentElement.classList.add('js');
   </div>
 </div></section>
 
-<section class="section section--soft"><div class="container">
+<section class="section section--soft" id="veedel"><div class="container">
   <div class="section-head reveal"><span class="eyebrow eyebrow--gold">Zollstock im Bild</span>
     <h2 class="headline">Das Veedel, in dem Ihre Immobilie steht</h2></div>
   <div class="bildstreifen reveal">
@@ -6816,7 +6826,7 @@ document.documentElement.classList.add('js');
   <p class="bildnachweis">Fotos über Wikimedia Commons, zugeschnitten und verkleinert. <a href="https://commons.wikimedia.org/wiki/File:Ballonfahrt_über_Köln_-_Südstadion-RS-4005.jpg" target="_blank" rel="noopener">Kopfbild</a>: Raimond Spekking, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Köln-Vorgebirgspark-P1010020.jpg" target="_blank" rel="noopener">Vorgebirgspark</a>: Willy Horsch, <a href="https://creativecommons.org/licenses/by/2.5" target="_blank" rel="noopener">CC BY 2.5</a> · <a href="https://commons.wikimedia.org/wiki/File:Köln_-_Zollstockgürtel_-_Kreuzung_Höninger_Weg_029.jpg" target="_blank" rel="noopener">Höninger Weg</a>: Horsch, Willy - HOWI, <a href="https://creativecommons.org/licenses/by/3.0" target="_blank" rel="noopener">CC BY 3.0</a> · <a href="https://commons.wikimedia.org/wiki/File:Köln-Zollstock,_Melanchtonkirche_(4).jpg" target="_blank" rel="noopener">Melanchthonkirche</a>: Cmcmcm1, <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener">CC BY-SA 4.0</a>.</p>
 </div></section>
 
-<section class="section"><div class="container">
+<section class="section" id="fragen"><div class="container">
   <div class="section-head reveal"><span class="eyebrow eyebrow--gold">Häufige Fragen</span>
     <h2 class="headline">Immobilie in Köln-Zollstock verkaufen: Ihre Fragen</h2></div>
   <div class="prose">

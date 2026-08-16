@@ -1,4 +1,34 @@
-# Highseller Immobilien & Finanzen — Website (Stand v61)
+# Highseller Immobilien & Finanzen — Website (Stand v62)
+
+## Was in v62 umgesetzt wurde
+
+### Sprungnavigation auf allen neun ausgebauten Veedelseiten
+
+Die `.jumpbar` steht jetzt auf allen neun statt bisher drei. Die sechs
+älteren Seiten konnten sie vorher nicht bekommen, weil ihren
+`<section>`-Elementen die `id` fehlte: Deutz und Zollstock hatten gar keine,
+Sülz eine, Ehrenfeld und Klettenberg je drei, Lindenthal vier. Diese Seiten
+sind zwischen 1.664 und 2.767 Wörter lang — ohne Navigation heißt das für
+Leser: scrollen, bis man findet, was man sucht.
+
+**39 Abschnitts-IDs vergeben**, je Seite sechs Sprungziele. Die IDs sind von
+Hand gewählt statt aus den Überschriften abgeleitet: Automatisch erzeugte
+Kürzel aus Sätzen wie „Der Höchststand war 2023 — und er ist vorbei" wären
+lang und unleserlich, und sie sind dauerhafte Sprungadressen, die auch in
+Verweisen von außen auftauchen können.
+
+Das Werkzeug liegt als `tools/sprungleisten-setzen.py` im Repo. Es findet die
+Abschnitte über ihre Überschriften, vergibt die IDs und setzt die Leiste hinter
+den Kopfbereich, damit der Aufmacher unverstellt bleibt.
+
+**Geprüft:** Alle 54 Sprungziele auf Existenz, keine doppelten IDs,
+Tag-Balance über vier Elementtypen auf allen neun Seiten, drei Sprünge je
+Seite im Browser durchgeklickt (Ziel landet 141 px unter der Leiste, aktiver
+Eintrag wird korrekt markiert), Karte und Bodenanteil-Rechner auf Lindenthal
+unbeschädigt, Lighthouse mobil 100/100/100/100 auf Deutz, Lindenthal und
+Zollstock.
+
+**Cache-Buster:** `styles.css?v=77` auf allen 231 Seiten.
 
 ## Was in v61 umgesetzt wurde
 
