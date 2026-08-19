@@ -41,6 +41,7 @@ UEBERARBEITET = {
     "immobilienmakler-koeln-raderberg.html":   ("2026-08-16", "0.8"),
     "immobilienmakler-koeln-marienburg.html":  ("2026-08-16", "0.8"),
     "immobilienmakler-koeln-hahnwald.html":    ("2026-08-16", "0.8"),
+    "immobilienmakler-koeln-rodenkirchen.html": ("2026-08-19", "0.8"),
     "immobilienmarktbericht-koeln-2026.html":  ("2026-08-16", "0.9"),
 }
 
