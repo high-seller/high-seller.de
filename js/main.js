@@ -2093,3 +2093,51 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* ==========================================================================
+   Nippes: Budget-Vergleicher Bestand gegen Neubau
+   --------------------------------------------------------------------------
+   Zeigt, wie viel Wohnfläche ein Käufer für dasselbe Geld im Bestand und im
+   Neubau bekommt. Grundlage sind die Durchschnitte des Grundstücksmarkt-
+   berichts 2026 für Köln-Nippes: 4.590 Euro je Quadratmeter bei 141
+   Weiterverkäufen, 7.532 Euro bei 25 Neubauverkäufen.
+
+   Der Bestandsbalken bleibt immer auf voller Breite, der Neubaubalken zeigt
+   den Anteil daran. So bleibt der Vergleich auf einen Blick lesbar, statt sich
+   mit dem Budget mitzuskalieren.
+   ========================================================================== */
+(function () {
+  "use strict";
+  var wurzel = document.getElementById("nipBudget");
+  if (!wurzel) return;
+
+  var BESTAND = 4590, NEUBAU = 7532;
+  var regler = document.getElementById("nipBetrag");
+  var betrag = document.getElementById("nipBetragAus");
+  var aB = document.getElementById("nipBestand");
+  var aN = document.getElementById("nipNeubau");
+  var bB = document.getElementById("nipBalkenB");
+  var bN = document.getElementById("nipBalkenN");
+  var diff = document.getElementById("nipDiff");
+  if (!regler || !aB) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function zeichnen() {
+    var geld = parseInt(regler.value, 10) || 0;
+    var mB = Math.round(geld / BESTAND);
+    var mN = Math.round(geld / NEUBAU);
+
+    betrag.textContent = punkt(geld) + " €";
+    aB.textContent = mB + " m²";
+    aN.textContent = mN + " m²";
+    bB.style.width = "100%";
+    bN.style.width = (mB ? (mN / mB * 100).toFixed(1) : 0) + "%";
+    diff.textContent = (mB - mN) + " m²";
+  }
+
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();

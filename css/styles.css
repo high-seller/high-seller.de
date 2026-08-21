@@ -4756,3 +4756,65 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 .nie-vergleich__bar b{position:relative;z-index:1;display:block;line-height:30px;
   padding-left:12px;color:#fff;font-family:var(--f-display);font-size:.9rem}
 .nie-vergleich__wert{font-size:.85rem;color:var(--slate-2);white-space:nowrap}
+
+/* v69 — Nippes: Budget-Vergleicher, Verkaufsfall, Lagen -------------------- */
+
+.nip-bild{margin:26px 0 30px;padding:0}
+.nip-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.nip-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+.nip-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2)}
+.nip-quelle a{color:var(--slate-2)}
+
+.nip-fall{margin:22px 0 26px;border:1px solid var(--border);border-left:3px solid var(--gold);
+  border-radius:var(--radius-sm);background:#FBFCFE;padding:18px 20px 6px}
+.nip-fall__ort{margin:0 0 12px;font-family:var(--f-display);font-weight:600;
+  font-size:1.02rem;color:var(--ink)}
+.nip-fall__daten{display:grid;gap:10px 26px;margin:0 0 14px}
+@media(min-width:560px){.nip-fall__daten{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:880px){.nip-fall__daten{grid-template-columns:repeat(4,1fr)}}
+.nip-fall__daten>div{display:flex;flex-direction:column;gap:1px}
+.nip-fall__daten dt{font-size:.78rem;letter-spacing:.02em;text-transform:uppercase;color:var(--slate-2)}
+.nip-fall__daten dd{margin:0;font-family:var(--f-display);font-weight:600;font-size:1rem;color:var(--ink)}
+
+.nip-lagen{margin:22px 0 26px;display:grid;gap:2px}
+.nip-lagen>div{padding:16px 0;border-top:1px solid var(--border)}
+.nip-lagen>div:last-child{border-bottom:1px solid var(--border)}
+.nip-lagen dt{font-family:var(--f-display);font-weight:600;color:var(--ink);
+  font-size:1rem;margin-bottom:6px}
+.nip-lagen dd{margin:0;color:var(--body);font-size:.95rem;line-height:1.75;max-width:70ch}
+
+/* Budget-Vergleicher: wie viel Fläche bekommt ein Käufer für dasselbe Geld?
+   Die beiden Balken teilen sich eine Skala, damit der Unterschied unmittelbar
+   ablesbar ist — der Bestandsbalken ist immer die volle Breite. */
+.nip-budget{margin:24px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px 22px 24px}
+@media(min-width:900px){
+  .nip-budget{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
+    gap:34px;align-items:start}
+  .nip-budget__fuss{grid-column:1/-1}
+}
+.nip-budget label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-weight:600;color:var(--ink);font-size:.95rem;margin-bottom:6px}
+.nip-budget output{font-family:var(--f-display);font-weight:700;color:var(--blue)}
+.nip-budget input[type=range]{width:100%;accent-color:var(--gold)}
+.nip-budget__hinweis{margin:8px 0 0;font-size:.8rem;color:var(--slate-2)}
+.nip-budget__ausgabe{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+@media(min-width:900px){
+  .nip-budget__ausgabe{border-top:0;border-left:1px solid var(--border);
+    margin-top:0;padding-top:0;padding-left:34px}
+}
+.nip-budget__seite{margin-bottom:18px}
+.nip-budget__was{display:block;font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2);margin-bottom:2px}
+.nip-budget__flaeche{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.7rem;line-height:1.2;color:var(--ink);margin-bottom:7px}
+.nip-budget__balken{display:block;height:14px;border-radius:7px;background:var(--bg-soft);
+  overflow:hidden}
+.nip-budget__balken i{display:block;height:100%;border-radius:7px;background:#2263AE;
+  transition:width .25s var(--ease)}
+.nip-budget__balken i.nip-budget__balken--neu{background:#8A94A8}
+.nip-budget__diff{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-size:.95rem;color:var(--body)}
+.nip-budget__diff b{font-family:var(--f-display);color:var(--ink)}
+.nip-budget__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
