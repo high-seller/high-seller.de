@@ -43,6 +43,7 @@ UEBERARBEITET = {
     "immobilienmakler-koeln-hahnwald.html":    ("2026-08-16", "0.8"),
     "immobilienmakler-koeln-rodenkirchen.html": ("2026-08-19", "0.8"),
     "immobilienmakler-koeln-suerth.html":       ("2026-08-21", "0.8"),
+    "immobilienmakler-koeln-niehl.html":        ("2026-08-21", "0.8"),
     "immobilienmarktbericht-koeln-2026.html":  ("2026-08-16", "0.9"),
 }
 
