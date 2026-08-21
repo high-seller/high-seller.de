@@ -2016,3 +2016,80 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* ==========================================================================
+   Sürth: Baujahr-Einordner
+   --------------------------------------------------------------------------
+   Rechnet eine Wohnfläche gegen den Durchschnitt der gewählten Baujahresklasse
+   und zeigt daneben, wo dieser Wert innerhalb der tatsächlichen Sürther Spanne
+   von 1.942 bis 9.233 Euro je Quadratmeter liegt.
+
+   Die Skala ist der eigentliche Punkt: Sie macht sichtbar, dass der
+   Baujahresdurchschnitt selbst im teuersten Fall nur im mittleren Drittel der
+   Spanne landet — der Rest entscheidet sich über Zustand und Ausstattung.
+   ========================================================================== */
+(function () {
+  "use strict";
+  var wurzel = document.getElementById("sueEinordner");
+  if (!wurzel) return;
+
+  var KLASSEN = {
+    alt:    { preis: 4179, text: "Baujahr 1941 bis 1990" },
+    neu:    { preis: 4936, text: "Baujahr ab 1991" },
+    neubau: { preis: 6394, text: "Neubau, 5 Verkäufe 2025" }
+  };
+  var UNTEN = 1942, OBEN = 9233;
+
+  var knoepfe = wurzel.querySelectorAll(".sue-einordner__jahre button");
+  var regler  = document.getElementById("sueFlaeche");
+  var flAus   = document.getElementById("sueFlaecheAus");
+  var erg     = document.getElementById("sueErgebnis");
+  var ergText = document.getElementById("sueErgebnisText");
+  var uAus    = document.getElementById("sueUnten");
+  var oAus    = document.getElementById("sueOben");
+  var marke   = document.getElementById("sueMarke");
+  if (!regler || !erg) return;
+
+  var gewaehlt = "alt";
+
+  function zahl(n) {
+    return String(Math.round(n / 100) * 100).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function zeichnen() {
+    var flaeche = parseInt(regler.value, 10) || 0;
+    var k = KLASSEN[gewaehlt] || KLASSEN.alt;
+
+    flAus.textContent = flaeche + " m²";
+    erg.textContent = zahl(flaeche * k.preis) + " €";
+    ergText.textContent = flaeche + " m² × " + String(k.preis).replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      + " €/m² (" + k.text + ")";
+    uAus.textContent = zahl(flaeche * UNTEN) + " €";
+    oAus.textContent = zahl(flaeche * OBEN) + " €";
+
+    // Position innerhalb der Spanne — der Preis je Quadratmeter ist von der
+    // Fläche unabhängig, die Marke bewegt sich also nur mit der Baujahreswahl.
+    var anteil = (k.preis - UNTEN) / (OBEN - UNTEN);
+    marke.style.left = "calc(" + (Math.max(0, Math.min(1, anteil)) * 100).toFixed(1) + "% - 2px)";
+  }
+
+  Array.prototype.forEach.call(knoepfe, function (btn) {
+    btn.addEventListener("click", function () {
+      gewaehlt = btn.getAttribute("data-jahr");
+      Array.prototype.forEach.call(knoepfe, function (b) {
+        b.setAttribute("aria-checked", b === btn ? "true" : "false");
+      });
+      zeichnen();
+    });
+    btn.addEventListener("keydown", function (e) {
+      var i = Array.prototype.indexOf.call(knoepfe, btn), ziel = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") ziel = knoepfe[(i + 1) % knoepfe.length];
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") ziel = knoepfe[(i - 1 + knoepfe.length) % knoepfe.length];
+      if (!ziel) return;
+      e.preventDefault(); ziel.focus(); ziel.click();
+    });
+  });
+
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();
