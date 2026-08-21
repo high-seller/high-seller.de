@@ -4518,3 +4518,83 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
   .rdk-spanne__wert{font-size:13px}
   .rdk-spanne__achse{font-size:12.5px}
 }
+
+/* v66 — Voller Kopfbereich für die ausgebauten Seiten ---------------------- */
+
+/* Die ausgebauten Seiten trugen den schmalen `.page-hero`: ein Farbverlauf von
+   höchstens 72 px Polster, der sie wie Unterseiten aussehen ließ. Sie sollen
+   wirken wie die Startseite — Foto über die volle Breite, Raum für Überschrift
+   und Handlungsaufruf, und der Wertrechner gleich im Blickfeld.
+
+   Aufgesetzt wird auf `.veedel-hero`, das Foto und Abdunklung bereits mitbringt.
+   Neu sind die Mindesthöhe, der Handlungsaufruf, die Vertrauenszeile und das
+   zweispaltige Raster für die Rechnerkarte. Die individuellen Kopfbausteine der
+   einzelnen Seiten (Hahnwalds Preisfrage, Marienburgs Kennzahlen) bleiben
+   erhalten — sie stehen weiterhin im Textteil links. */
+/* Schichtung mit positiven Werten. `.veedel-hero` legt Foto und Abdunklung
+   auf z-index -2 und -1 — hinter den eigenen Hintergrund. Zusammen mit
+   `isolation:isolate`, das einen eigenen Stapelkontext aufspannt, verschwindet
+   das Foto dadurch vollständig hinter der Füllfarbe. Die Füllfarbe bleibt als
+   Rückfall, falls ein Bild fehlt, aber Foto und Verlauf liegen jetzt darüber. */
+.veedel-hero--voll{min-height:min(74vh,700px);display:flex;align-items:center;
+  background:#0B1A30}
+.veedel-hero--voll .veedel-hero__media{z-index:0}
+.veedel-hero--voll .veedel-hero__inner{position:relative;z-index:2}
+
+/* Der Verlauf von `.veedel-hero` deckt mit 86 bis 90 Prozent ab. Bei einem
+   Kopf von 60 Pixeln Höhe fiel das nicht auf, bei 700 Pixeln verschluckt er
+   das Foto vollständig. Ersetzt durch den seitlichen Verlauf der Startseite:
+   links dunkel genug für den Text, rechts fast durchsichtig, damit das Bild
+   überhaupt zu sehen ist. Auf schmalen Schirmen liegt der Text über der
+   ganzen Breite, dort deckt eine zusätzliche senkrechte Lage ab. */
+.veedel-hero--voll::after{z-index:1;
+  background:linear-gradient(100deg,rgba(10,22,40,.86) 0%,rgba(10,22,40,.66) 42%,
+             rgba(10,22,40,.30) 76%,rgba(10,22,40,.16) 100%)}
+@media(max-width:1179px){
+  .veedel-hero--voll::after{
+    background:linear-gradient(178deg,rgba(10,22,40,.80) 0%,rgba(10,22,40,.68) 40%,
+               rgba(10,22,40,.86) 100%)}
+}
+
+/* Der Fließtext im Kopf erbte die gedämpfte Farbe der Unterseiten und stand
+   auf dem Foto zu blass. */
+.veedel-hero--voll .veedel-hero__text > p{color:#DCE4F0;
+  font-size:clamp(1.02rem,1.7vw,1.22rem);max-width:54ch}
+.veedel-hero--voll .veedel-hero__inner{width:100%;
+  padding-block:clamp(66px,9vw,104px) clamp(46px,6vw,76px)}
+.veedel-hero--voll h1{font-size:clamp(2rem,4.6vw,3.4rem);max-width:20ch}
+/* Auf dem Foto gemessen: Mit der gedämpften Farbe der Unterseiten erreichte
+   der Pfad nur 3,87:1 und lag damit unter den 4,5:1, die kleiner Text braucht.
+   Aufgehellt auf gemessene 5,4:1. */
+.veedel-hero--voll .breadcrumb{font-size:.84rem;color:#D8E3F2;margin-bottom:16px}
+.veedel-hero--voll .breadcrumb a{color:#E8EFF8}
+.veedel-hero--voll .breadcrumb a:hover{color:#fff}
+
+/* Handlungsaufruf und Vertrauenszeile übernehmen die Gestaltung der Startseite. */
+.veedel-kopf__cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.veedel-kopf__fakten{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:28px;
+  padding-top:22px;border-top:1px solid rgba(255,255,255,.22)}
+.veedel-kopf__fakten span{display:flex;align-items:center;gap:9px;
+  font-size:.9rem;color:#E4EAF4;font-weight:500}
+.veedel-kopf__fakten svg{width:16px;height:16px;color:var(--gold);flex:none}
+
+/* Ab 1180 px rückt die Rechnerkarte neben den Text — darunter wäre die Spalte
+   zu schmal, dort übernimmt das Wertband unmittelbar unter dem Kopf. */
+@media(min-width:1180px){
+  .veedel-hero--voll .veedel-hero__inner{display:grid;
+    grid-template-columns:minmax(0,1fr) 380px;gap:clamp(32px,4vw,64px);
+    align-items:center}
+  .veedel-hero--voll .veedel-hero__text{max-width:none}
+  .veedel-hero--voll .hero-wert{display:block}
+}
+
+/* Das Wertband sitzt jetzt unmittelbar unter dem Kopf statt am Seitenende.
+   Der schmale Abstand nach oben lässt es als Fortsetzung des Kopfes lesen. */
+.wertband-oben{padding-top:clamp(26px,4vw,44px)}
+
+/* Auf dem Foto gemessen: Die Keyword-Zeile erreichte über dem Bild nur 3,37:1
+   und lag damit unter den 4,5:1, die ihre 13 Pixel verlangen; die
+   hervorgehobene Zeile lag mit 3,11:1 hart an der Grenze für großen Text.
+   Beide sind aufgehellt — gemessen jetzt 5,4 beziehungsweise 4,6:1. */
+.veedel-hero--voll .h1-keyword{color:#DCC79A}
+.veedel-hero--voll h1 em{color:#E4CFA4}

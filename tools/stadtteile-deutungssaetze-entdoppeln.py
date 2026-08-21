@@ -24,7 +24,7 @@ Mietwohnungen"; das faellt mit weg.
 """
 import os, sys
 
-ROOT = "/Users/phillipdarscheidt/Desktop/Immobilien – High Seller/high-seller-site/.claude/worktrees/seo-fix"
+ROOT = "/Users/phillipdarscheidt/Projekte/Immobilien – High Seller/high-seller-site/.claude/worktrees/seo-fix"
 
 ALT = {
  "alter":     "Beim Alter liegt das Veedel im städtischen Mittel, ein Sondereffekt auf das Verkaufsgeschehen ist daraus nicht abzulesen.",
