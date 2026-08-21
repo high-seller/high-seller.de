@@ -1898,3 +1898,121 @@
   })();
 
 })();
+
+/* ==========================================================================
+   Rodenkirchen: Objektart-Vergleicher
+   --------------------------------------------------------------------------
+   Rechnet eine Wohnfläche gegen den Durchschnitt des gewählten Segments und
+   stellt daneben, was dieselbe Fläche in den übrigen fünf Segmenten gekostet
+   hätte. Die Zahlen stammen aus dem Grundstücksmarktbericht 2026 der Stadt
+   Köln (Berichtsjahr 2025).
+
+   Gerundet wird auf volle hundert Euro. Das ist Absicht: Ein auf den Euro
+   genauer Betrag würde eine Genauigkeit vortäuschen, die eine Multiplikation
+   mit einem Stadtteildurchschnitt nicht hat.
+   ========================================================================== */
+(function () {
+  "use strict";
+  var wurzel = document.getElementById("rdkVergleicher");
+  if (!wurzel) return;
+
+  var SEGMENTE = [
+    { id: "bestand", kurz: "Wohnung, Bestand",   preis: 4790,
+      lang: "Eigentumswohnung, Weiterverkauf, 79 Verkäufe 2025" },
+    { id: "neubau",  kurz: "Wohnung, Neubau",    preis: 7699,
+      lang: "Neubauwohnung, 18 Verkäufe 2025" },
+    { id: "efh",     kurz: "Freistehendes Haus", preis: 6874,
+      lang: "freistehendes Ein- oder Zweifamilienhaus, 19 Verkäufe 2025" },
+    { id: "dhh",     kurz: "Doppelhaushälfte",   preis: 6283,
+      lang: "Doppelhaushälfte oder Reihenendhaus, 15 Verkäufe 2025" },
+    { id: "rmh",     kurz: "Reihenmittelhaus",   preis: 5662,
+      lang: "Reihenmittelhaus, 7 Verkäufe 2025" },
+    { id: "mfh",     kurz: "Mehrfamilienhaus",   preis: 3214,
+      lang: "Mehrfamilienhaus, 17 Verkäufe 2025 im gesamten Stadtbezirk" }
+  ];
+
+  var knoepfe  = wurzel.querySelectorAll(".rdk-vergleicher__arten button");
+  var regler   = document.getElementById("rdkFlaeche");
+  var flAus    = document.getElementById("rdkFlaecheAus");
+  var ergebnis = document.getElementById("rdkErgebnis");
+  var ergText  = document.getElementById("rdkErgebnisText");
+  var liste    = document.getElementById("rdkListe");
+  if (!regler || !ergebnis || !liste) return;
+
+  var gewaehlt = "bestand";
+
+  function euro(betrag) {
+    return Math.round(betrag / 100) * 100;
+  }
+
+  function zahl(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function segment(id) {
+    for (var i = 0; i < SEGMENTE.length; i++) {
+      if (SEGMENTE[i].id === id) return SEGMENTE[i];
+    }
+    return SEGMENTE[0];
+  }
+
+  function zeichnen() {
+    var flaeche = parseInt(regler.value, 10) || 0;
+    var eigen = segment(gewaehlt);
+    var wert = euro(flaeche * eigen.preis);
+
+    flAus.textContent = flaeche + " m²";
+    ergebnis.textContent = zahl(wert) + " €";
+    ergText.textContent = flaeche + " m² × " + zahl(eigen.preis) + " €/m² ("
+      + eigen.lang + ")";
+
+    liste.innerHTML = "";
+    SEGMENTE.forEach(function (seg) {
+      if (seg.id === eigen.id) return;
+      var w = euro(flaeche * seg.preis);
+      var d = wert ? Math.round((w - wert) / wert * 100) : 0;
+      var li = document.createElement("li");
+
+      var name = document.createElement("span");
+      name.textContent = seg.kurz;
+
+      var rechts = document.createElement("span");
+      var b = document.createElement("b");
+      b.textContent = zahl(w) + " €";
+      rechts.appendChild(b);
+
+      var diff = document.createElement("span");
+      diff.className = "rdk-diff";
+      diff.textContent = d === 0 ? "gleich" : (d > 0 ? "+" : "−") + Math.abs(d) + " %";
+      rechts.appendChild(diff);
+
+      li.appendChild(name);
+      li.appendChild(rechts);
+      liste.appendChild(li);
+    });
+  }
+
+  Array.prototype.forEach.call(knoepfe, function (btn) {
+    btn.addEventListener("click", function () {
+      gewaehlt = btn.getAttribute("data-art");
+      Array.prototype.forEach.call(knoepfe, function (b) {
+        b.setAttribute("aria-checked", b === btn ? "true" : "false");
+      });
+      zeichnen();
+    });
+    // Pfeiltasten innerhalb der Gruppe, wie bei einer Radiogruppe erwartet.
+    btn.addEventListener("keydown", function (e) {
+      var i = Array.prototype.indexOf.call(knoepfe, btn);
+      var ziel = null;
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") ziel = knoepfe[(i + 1) % knoepfe.length];
+      if (e.key === "ArrowLeft" || e.key === "ArrowUp") ziel = knoepfe[(i - 1 + knoepfe.length) % knoepfe.length];
+      if (!ziel) return;
+      e.preventDefault();
+      ziel.focus();
+      ziel.click();
+    });
+  });
+
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();

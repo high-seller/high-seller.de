@@ -15,6 +15,7 @@ Website vorkommen:
 
   * als `<details class="faq-item">` mit `<summary>` und `.faq-answer`
   * als `<h3>` mit folgendem Absatz innerhalb eines FAQ-Abschnitts
+  * als Aufklapper `.faq-item` mit `.faq-q` und `.faq-a`
 
 und schreibt sie in den FAQPage-Knoten des letzten JSON-LD-Blocks. Steht
 dort noch keiner, wird er angelegt. Umgekehrt wird nichts erfunden: Was
@@ -105,6 +106,23 @@ def fragen_aus_ueberschriften(s):
     return aus
 
 
+def fragen_aus_akkordeon(s):
+    """Bauart 4: Aufklapper aus `.faq-item` mit `.faq-q`-Schaltfläche.
+
+    So ist die zentrale Fragenseite gebaut, und seit dem Ausbau von
+    Rodenkirchen auch der Fragenteil einzelner Veedelseiten. Die Frage steht
+    im Text der Schaltfläche, gefolgt vom Plus-Symbol — dieses `<span>` wird
+    von `sauber()` mit entfernt, weil es kein Textinhalt ist.
+    """
+    aus = []
+    for m in re.finditer(r'<button class="faq-q"[^>]*>(.*?)</button>\s*'
+                         r'<div class="faq-a">\s*<div>(.*?)</div>\s*</div>', s, re.S):
+        frage, antwort = sauber(m.group(1)), sauber(m.group(2))
+        if frage and antwort and ist_frage(frage):
+            aus.append((frage, antwort))
+    return aus
+
+
 def schema_fragen(s):
     """Vorhandene Fragen im FAQPage-Knoten, samt Fundstelle.
 
@@ -142,8 +160,8 @@ def main():
             continue
         s = open(datei, encoding="utf-8").read()
 
-        sichtbar = (fragen_aus_details(s) or fragen_aus_definitionsliste(s)
-                    or fragen_aus_ueberschriften(s))
+        sichtbar = (fragen_aus_details(s) or fragen_aus_akkordeon(s)
+                    or fragen_aus_definitionsliste(s) or fragen_aus_ueberschriften(s))
         if not sichtbar:
             ohne_faq += 1
             continue
