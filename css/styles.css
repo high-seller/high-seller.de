@@ -5049,3 +5049,63 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 /* Der Hero zeigt den MediaPark aus der Luft; der Turm steht im oberen
    Bilddrittel, die Voreinstellung von 62 % würde ihn abschneiden. */
 .veedel-hero--voll img[src*="neustadt-nord-mediapark"]{object-position:50% 38%}
+
+/* v73 — Weiden: Aufteilungs-Rechner, waagerechter Stadtteilvergleich ------- */
+
+.wdn-bild{margin:26px 0 30px;padding:0}
+.wdn-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.wdn-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+/* Das Haus-Foto ist fast quadratisch; in voller Spaltenbreite drängt es den
+   Text auseinander. */
+@media(min-width:760px){ .wdn-bild--hoch img{max-width:560px} }
+.wdn-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2);margin-top:26px}
+.wdn-quelle a{color:var(--slate-2)}
+
+/* Waagerechte Balken: Weiden hervorgehoben, die Vergleichsstadtteile
+   zurückgenommen. Die Zahl steht am Balkenende, nicht darin — bei 2 Prozent
+   wäre im Balken kein Platz. */
+.wdn-grafik{margin:26px 0 30px}
+.wdn-grafik svg{display:block;width:100%;height:auto;overflow:visible}
+.wdn-grafik svg text.wdnG-t{font-family:var(--f-display);font-weight:600;font-size:14px;fill:var(--ink)}
+.wdn-grafik svg text.wdnG-n{font-size:13.5px;fill:var(--body);text-anchor:end}
+.wdn-grafik svg text.wdnG-v{font-family:var(--f-display);font-weight:600;font-size:13.5px;fill:var(--slate-2)}
+.wdn-grafik svg text.wdnG-v--stark{fill:#8a6a1f;font-weight:700}
+.wdn-grafik svg text.wdnG-f{font-size:11.5px;fill:var(--slate-2)}
+
+.wdn-rechner{margin:24px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px 22px 24px}
+@media(min-width:900px){
+  .wdn-rechner{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
+    gap:34px;align-items:start}
+  .wdn-rechner__fuss{grid-column:1/-1}
+}
+.wdn-rechner label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-weight:600;color:var(--ink);font-size:.95rem;margin-bottom:6px}
+.wdn-rechner output{font-family:var(--f-display);font-weight:700;color:var(--blue)}
+.wdn-rechner input[type=range]{width:100%;accent-color:var(--gold)}
+.wdn-rechner__hinweis{margin:8px 0 0;font-size:.8rem;color:var(--slate-2)}
+.wdn-rechner__ausgabe{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+@media(min-width:900px){
+  .wdn-rechner__ausgabe{border-top:0;border-left:1px solid var(--border);
+    margin-top:0;padding-top:0;padding-left:34px}
+}
+.wdn-rechner__zeile{margin-bottom:22px}
+.wdn-rechner__was{display:block;font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2);margin-bottom:2px}
+.wdn-rechner__wert{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.7rem;line-height:1.2;color:#8a6a1f;margin-bottom:7px}
+.wdn-rechner__wert--ref{color:var(--ink)}
+.wdn-rechner__balken{display:block;height:14px;border-radius:7px;background:var(--bg-soft);
+  overflow:hidden}
+.wdn-rechner__balken i{display:block;height:100%;border-radius:7px;background:#B0872F;
+  transition:width .25s var(--ease);min-width:3px}
+.wdn-rechner__balken i.wdn-rechner__balken--ref{background:#8FA3BC}
+.wdn-rechner__proEinheit{display:block;margin-top:6px;font-size:.82rem;color:var(--slate-2)}
+.wdn-rechner__fazit{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-family:var(--f-display);font-weight:600;font-size:.98rem;line-height:1.5;color:var(--ink)}
+.wdn-rechner__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+/* Der Wochenmarkt steht im mittleren Bildbereich; 62 Prozent schneidet die
+   Marktstände an. */
+.veedel-hero--voll img[src*="weiden-wochenmarkt"]{object-position:50% 46%}

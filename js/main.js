@@ -2296,3 +2296,66 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Aufteilungs-Rechner Weiden ----------------------------------------------
+   Zeigt, was der statistische Aufschlag beim Erstverkauf nach Aufteilung für
+   ein ganzes Haus bedeutet — und stellt daneben, was derselbe Fall in einem
+   Stadtteil mit hohem Aufschlag ergäbe.
+
+   Weiden 2025: 3.436 gegenüber 3.368 Euro je Quadratmeter, also 68 Euro
+   Aufschlag aus 12 Verkäufen. Köln-Neustadt-Süd zum Vergleich: 7.556
+   gegenüber 5.766 Euro, also 1.790 Euro aus 36 Verkäufen. */
+(function () {
+  var wurzel = document.getElementById("wdnRechner");
+  if (!wurzel) return;
+
+  var AUF_WEIDEN = 68, AUF_SUEDSTADT = 1790;
+  var flaeche  = document.getElementById("wdnFlaeche");
+  var einheit  = document.getElementById("wdnEinheiten");
+  var ausFl    = document.getElementById("wdnFlaecheAus");
+  var ausEinh  = document.getElementById("wdnEinheitenAus");
+  var aErtrag  = document.getElementById("wdnErtrag");
+  var aRef     = document.getElementById("wdnRef");
+  var bW       = document.getElementById("wdnBalkenW");
+  var bR       = document.getElementById("wdnBalkenR");
+  var proW     = document.getElementById("wdnProEinheit");
+  var proR     = document.getElementById("wdnRefProEinheit");
+  var fazit    = document.getElementById("wdnFazit");
+  if (!flaeche || !einheit || !aErtrag) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  /* Auf volle Hundert runden: Der Aufschlag beruht auf zwölf Verkäufen,
+     eine feinere Angabe würde eine Genauigkeit vortäuschen. */
+  function hundert(n) {
+    return punkt(Math.round(n / 100) * 100) + " €";
+  }
+
+  function zeichnen() {
+    var qm = parseInt(flaeche.value, 10) || 0;
+    var n  = parseInt(einheit.value, 10) || 1;
+    var eW = qm * AUF_WEIDEN, eR = qm * AUF_SUEDSTADT;
+
+    ausFl.textContent   = punkt(qm) + " m²";
+    ausEinh.textContent = n;
+    aErtrag.textContent = hundert(eW);
+    aRef.textContent    = hundert(eR);
+    bW.style.width = (eW / eR * 100).toFixed(1) + "%";
+    bR.style.width = "100%";
+    proW.textContent = hundert(eW / n) + " je Wohnung";
+    proR.textContent = hundert(eR / n) + " je Wohnung";
+
+    /* Das Verhältnis ist konstant (68 zu 1.790, also gut 1 zu 26) und hängt
+       nicht von der Fläche ab — der Satz benennt es trotzdem ausdrücklich,
+       weil die beiden Beträge sonst nur schwer einzuordnen sind. */
+    var faktor = Math.round(AUF_SUEDSTADT / AUF_WEIDEN);
+    fazit.textContent = "Dieselbe Aufteilung brächte in der Südstadt rund das "
+      + faktor + "-Fache.";
+  }
+
+  flaeche.addEventListener("input", zeichnen);
+  einheit.addEventListener("input", zeichnen);
+  zeichnen();
+})();
