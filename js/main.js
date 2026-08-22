@@ -2435,3 +2435,57 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Rheinseiten-Vergleich Mülheim -------------------------------------------
+   Zwei Rechnungen zur selben Wohnfläche: was sie in Mülheim gekostet hat, was
+   dieselbe Fläche linksrheinisch kostet — und wie viel Fläche der Mülheimer
+   Betrag dort bekäme. Alle Werte sind Durchschnitte aus Weiterverkäufen des
+   Jahres 2025 (Grundstücksmarktbericht 2026). */
+(function () {
+  var wurzel = document.getElementById("mhmRechner");
+  if (!wurzel) return;
+
+  var MUELHEIM = 3747, NEUSTADT_SUED = 5766, ALTSTADT_SUED = 5841;
+  var regler = document.getElementById("mhmFlaeche");
+  var ausFl  = document.getElementById("mhmFlaecheAus");
+  var wert   = document.getElementById("mhmWert");
+  var nsWert = document.getElementById("mhmNsWert");
+  var asWert = document.getElementById("mhmAsWert");
+  var nsFl   = document.getElementById("mhmNsFl");
+  var asFl   = document.getElementById("mhmAsFl");
+  var fazit  = document.getElementById("mhmFazit");
+  if (!regler || !wert) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function tausend(n) {
+    return punkt(Math.round(n / 1000) * 1000) + " €";
+  }
+
+  function zeichnen() {
+    var qm = parseInt(regler.value, 10) || 0;
+    var geld = qm * MUELHEIM;
+
+    ausFl.textContent = qm + " m²";
+    wert.textContent   = tausend(geld);
+    nsWert.textContent = tausend(qm * NEUSTADT_SUED);
+    asWert.textContent = tausend(qm * ALTSTADT_SUED);
+
+    /* Umkehrung: wie viel Fläche bekäme derselbe Betrag linksrheinisch. */
+    var flNs = Math.round(geld / NEUSTADT_SUED);
+    var flAs = Math.round(geld / ALTSTADT_SUED);
+    nsFl.textContent = flNs + " m²";
+    asFl.textContent = flAs + " m²";
+
+    /* Der günstigere der beiden Vergleichsstadtteile ergibt den kleineren
+       Abstand — den nennen wir, damit die Aussage nicht zu günstig gerechnet
+       wirkt. */
+    var diff = qm - Math.max(flNs, flAs);
+    fazit.textContent = "Rund " + diff + " m² mehr Wohnfläche für dasselbe Geld.";
+  }
+
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();

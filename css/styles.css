@@ -5176,3 +5176,58 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 
 /* Die Kranhäuser stehen im oberen Bilddrittel über der Wasserspiegelung. */
 .veedel-hero--voll img[src*="altstadt-sued-kranhaeuser"]{object-position:50% 34%}
+
+/* v75 — Mülheim: Rheinseiten-Vergleich ------------------------------------ */
+
+.mhm-bild{margin:26px 0 30px;padding:0}
+.mhm-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.mhm-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+.mhm-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2);margin-top:26px}
+.mhm-quelle a{color:var(--slate-2)}
+
+/* Anders als die bisherigen Rechner steht der eigene Wert links unter dem
+   Regler und die Vergleichswerte rechts: Der Blick soll von "meine Wohnung"
+   zu "dieselbe Fläche anderswo" wandern, nicht zwischen gleichrangigen
+   Balken springen. */
+.mhm-rechner{margin:24px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px 22px 24px}
+@media(min-width:900px){
+  .mhm-rechner{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);
+    gap:34px;align-items:start}
+  .mhm-rechner__fuss{grid-column:1/-1}
+}
+.mhm-rechner label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-weight:600;color:var(--ink);font-size:.95rem;margin-bottom:6px}
+.mhm-rechner output{font-family:var(--f-display);font-weight:700;color:var(--blue)}
+.mhm-rechner input[type=range]{width:100%;accent-color:var(--gold)}
+.mhm-rechner__hinweis{margin:8px 0 0;font-size:.8rem;color:var(--slate-2)}
+.mhm-rechner__haupt{margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}
+.mhm-rechner__was{display:block;font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2);margin-bottom:2px}
+.mhm-rechner__wert{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.9rem;line-height:1.15;color:var(--ink)}
+.mhm-rechner__basis{display:block;margin-top:4px;font-size:.78rem;color:var(--slate-2)}
+.mhm-rechner__ausgabe{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+@media(min-width:900px){
+  .mhm-rechner__ausgabe{border-top:0;border-left:1px solid var(--border);
+    margin-top:0;padding-top:0;padding-left:34px}
+}
+.mhm-rechner__titel{margin:0 0 8px;font-size:.8rem;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--slate-2)}
+.mhm-rechner__titel--zweit{margin-top:22px}
+.mhm-rechner__liste{margin:0;display:grid;gap:2px}
+.mhm-rechner__liste>div{display:flex;justify-content:space-between;align-items:baseline;
+  gap:16px;padding:10px 0;border-top:1px solid var(--border)}
+.mhm-rechner__liste dt{font-size:.92rem;color:var(--body)}
+.mhm-rechner__liste dt span{display:block;font-size:.76rem;color:var(--slate-2)}
+.mhm-rechner__liste dd{margin:0;font-family:var(--f-display);font-weight:700;
+  font-size:1.05rem;color:var(--ink);white-space:nowrap}
+.mhm-rechner__fazit{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-family:var(--f-display);font-weight:600;font-size:1rem;line-height:1.5;color:#1a6b4a}
+.mhm-rechner__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+/* Für den Wiener Platz braucht es keine eigene Bildposition: Das Foto wurde
+   bereits auf 2:1 zugeschnitten (oberes Drittel Himmel entfernt). Bei diesem
+   Verhältnis beschneidet `cover` seitlich, eine vertikale Position bliebe
+   ohnehin wirkungslos. */
