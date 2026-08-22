@@ -5109,3 +5109,70 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 /* Der Wochenmarkt steht im mittleren Bildbereich; 62 Prozent schneidet die
    Marktstände an. */
 .veedel-hero--voll img[src*="weiden-wochenmarkt"]{object-position:50% 46%}
+
+/* v74 — Altstadt-Süd: Größen-Einordner mit Stadtteilskala ------------------ */
+
+.ast-bild{margin:26px 0 30px;padding:0}
+.ast-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.ast-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+.ast-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2);margin-top:26px}
+.ast-quelle a{color:var(--slate-2)}
+
+.ast-rechner{margin:24px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px 22px 24px}
+@media(min-width:900px){
+  .ast-rechner{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);
+    gap:34px;align-items:start}
+  .ast-rechner__fuss{grid-column:1/-1}
+}
+.ast-rechner label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-weight:600;color:var(--ink);font-size:.95rem;margin-bottom:6px}
+.ast-rechner output{font-family:var(--f-display);font-weight:700;color:var(--blue)}
+.ast-rechner input[type=range]{width:100%;accent-color:var(--gold)}
+.ast-rechner__hinweis{margin:8px 0 0;font-size:.8rem;color:var(--slate-2)}
+
+/* Skala mit drei festen Vergleichsmarken und einem beweglichen Zeiger.
+   Die Beschriftungen stehen abwechselnd, sonst überlappen Köln (41,8 %) und
+   Weiden (49,1 %) einander. */
+.ast-skala{margin-top:26px}
+.ast-skala__leiste{position:relative;height:108px;border-radius:5px;
+  background:linear-gradient(90deg,var(--bg-soft),#e8eef6)}
+.ast-skala__marke{position:absolute;top:0;transform:translateX(-50%)}
+.ast-skala__marke i{display:block;width:2px;height:22px;margin:0 auto;background:#8FA3BC}
+.ast-skala__marke b{display:block;margin-top:3px;font-size:.7rem;line-height:1.2;
+  font-weight:600;color:var(--slate-2);text-align:center;white-space:nowrap}
+/* Köln (41,8 %) und Weiden (49,1 %) liegen nur gut sieben Prozentpunkte
+   auseinander; ohne kräftige Höhenstaffelung überlappen die Beschriftungen.
+   nth-of-type zählt hier alle span-Kinder, der Zeiger ist das vierte. */
+.ast-skala__marke:nth-of-type(2) i{height:56px}
+.ast-skala__marke:nth-of-type(3) i{height:90px}
+.ast-skala__zeiger{position:absolute;top:-7px;width:3px;height:30px;border-radius:2px;
+  background:#B0872F;transform:translateX(-50%);transition:left .2s var(--ease)}
+.ast-skala__zeiger::after{content:"";position:absolute;top:-6px;left:50%;
+  transform:translateX(-50%);border:5px solid transparent;border-top-color:#B0872F}
+.ast-skala__enden{display:flex;justify-content:space-between;margin-top:6px;
+  font-size:.75rem;color:var(--slate-2)}
+
+.ast-rechner__ausgabe{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+@media(min-width:900px){
+  .ast-rechner__ausgabe{border-top:0;border-left:1px solid var(--border);
+    margin-top:0;padding-top:0;padding-left:34px}
+}
+.ast-rechner__einordnung{font-family:var(--f-display);font-weight:600;font-size:1.02rem;
+  line-height:1.5;color:var(--ink);margin-bottom:18px;padding-bottom:16px;
+  border-bottom:1px solid var(--border)}
+.ast-rechner__was{display:block;font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2);margin-bottom:2px}
+.ast-rechner__wert{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.7rem;line-height:1.2;color:var(--ink)}
+.ast-rechner__liste{margin:18px 0 0;display:grid;gap:2px}
+.ast-rechner__liste>div{display:flex;justify-content:space-between;gap:16px;
+  padding:9px 0;border-top:1px solid var(--border)}
+.ast-rechner__liste dt{font-size:.88rem;color:var(--body)}
+.ast-rechner__liste dd{margin:0;font-family:var(--f-display);font-weight:600;
+  font-size:.95rem;color:var(--ink);white-space:nowrap}
+.ast-rechner__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+/* Die Kranhäuser stehen im oberen Bilddrittel über der Wasserspiegelung. */
+.veedel-hero--voll img[src*="altstadt-sued-kranhaeuser"]{object-position:50% 34%}

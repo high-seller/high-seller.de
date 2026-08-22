@@ -2359,3 +2359,79 @@
   einheit.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Größen-Einordner Altstadt-Süd -------------------------------------------
+   Dieselbe Quadratmeterzahl bedeutet je nach Stadtteil etwas anderes. Der
+   Regler setzt einen Zeiger auf eine Skala von 25 bis 150 m², auf der drei
+   feste Marken stehen: Altstadt-Süd 60,5 (kleinste Wohnungen Kölns), Köln
+   77,3 und Weiden 86,4 (Stand 31.12.2025).
+
+   Der Geldwert nutzt 5.841 Euro je Quadratmeter, den Durchschnitt aus 126
+   Weiterverkäufen des Jahres 2025. */
+(function () {
+  var wurzel = document.getElementById("astRechner");
+  if (!wurzel) return;
+
+  var AST = 60.5, KOELN = 77.3, WEIDEN = 86.4, PREIS = 5841;
+  var MIN = 25, MAX = 150;
+  var regler = document.getElementById("astFlaeche");
+  var ausFl  = document.getElementById("astFlaecheAus");
+  var zeiger = document.getElementById("astZeiger");
+  var wert   = document.getElementById("astWert");
+  var ein    = document.getElementById("astEinordnung");
+  var vA = document.getElementById("astVglAst");
+  var vK = document.getElementById("astVglKoeln");
+  var vW = document.getElementById("astVglWeiden");
+  if (!regler || !wert) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  /* Auf volle Tausend runden — ein Stadtteilmittel gibt nicht mehr her. */
+  function tausend(n) {
+    return punkt(Math.round(n / 1000) * 1000) + " €";
+  }
+
+  /* Vorzeichen ausschreiben, damit "3 m² mehr" und "3 m² weniger" nicht als
+     bloßes Minuszeichen nebeneinanderstehen. */
+  function abstand(qm, bezug) {
+    var d = qm - bezug;
+    if (Math.abs(d) < 0.5) return "genau gleich";
+    return Math.abs(d).toFixed(0) + " m² " + (d > 0 ? "mehr" : "weniger");
+  }
+
+  function einordnen(qm) {
+    var d = qm - AST;
+    if (Math.abs(d) < 2.5) {
+      return "Das entspricht ziemlich genau dem Schnitt der Altstadt-Süd.";
+    }
+    if (d < 0) {
+      return "Unter dem Stadtteilschnitt von 60,5 m² — und der ist bereits der "
+        + "niedrigste in Köln. Für diesen Markt ist das keine Schwäche, "
+        + "sondern der Normalfall.";
+    }
+    if (d < 30) {
+      return "Über dem Stadtteilschnitt von 60,5 m². In einem Viertel, in dem "
+        + "70 Prozent der Haushalte aus einer Person bestehen, sprechen Sie "
+        + "damit einen kleineren, aber zahlungsfähigen Kreis an.";
+    }
+    return "Deutlich über dem Stadtteilschnitt von 60,5 m². Wohnungen dieser "
+      + "Größe sind in der Altstadt-Süd selten — ein Vorteil, der aber gezielt "
+      + "beworben werden muss.";
+  }
+
+  function zeichnen() {
+    var qm = parseInt(regler.value, 10) || 0;
+    ausFl.textContent = qm + " m²";
+    zeiger.style.left = ((qm - MIN) / (MAX - MIN) * 100).toFixed(1) + "%";
+    wert.textContent = tausend(qm * PREIS);
+    ein.textContent = einordnen(qm);
+    vA.textContent = abstand(qm, AST);
+    vK.textContent = abstand(qm, KOELN);
+    vW.textContent = abstand(qm, WEIDEN);
+  }
+
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();
