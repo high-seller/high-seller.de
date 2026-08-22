@@ -4982,3 +4982,70 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
    62 % Höhe angeschnitten. Beim Rathenauplatz stehen die Gebäude im oberen
    Drittel, dort schneidet 62 % die Fassaden weg und zeigt nur den Platz. */
 .veedel-hero--voll img[src*="neustadt-sued-rathenauplatz"]{object-position:50% 22%}
+
+/* v72 — Neustadt-Nord: Drei-Segment-Rechner, Segmentgrafik, Bilder --------- */
+
+.nnd-bild{margin:26px 0 30px;padding:0}
+.nnd-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.nnd-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+.nnd-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2);margin-top:26px}
+.nnd-quelle a{color:var(--slate-2)}
+
+/* Die Grafik trägt zwei Aussagen übereinander: oben der Preis je Segment,
+   unten die Zahl der Verträge im gleichen Maßstab. Der zweite Balken ist
+   absichtlich kaum sichtbar — das ist die Aussage. */
+.nnd-grafik{margin:26px 0 30px}
+.nnd-grafik svg{display:block;width:100%;height:auto;overflow:visible}
+.nnd-grafik svg text.nndG-w{font-family:var(--f-display);font-weight:700;font-size:19px;
+  fill:var(--ink);text-anchor:middle}
+.nnd-grafik svg text.nndG-l{font-family:var(--f-display);font-weight:600;font-size:14px;
+  fill:var(--ink);text-anchor:middle}
+.nnd-grafik svg text.nndG-s{font-size:12.5px;fill:var(--slate-2);text-anchor:start}
+.nnd-grafik svg text.nndG-ax{font-size:12.5px;fill:var(--slate-2);text-anchor:start}
+.nnd-grafik svg text.nndG-warn{font-size:12.5px;font-style:italic;fill:#8a6a1f;text-anchor:start}
+
+/* Drei Segmente auf gemeinsamer Skala; der Neubaubalken ist immer voll.
+   Unter jedem Balken steht, worauf die Zahl beruht — die Farbe allein trägt
+   die Warnung nicht, der Text sagt es aus. */
+.nnd-rechner{margin:24px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px 22px 24px}
+@media(min-width:900px){
+  .nnd-rechner{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
+    gap:34px;align-items:start}
+  .nnd-rechner__fuss{grid-column:1/-1}
+}
+.nnd-rechner label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-weight:600;color:var(--ink);font-size:.95rem;margin-bottom:6px}
+.nnd-rechner output{font-family:var(--f-display);font-weight:700;color:var(--blue)}
+.nnd-rechner input[type=range]{width:100%;accent-color:var(--gold)}
+.nnd-rechner__hinweis{margin:8px 0 0;font-size:.8rem;color:var(--slate-2)}
+.nnd-rechner__einordnung{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-family:var(--f-display);font-weight:600;font-size:.98rem;line-height:1.5;color:var(--ink)}
+.nnd-rechner__ausgabe{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+@media(min-width:900px){
+  .nnd-rechner__ausgabe{border-top:0;border-left:1px solid var(--border);
+    margin-top:0;padding-top:0;padding-left:34px}
+}
+.nnd-rechner__seite{margin-bottom:20px}
+.nnd-rechner__was{display:block;font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2);margin-bottom:2px}
+.nnd-rechner__wert{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.55rem;line-height:1.2;color:var(--ink);margin-bottom:7px}
+.nnd-rechner__balken{display:block;height:14px;border-radius:7px;background:var(--bg-soft);
+  overflow:hidden}
+.nnd-rechner__balken i{display:block;height:100%;border-radius:7px;background:#2263AE;
+  transition:width .25s var(--ease)}
+.nnd-rechner__balken i.nnd-rechner__balken--auf{background:#0F6E6E}
+.nnd-rechner__balken i.nnd-rechner__balken--neu{background:#B0872F}
+.nnd-rechner__basis{display:block;margin-top:6px;font-size:.78rem;color:var(--slate-2)}
+.nnd-rechner__basis--gut{color:#1a6b4a}
+.nnd-rechner__basis--duenn{color:#8a6a1f;font-weight:600}
+.nnd-rechner__diff{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-size:.95rem;color:var(--body)}
+.nnd-rechner__diff b{font-family:var(--f-display);color:var(--ink)}
+.nnd-rechner__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+/* Der Hero zeigt den MediaPark aus der Luft; der Turm steht im oberen
+   Bilddrittel, die Voreinstellung von 62 % würde ihn abschneiden. */
+.veedel-hero--voll img[src*="neustadt-nord-mediapark"]{object-position:50% 38%}

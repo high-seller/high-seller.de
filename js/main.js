@@ -2217,3 +2217,82 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Drei-Segment-Rechner Neustadt-Nord --------------------------------------
+   Der Grundstücksmarktbericht 2026 führt für den Stadtteil drei
+   Wohnungssegmente mit sehr ungleichen Fallzahlen: 163 Weiterverkäufe, 39
+   Neubauten, 6 Aufteilungen. Alle drei Balken teilen sich eine Skala, der
+   Neubaubalken ist dabei immer voll.
+
+   Die Einordnung vergleicht gegen 69,4 m², die mittlere Wohnungsgröße im
+   Stadtteil (Stadt Köln, Bestand zum 31.12.2025). */
+(function () {
+  var wurzel = document.getElementById("nndRechner");
+  if (!wurzel) return;
+
+  var BESTAND = 5571, AUFTEILUNG = 7387, NEUBAU = 8698, SCHNITT = 69.4;
+  var regler = document.getElementById("nndFlaeche");
+  var ausFl  = document.getElementById("nndFlaecheAus");
+  var aB = document.getElementById("nndBestand");
+  var aA = document.getElementById("nndAufteilung");
+  var aN = document.getElementById("nndNeubau");
+  var bB = document.getElementById("nndBalkenB");
+  var bA = document.getElementById("nndBalkenA");
+  var bN = document.getElementById("nndBalkenN");
+  var diff = document.getElementById("nndDiff");
+  var ein  = document.getElementById("nndEinordnung");
+  if (!regler || !aB) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  /* Auf volle Tausend runden — ein Stadtteilmittel gibt keine euro-genaue
+     Aussage her. Die Differenz weiter unten rechnet aus den gerundeten
+     Werten, sonst widerspricht sie den Zahlen darüber. */
+  function aufTausend(n) {
+    return Math.round(n / 1000) * 1000;
+  }
+
+  function tausend(n) {
+    return punkt(aufTausend(n)) + " €";
+  }
+
+  function einordnen(qm) {
+    var d = qm - SCHNITT;
+    if (Math.abs(d) < 2.5) {
+      return "Das entspricht ziemlich genau dem Stadtteilschnitt von 69,4 m².";
+    }
+    var betrag = Math.abs(d).toFixed(0);
+    if (d < 0) {
+      return "Rund " + betrag + " m² unter dem Stadtteilschnitt von 69,4 m². "
+        + "In einem Stadtteil, in dem 65 Prozent der Haushalte aus einer Person "
+        + "bestehen, ist das der Hauptmarkt.";
+    }
+    if (d < 30) {
+      return "Rund " + betrag + " m² über dem Stadtteilschnitt von 69,4 m². "
+        + "Damit sprechen Sie einen kleineren Käuferkreis an als der Durchschnitt.";
+    }
+    return "Rund " + betrag + " m² über dem Stadtteilschnitt von 69,4 m². "
+      + "Wohnungen dieser Größe sind hier selten — das kann ein Vorteil sein, "
+      + "verlangt aber eine gezieltere Ansprache.";
+  }
+
+  function zeichnen() {
+    var qm = parseInt(regler.value, 10) || 0;
+    var wB = qm * BESTAND, wA = qm * AUFTEILUNG, wN = qm * NEUBAU;
+
+    ausFl.textContent = qm + " m²";
+    aB.textContent = tausend(wB);
+    aA.textContent = tausend(wA);
+    aN.textContent = tausend(wN);
+    bB.style.width = (wB / wN * 100).toFixed(1) + "%";
+    bA.style.width = (wA / wN * 100).toFixed(1) + "%";
+    bN.style.width = "100%";
+    diff.textContent = punkt(aufTausend(wN) - aufTausend(wB)) + " €";
+    ein.textContent = einordnen(qm);
+  }
+
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();
