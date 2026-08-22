@@ -2141,3 +2141,79 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Flächen-Rechner Neustadt-Süd -------------------------------------------
+   Zeigt für eine eingestellte Wohnfläche die beiden Segmente, die der
+   Grundstücksmarktbericht 2026 für den Stadtteil ausweist: den gewöhnlichen
+   Weiterverkauf und den Erstverkauf nach Aufteilung. Beide Balken teilen
+   sich eine Skala — der obere ist deshalb nie voll, sondern immer im
+   Verhältnis zum höheren Wert.
+
+   Die Einordnung vergleicht gegen 65,1 m², die mittlere Wohnungsgröße im
+   Stadtteil (Stadt Köln, Bestand zum 31.12.2025). */
+(function () {
+  var wurzel = document.getElementById("sstRechner");
+  if (!wurzel) return;
+
+  var BESTAND = 5766, AUFTEILUNG = 7556, SCHNITT = 65.1;
+  var regler = document.getElementById("sstFlaeche");
+  var ausFl = document.getElementById("sstFlaecheAus");
+  var aB = document.getElementById("sstBestand");
+  var aU = document.getElementById("sstUmwandlung");
+  var bB = document.getElementById("sstBalkenB");
+  var bU = document.getElementById("sstBalkenU");
+  var diff = document.getElementById("sstDiff");
+  var ein = document.getElementById("sstEinordnung");
+  if (!regler || !aB) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  /* Auf volle Tausend runden. Ein Euro-genauer Wert würde eine Genauigkeit
+     vortäuschen, die ein Stadtteilmittel nicht hergibt. */
+  function aufTausend(n) {
+    return Math.round(n / 1000) * 1000;
+  }
+
+  function tausend(n) {
+    return punkt(aufTausend(n)) + " €";
+  }
+
+  function einordnen(qm) {
+    var d = qm - SCHNITT;
+    if (Math.abs(d) < 2.5) {
+      return "Das entspricht ziemlich genau dem Stadtteilschnitt von 65,1 m².";
+    }
+    var betrag = Math.abs(d).toFixed(0).replace(".", ",");
+    if (d < 0) {
+      return "Rund " + betrag + " m² unter dem Stadtteilschnitt von 65,1 m² — "
+        + "im Kölner Vergleich klein, in Neustadt-Süd der Normalfall.";
+    }
+    if (d < 25) {
+      return "Rund " + betrag + " m² über dem Stadtteilschnitt von 65,1 m². "
+        + "Damit sprechen Sie einen kleineren Käuferkreis an als der Durchschnitt.";
+    }
+    return "Rund " + betrag + " m² über dem Stadtteilschnitt von 65,1 m². "
+      + "Wohnungen dieser Größe sind hier selten — das kann ein Vorteil sein, "
+      + "verlangt aber eine gezieltere Ansprache.";
+  }
+
+  function zeichnen() {
+    var qm = parseInt(regler.value, 10) || 0;
+    var wB = qm * BESTAND, wU = qm * AUFTEILUNG;
+
+    ausFl.textContent = qm + " m²";
+    aB.textContent = tausend(wB);
+    aU.textContent = tausend(wU);
+    bB.style.width = (wB / wU * 100).toFixed(1) + "%";
+    bU.style.width = "100%";
+    /* Aus den bereits gerundeten Werten rechnen: sonst zeigt die Zeile
+       211.000 an, während 892.000 minus 680.000 daneben steht. */
+    diff.textContent = punkt(aufTausend(wU) - aufTausend(wB)) + " €";
+    ein.textContent = einordnen(qm);
+  }
+
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();
