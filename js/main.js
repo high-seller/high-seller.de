@@ -2489,3 +2489,61 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Bodenwert-Rechner Junkersdorf -------------------------------------------
+   In Junkersdorf trägt das Grundstück einen erheblichen Teil des Gesamtwerts.
+   Der Regler zeigt den Bodenwert in den drei Eckwerten des Stadtteils
+   (BORIS NRW zum 1.1.2026: 970 / 1.890 / 2.360 Euro je Quadratmeter) auf
+   gemeinsamer Skala. */
+(function () {
+  var wurzel = document.getElementById("jkdRechner");
+  if (!wurzel) return;
+
+  var MIN_ZONE = 970, MEDIAN = 1890, MAX_ZONE = 2360;
+  var regler = document.getElementById("jkdFlaeche");
+  var ausFl  = document.getElementById("jkdFlaecheAus");
+  var aMin = document.getElementById("jkdMin");
+  var aMed = document.getElementById("jkdMed");
+  var aMax = document.getElementById("jkdMax");
+  var bMin = document.getElementById("jkdBalkenMin");
+  var bMed = document.getElementById("jkdBalkenMed");
+  var bMax = document.getElementById("jkdBalkenMax");
+  var fazit = document.getElementById("jkdFazit");
+  if (!regler || !aMin) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function aufTausend(n) {
+    return Math.round(n / 1000) * 1000;
+  }
+
+  function tausend(n) {
+    return punkt(aufTausend(n)) + " €";
+  }
+
+  function zeichnen() {
+    var qm = parseInt(regler.value, 10) || 0;
+    var wMin = qm * MIN_ZONE, wMed = qm * MEDIAN, wMax = qm * MAX_ZONE;
+
+    ausFl.textContent = punkt(qm) + " m²";
+    aMin.textContent = tausend(wMin);
+    aMed.textContent = tausend(wMed);
+    aMax.textContent = tausend(wMax);
+
+    /* Die Balken teilen sich eine Skala, der teuerste ist immer voll. */
+    bMin.style.width = (wMin / wMax * 100).toFixed(1) + "%";
+    bMed.style.width = (wMed / wMax * 100).toFixed(1) + "%";
+    bMax.style.width = "100%";
+
+    /* Differenz aus den gerundeten Werten, sonst widerspricht sie den
+       Beträgen darüber. */
+    var d = aufTausend(wMax) - aufTausend(wMin);
+    fazit.textContent = "Zwischen günstigster und teuerster Zone liegen "
+      + punkt(d) + " € — bei identischem Grundstück.";
+  }
+
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();
