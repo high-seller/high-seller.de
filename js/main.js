@@ -2665,3 +2665,75 @@
   rAn.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Ausstattungs-Prüfliste Riehl --------------------------------------------
+   Riehl ist mit 49,0 Jahren der älteste Stadtteil Kölns. Die Liste hakt ab,
+   was in dieser Altersstruktur erfahrungsgemäß zuerst gefragt wird, und gibt
+   eine Einordnung samt Hinweis auf das, was fehlt.
+
+   Ausdrücklich kein Bewertungsverfahren: Die Gewichtung ist eine
+   Vorbereitungshilfe, kein Wertfaktor. Das steht auch im Fußtext der Seite. */
+(function () {
+  var wurzel = document.getElementById("rihCheck");
+  if (!wurzel) return;
+
+  var kaesten = [].slice.call(wurzel.querySelectorAll('input[type="checkbox"]'));
+  var balken = document.getElementById("rihBalken");
+  var stufe  = document.getElementById("rihStufe");
+  var text   = document.getElementById("rihText");
+  var fehlt  = document.getElementById("rihFehlt");
+  if (!kaesten.length || !balken) return;
+
+  var MAX = kaesten.reduce(function (s, k) {
+    return s + (parseInt(k.getAttribute("data-punkte"), 10) || 0);
+  }, 0);
+
+  /* Die drei schwersten Punkte sind zugleich die, die sich nachträglich am
+     schwersten ändern lassen — fehlen sie, wird das eigens genannt. */
+  function fehlende() {
+    return kaesten.filter(function (k) {
+      return !k.checked && (parseInt(k.getAttribute("data-punkte"), 10) || 0) >= 2;
+    }).map(function (k) {
+      return k.parentNode.textContent.trim();
+    });
+  }
+
+  function auswerten() {
+    var punkte = kaesten.reduce(function (s, k) {
+      return s + (k.checked ? (parseInt(k.getAttribute("data-punkte"), 10) || 0) : 0);
+    }, 0);
+    var anteil = MAX ? punkte / MAX : 0;
+
+    balken.style.width = Math.round(anteil * 100) + "%";
+    balken.style.background = anteil >= 0.7 ? "#1a6b4a"
+                            : anteil >= 0.4 ? "#2263AE" : "#B0872F";
+
+    if (anteil >= 0.7) {
+      stufe.textContent = "Trifft den Käuferkreis hier gut";
+      text.textContent = "Ihre Wohnung bringt genau das mit, wonach in Riehl "
+        + "zuerst gefragt wird. Führen Sie diese Punkte im Exposé einzeln auf "
+        + "und stellen Sie sie nach vorn — zusammengefasst unter „gute "
+        + "Ausstattung“ gehen sie unter.";
+    } else if (anteil >= 0.4) {
+      stufe.textContent = "Solide Ausgangslage";
+      text.textContent = "Einiges von dem, was hier gefragt ist, ist vorhanden. "
+        + "Benennen Sie es einzeln — und sprechen Sie das Fehlende von sich aus "
+        + "an, statt es in der zweiten Besichtigung aufkommen zu lassen.";
+    } else {
+      stufe.textContent = "Andere Zielgruppe ansprechen";
+      text.textContent = "Für den älteren Teil des Riehler Käuferkreises fehlt "
+        + "einiges. Das ist kein Nachteil, sondern eine Frage der Ansprache: "
+        + "In Riehl leben 14,0 Prozent der Haushalte mit Kindern, und "
+        + "Berufstätige achten auf anderes. Stellen Sie Aussicht, Ruhe, Schnitt "
+        + "und Lage zu Zoo, Flora und Rhein nach vorn.";
+    }
+
+    var f = fehlende();
+    fehlt.textContent = f.length
+      ? "Wird hier besonders oft gefragt und fehlt bei Ihnen: " + f.join(" · ")
+      : "";
+  }
+
+  kaesten.forEach(function (k) { k.addEventListener("change", auswerten); });
+  auswerten();
+})();

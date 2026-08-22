@@ -5513,3 +5513,60 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
   font-size:1.4rem;line-height:1.15;color:var(--ink)}
 .anr-zahlen span{display:block;margin-top:4px;font-size:.9rem;color:var(--body)}
 .anr-zahlen small{display:block;margin-top:3px;font-size:.78rem;color:var(--slate-2)}
+
+/* v79 — Riehl: Ausstattungs-Prüfliste ------------------------------------- */
+/* Wieder die Standard-Kopfform (Text links, Rechnerkasten rechts), aber ein
+   neues Bedienelement: Ankreuzfelder statt Regler, Reiter oder Knöpfe. */
+
+.rih-bild{margin:26px 0 30px;padding:0}
+.rih-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.rih-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+.rih-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2);margin-top:26px}
+.rih-quelle a{color:var(--slate-2)}
+
+.rih-check{margin:24px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px 22px 24px}
+@media(min-width:900px){
+  .rih-check{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    gap:34px;align-items:start}
+  .rih-check__fuss{grid-column:1/-1}
+}
+.rih-check__feld{border:0;margin:0;padding:0;display:grid;gap:2px}
+.rih-check__feld legend{padding:0;margin-bottom:10px;font-size:.8rem;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--slate-2)}
+.rih-check__feld label{display:flex;align-items:flex-start;gap:11px;padding:10px 0;
+  border-top:1px solid var(--border);font-size:.95rem;line-height:1.5;color:var(--body);
+  cursor:pointer}
+.rih-check__feld label:last-child{border-bottom:1px solid var(--border)}
+.rih-check__feld input{flex:0 0 auto;margin-top:3px;width:18px;height:18px;
+  accent-color:var(--blue);cursor:pointer}
+.rih-check__ausgabe{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+@media(min-width:900px){
+  .rih-check__ausgabe{border-top:0;border-left:1px solid var(--border);
+    margin-top:0;padding-top:0;padding-left:34px}
+}
+.rih-check__balken{height:12px;border-radius:6px;background:var(--bg-soft);overflow:hidden}
+.rih-check__balken i{display:block;height:100%;border-radius:6px;background:#2263AE;
+  transition:width .25s var(--ease),background .25s var(--ease)}
+.rih-check__stufe{margin:14px 0 6px;font-family:var(--f-display);font-weight:700;
+  font-size:1.25rem;line-height:1.2;color:var(--ink)}
+.rih-check__text{margin:0;color:var(--body);line-height:1.7;font-size:.95rem}
+.rih-check__fehlt{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-size:.9rem;line-height:1.65;color:var(--slate-2)}
+.rih-check__fehlt:empty{display:none}
+.rih-check__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+.rih-zahlen{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden}
+@media(min-width:620px){.rih-zahlen{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.rih-zahlen{grid-template-columns:repeat(3,1fr)}}
+.rih-zahlen>div{background:var(--card);padding:20px 18px}
+.rih-zahlen b{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.4rem;line-height:1.15;color:var(--ink)}
+.rih-zahlen span{display:block;margin-top:4px;font-size:.9rem;color:var(--body)}
+.rih-zahlen small{display:block;margin-top:3px;font-size:.78rem;color:var(--slate-2)}
+
+/* Das Luftbild zeigt die Anlage im unteren Bilddrittel. */
+.veedel-hero--voll img[src*="riehl-heimstaetten.jpg"],
+.veedel-hero--voll img[src*="riehl-heimstaetten-"]{object-position:50% 58%}
