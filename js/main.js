@@ -2737,3 +2737,89 @@
   kaesten.forEach(function (k) { k.addEventListener("change", auswerten); });
   auswerten();
 })();
+
+/* Stadtteil-Vergleich Bayenthal -------------------------------------------
+   Bayenthal hat mit 28,0 Prozent den kleinsten Abstand zwischen Bestand und
+   Neubau aller Kölner Stadtteile mit auswertbarer Neubau-Fallzahl. Das
+   Auswahlmenü stellt einen zweiten Stadtteil daneben.
+
+   Alle Werte aus dem Grundstücksmarktbericht 2026 (Berichtsjahr 2025). */
+(function () {
+  var wurzel = document.getElementById("bayVergleich");
+  if (!wurzel) return;
+
+  var HIER = { name: "Köln-Bayenthal", bestand: 5921, neubau: 7579 };
+  var ORTE = {
+    "ehrenfeld":     { name: "Köln-Ehrenfeld",     bestand: 5078, neubau: 7149 },
+    "neustadt-nord": { name: "Köln-Neustadt-Nord", bestand: 5571, neubau: 8698 },
+    "nippes":        { name: "Köln-Nippes",        bestand: 4590, neubau: 7532 },
+    "weidenpesch":   { name: "Köln-Weidenpesch",   bestand: 3578, neubau: 5819 },
+    "weiden":        { name: "Köln-Weiden",        bestand: 3368, neubau: 6377 },
+    "hoehenberg":    { name: "Köln-Höhenberg",     bestand: 3097, neubau: 6256 }
+  };
+  /* Die Spur ist auf 110 Prozent Aufschlag skaliert, damit auch Höhenberg
+     mit 102 Prozent hineinpasst und die Balken vergleichbar bleiben. */
+  var SKALA = 110;
+
+  var wahl   = document.getElementById("bayOrt");
+  var regler = document.getElementById("bayFlaeche");
+  var ausFl  = document.getElementById("bayFlaecheAus");
+  var fazit  = document.getElementById("bayFazit");
+  if (!wahl || !regler) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function aufTausend(n) {
+    return Math.round(n / 1000) * 1000;
+  }
+
+  function tausend(n) {
+    return punkt(aufTausend(n)) + " €";
+  }
+
+  function komma(n) {
+    return n.toFixed(1).replace(".", ",");
+  }
+
+  function fuellen(pre, ort, qm) {
+    var wB = qm * ort.bestand, wN = qm * ort.neubau;
+    var proz = (ort.neubau / ort.bestand - 1) * 100;
+    document.getElementById(pre + "Bestand").textContent = tausend(wB);
+    document.getElementById(pre + "Neubau").textContent  = tausend(wN);
+    /* Differenz aus den gerundeten Werten, sonst widerspricht sie der Anzeige. */
+    document.getElementById(pre + "Diff").textContent =
+      punkt(aufTausend(wN) - aufTausend(wB)) + " €";
+    document.getElementById(pre + "Proz").textContent = komma(proz) + " %";
+    document.getElementById(pre + "Spur").style.width =
+      Math.min(proz / SKALA * 100, 100).toFixed(1) + "%";
+    return proz;
+  }
+
+  function zeichnen() {
+    var qm = parseInt(regler.value, 10) || 0;
+    var ort = ORTE[wahl.value] || ORTE["weiden"];
+    ausFl.textContent = qm + " m²";
+    document.getElementById("bayDortName").textContent = ort.name;
+
+    var hier = fuellen("bayHier", HIER, qm);
+    var dort = fuellen("bayDort", ort, qm);
+
+    var faktor = hier ? dort / hier : 0;
+    if (faktor >= 1.15) {
+      fazit.textContent = "In " + ort.name.replace("Köln-", "")
+        + " ist der Abstand rund " + komma(faktor).replace(",0", "")
+        + "-mal so groß wie in Bayenthal.";
+    } else if (faktor <= 0.87) {
+      fazit.textContent = "In " + ort.name.replace("Köln-", "")
+        + " ist der Abstand sogar kleiner als in Bayenthal.";
+    } else {
+      fazit.textContent = "Beide Stadtteile liegen beim Abstand etwa gleichauf.";
+    }
+  }
+
+  wahl.addEventListener("change", zeichnen);
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();

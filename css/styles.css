@@ -5570,3 +5570,71 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 /* Das Luftbild zeigt die Anlage im unteren Bilddrittel. */
 .veedel-hero--voll img[src*="riehl-heimstaetten.jpg"],
 .veedel-hero--voll img[src*="riehl-heimstaetten-"]{object-position:50% 58%}
+
+/* v80 — Bayenthal: Stadtteil-Vergleich per Auswahlmenü -------------------- */
+/* Neues Bedienelement: ein select. Bestand bisher: Schieberegler (ein und
+   zwei), Reiter, Zonenknöpfe, Ankreuzfelder. */
+
+.bay-bild{margin:26px 0 30px;padding:0}
+.bay-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.bay-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+.bay-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2);margin-top:26px}
+.bay-quelle a{color:var(--slate-2)}
+
+.bay-vgl{margin:24px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px 22px 24px}
+@media(min-width:900px){
+  .bay-vgl{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);
+    gap:34px;align-items:start}
+  .bay-vgl__fuss{grid-column:1/-1}
+}
+.bay-vgl label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-weight:600;color:var(--ink);font-size:.93rem;margin:0 0 7px}
+.bay-vgl output{font-family:var(--f-display);font-weight:700;color:var(--blue)}
+.bay-vgl__auswahl{width:100%;padding:11px 13px;border:1px solid var(--border);
+  border-radius:var(--radius-sm);background:var(--bg-soft);font:inherit;font-size:.95rem;
+  color:var(--ink);cursor:pointer}
+.bay-vgl__auswahl:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.bay-vgl input[type=range]{width:100%;accent-color:var(--gold)}
+.bay-vgl__hinweis{margin:8px 0 0;font-size:.8rem;color:var(--slate-2)}
+.bay-vgl__ausgabe{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+@media(min-width:900px){
+  .bay-vgl__ausgabe{border-top:0;border-left:1px solid var(--border);
+    margin-top:0;padding-top:0;padding-left:34px}
+}
+.bay-vgl__ort{margin-bottom:22px}
+.bay-vgl__name{margin:0 0 6px;font-family:var(--f-display);font-weight:700;
+  font-size:1.02rem;color:var(--ink)}
+.bay-vgl__ort--hier .bay-vgl__name::after{content:" — hier";font-weight:400;
+  font-size:.85rem;color:var(--slate-2)}
+.bay-vgl__paar{display:flex;flex-wrap:wrap;gap:6px 26px;margin-bottom:8px}
+.bay-vgl__paar span{font-size:.85rem;color:var(--slate-2)}
+.bay-vgl__paar b{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.15rem;color:var(--ink)}
+/* Die Spur zeigt den prozentualen Abstand, nicht das Preisniveau — 100 % der
+   Breite entspricht 110 Prozent Aufschlag, damit auch Höhenberg hineinpasst. */
+.bay-vgl__spur{display:block;height:13px;border-radius:7px;background:var(--bg-soft);
+  overflow:hidden}
+.bay-vgl__spur i{display:block;height:100%;border-radius:7px;background:#1a6b4a;
+  transition:width .25s var(--ease)}
+.bay-vgl__spur i.bay-vgl__spur--dort{background:#8FA3BC}
+.bay-vgl__diff{margin:7px 0 0;font-size:.88rem;color:var(--slate-2)}
+.bay-vgl__diff b{font-family:var(--f-display);color:var(--ink)}
+.bay-vgl__fazit{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-family:var(--f-display);font-weight:600;font-size:.98rem;line-height:1.5;color:var(--ink)}
+.bay-vgl__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+.bay-zahlen{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden}
+@media(min-width:620px){.bay-zahlen{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.bay-zahlen{grid-template-columns:repeat(3,1fr)}}
+.bay-zahlen>div{background:var(--card);padding:20px 18px}
+.bay-zahlen b{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.4rem;line-height:1.15;color:var(--ink)}
+.bay-zahlen span{display:block;margin-top:4px;font-size:.9rem;color:var(--body)}
+.bay-zahlen small{display:block;margin-top:3px;font-size:.78rem;color:var(--slate-2)}
+
+/* Die Allee führt in die Bildmitte; der Standardausschnitt schneidet die
+   Baumkronen ab. */
+.veedel-hero--voll img[src*="bayenthal-platanenallee"]{object-position:50% 44%}
