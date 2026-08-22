@@ -4912,3 +4912,73 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 .veedel-hero--voll .ehr-kopf__lead,
 .veedel-hero--voll .lind-kopf__lead,
 .veedel-hero--voll .mb-kopf__lead{color:#F3F6FC}
+
+/* v71 — Neustadt-Süd: Flächen-Rechner, Segmentgrafik, Bilder --------------- */
+
+.sst-bild{margin:26px 0 30px;padding:0}
+.sst-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.sst-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+.sst-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2);margin-top:26px}
+.sst-quelle a{color:var(--slate-2)}
+
+/* Zwei Säulen für die beiden Wohnungssegmente. Die Schriftgrößen hängen am
+   Element, nicht nur an der Klasse — sonst schlägt die allgemeine
+   `svg text`-Regel der Grundgestaltung sie wieder. */
+.sst-grafik{margin:26px 0 30px}
+.sst-grafik svg{display:block;width:100%;height:auto;overflow:visible}
+.sst-grafik svg text.sstG-w{font-family:var(--f-display);font-weight:700;font-size:19px;
+  fill:var(--ink);text-anchor:middle}
+.sst-grafik svg text.sstG-l{font-family:var(--f-display);font-weight:600;font-size:14px;
+  fill:var(--ink);text-anchor:middle}
+.sst-grafik svg text.sstG-s{font-size:12.5px;fill:var(--slate-2);text-anchor:middle}
+.sst-grafik svg text.sstG-ax{font-size:12.5px;fill:var(--slate-2);text-anchor:start}
+.sst-grafik svg text.sstG-d{font-family:var(--f-display);font-weight:700;font-size:15px;
+  fill:var(--slate-2);text-anchor:middle}
+
+/* Flächen-Rechner: eine gemeinsame Skala für beide Segmente, damit der
+   Abstand zwischen Bestand und Aufteilung unmittelbar ablesbar bleibt. Der
+   obere Balken ist deshalb nie voll, sondern immer im Verhältnis zum
+   höheren Wert. */
+.sst-rechner{margin:24px 0 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px 22px 24px}
+@media(min-width:900px){
+  .sst-rechner{display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);
+    gap:34px;align-items:start}
+  .sst-rechner__fuss{grid-column:1/-1}
+}
+.sst-rechner label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;
+  font-weight:600;color:var(--ink);font-size:.95rem;margin-bottom:6px}
+.sst-rechner output{font-family:var(--f-display);font-weight:700;color:var(--blue)}
+.sst-rechner input[type=range]{width:100%;accent-color:var(--gold)}
+.sst-rechner__hinweis{margin:8px 0 0;font-size:.8rem;color:var(--slate-2)}
+.sst-rechner__ausgabe{border-top:1px solid var(--border);margin-top:22px;padding-top:20px}
+@media(min-width:900px){
+  .sst-rechner__ausgabe{border-top:0;border-left:1px solid var(--border);
+    margin-top:0;padding-top:0;padding-left:34px}
+}
+.sst-rechner__einordnung{font-family:var(--f-display);font-weight:600;font-size:1.02rem;
+  line-height:1.5;color:var(--ink);margin-bottom:18px;padding-bottom:16px;
+  border-bottom:1px solid var(--border)}
+.sst-rechner__seite{margin-bottom:18px}
+.sst-rechner__was{display:block;font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2);margin-bottom:2px}
+.sst-rechner__wert{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.7rem;line-height:1.2;color:var(--ink);margin-bottom:7px}
+.sst-rechner__balken{display:block;height:14px;border-radius:7px;background:var(--bg-soft);
+  overflow:hidden}
+.sst-rechner__balken i{display:block;height:100%;border-radius:7px;background:#2263AE;
+  transition:width .25s var(--ease)}
+/* Nicht var(--gold) nehmen: die Variable ist in dieser Gestaltung blau
+   (#2F7CD3), beide Balken sähen sonst gleich aus. #B0872F kommt auf 3,3:1
+   gegen Weiß und erfüllt damit die Schwelle für grafische Elemente. */
+.sst-rechner__balken i.sst-rechner__balken--um{background:#B0872F}
+.sst-rechner__diff{margin:14px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-size:.95rem;color:var(--body)}
+.sst-rechner__diff b{font-family:var(--f-display);color:var(--ink)}
+.sst-rechner__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+/* Der Bildausschnitt des Kopfbereichs wird für die anderen Veedelseiten bei
+   62 % Höhe angeschnitten. Beim Rathenauplatz stehen die Gebäude im oberen
+   Drittel, dort schneidet 62 % die Fassaden weg und zeigt nur den Platz. */
+.veedel-hero--voll img[src*="neustadt-sued-rathenauplatz"]{object-position:50% 22%}
