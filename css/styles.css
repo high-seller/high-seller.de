@@ -5282,3 +5282,107 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 .jkd-rechner__fazit{margin:16px 0 0;padding-top:14px;border-top:1px solid var(--border);
   font-family:var(--f-display);font-weight:600;font-size:.98rem;line-height:1.5;color:var(--ink)}
 .jkd-rechner__fuss{margin:20px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+/* v77 — Weidenpesch: heller Kopfbereich statt Foto-Hero ------------------- */
+/* Bewusst anders gebaut als die übrigen Veedelseiten: Die dreizehn zuvor
+   ausgebauten Seiten tragen alle denselben Bauplan (dunkler Vollbild-Hero mit
+   Rechnerkasten rechts, Wertband, Schieberegler-Rechner). Hier steht der Kopf
+   auf hellem Grund, die Kennzahlen liegen als Leiste darunter, das Foto folgt
+   als breites Band — und das bedienbare Element ist ein Umschalter statt
+   eines Reglers. Marke bleibt: Kopfzeile, Farben, Schrift, Wertrechnerzugang
+   oben, FAQ. */
+
+.wdp-kopf{padding:38px 0 30px;background:linear-gradient(180deg,#F7FAFD,var(--bg))}
+@media(min-width:900px){.wdp-kopf{padding:48px 0 34px}}
+.wdp-kopf .breadcrumb{margin-bottom:16px}
+.wdp-kopf__text{max-width:62ch}
+.wdp-kopf h1{font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.1;color:var(--ink);margin:0 0 14px}
+.wdp-kopf__lead{font-size:clamp(1rem,1.6vw,1.16rem);line-height:1.65;color:var(--body);margin:0}
+
+.wdp-zahlen{display:grid;gap:2px;margin:28px 0 0}
+@media(min-width:720px){.wdp-zahlen{grid-template-columns:repeat(3,1fr);gap:0}}
+.wdp-zahlen>div{padding:16px 0;border-top:2px solid var(--ink)}
+@media(min-width:720px){.wdp-zahlen>div{padding:16px 22px 16px 0}}
+.wdp-zahlen dt{font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;color:var(--slate-2)}
+.wdp-zahlen dd{margin:4px 0 2px;font-family:var(--f-display);font-weight:700;
+  font-size:clamp(1.5rem,3vw,2rem);line-height:1.1;color:var(--ink)}
+.wdp-zahlen span{font-size:.82rem;color:var(--slate-2)}
+
+.wdp-wert{margin-top:30px;padding:22px;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card)}
+.wdp-wert__frage{margin:0 0 14px;font-family:var(--f-display);font-weight:600;
+  font-size:1.05rem;color:var(--ink)}
+.wdp-wert__frage span{display:block;font-family:var(--f-body);font-weight:400;
+  font-size:.85rem;color:var(--slate-2);margin-top:2px}
+.wdp-wert__arten{display:flex;flex-wrap:wrap;gap:8px}
+.wdp-wert__arten a{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;
+  border:1px solid var(--border);border-radius:999px;font-size:.9rem;font-weight:600;
+  color:var(--ink);text-decoration:none;transition:border-color .18s,background .18s}
+.wdp-wert__arten a:hover{border-color:var(--blue);background:var(--bg-soft)}
+.wdp-wert__arten svg{width:18px;height:18px;flex:0 0 18px;color:var(--blue)}
+.wdp-wert__arten a.wdp-wert__alle{border-style:dashed;color:var(--slate-2)}
+.wdp-wert__arten a.wdp-wert__alle svg{width:15px;height:15px;flex-basis:15px}
+.wdp-wert__cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:16px;
+  padding-top:16px;border-top:1px solid var(--border)}
+.wdp-wert__tel{font-size:.88rem;color:var(--slate-2)}
+
+/* Panoramaband: sehr breites Foto (3,6:1), das als Vollbild-Hero auf ein
+   Drittel beschnitten würde. Als Band behält es seine Proportion. */
+.wdp-band{margin:0;padding:0}
+.wdp-band img{display:block;width:100%;height:auto;max-height:46vh;object-fit:cover}
+.wdp-band figcaption{padding:12px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:74ch}
+
+.wdp-bild{margin:26px 0 30px;padding:0}
+.wdp-bild img{display:block;width:100%;height:auto;border-radius:var(--radius)}
+.wdp-bild figcaption{margin:13px 0 0;font-size:.85rem;line-height:1.65;
+  color:var(--slate-2);max-width:66ch}
+.wdp-quelle{font-size:.8rem;line-height:1.7;color:var(--slate-2);margin-top:26px}
+.wdp-quelle a{color:var(--slate-2)}
+
+/* Anteilsleisten statt SVG-Diagramm — reines HTML, damit die Beschriftung
+   auch auf schmalen Schirmen umbrechen kann. */
+.wdp-anteil{margin:26px 0 30px;padding:20px 22px;border:1px solid var(--border);
+  border-radius:var(--radius);background:var(--card)}
+.wdp-anteil__titel{margin:0 0 16px;font-size:.8rem;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--slate-2)}
+.wdp-anteil__zeile{display:grid;grid-template-columns:minmax(84px,auto) 1fr auto;
+  align-items:center;gap:12px;padding:7px 0}
+.wdp-anteil__ort{font-size:.9rem;color:var(--body)}
+.wdp-anteil__leiste{display:block;height:12px;border-radius:6px;background:var(--bg-soft);
+  overflow:hidden}
+.wdp-anteil__leiste i{display:block;height:100%;border-radius:6px;background:#8FA3BC}
+.wdp-anteil__zeile b{font-family:var(--f-display);font-weight:700;font-size:.95rem;
+  color:var(--slate-2)}
+.wdp-anteil__zeile--stark .wdp-anteil__ort{font-weight:700;color:var(--ink)}
+.wdp-anteil__zeile--stark .wdp-anteil__leiste i{background:#B0872F}
+.wdp-anteil__zeile--stark b{color:#8a6a1f}
+.wdp-anteil__fuss{margin:14px 0 0;font-size:.75rem;color:var(--slate-2)}
+
+/* Umschalter statt Schieberegler */
+.wdp-wahl{margin:24px 0 0}
+.wdp-wahl__knoepfe{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:-1px;position:relative;z-index:1}
+.wdp-wahl__knopf{padding:11px 18px;border:1px solid var(--border);border-radius:8px 8px 0 0;
+  background:var(--bg-soft);font-family:var(--f-display);font-weight:600;font-size:.94rem;
+  color:var(--slate-2);cursor:pointer;transition:background .18s,color .18s}
+.wdp-wahl__knopf:hover{color:var(--ink)}
+.wdp-wahl__knopf.is-aktiv{background:var(--card);color:var(--ink);border-bottom-color:var(--card)}
+.wdp-wahl__feld{border:1px solid var(--border);border-radius:0 var(--radius) var(--radius) var(--radius);
+  background:var(--card);padding:24px 22px}
+.wdp-wahl__kennzahl{margin:0 0 14px}
+.wdp-wahl__kennzahl b{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.8rem;line-height:1.15;color:var(--ink)}
+.wdp-wahl__kennzahl span{display:block;margin-top:3px;font-size:.82rem;color:var(--slate-2)}
+.wdp-wahl__feld p{color:var(--body);line-height:1.75}
+.wdp-wahl__fuss{margin:18px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+/* Kennzahlenband statt Marktdaten-Kasten */
+.wdp-band-zahlen{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden}
+@media(min-width:620px){.wdp-band-zahlen{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:960px){.wdp-band-zahlen{grid-template-columns:repeat(3,1fr)}}
+.wdp-band-zahlen>div{background:var(--card);padding:20px 18px}
+.wdp-band-zahlen b{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.45rem;line-height:1.15;color:var(--ink)}
+.wdp-band-zahlen span{display:block;margin-top:4px;font-size:.9rem;color:var(--body)}
+.wdp-band-zahlen small{display:block;margin-top:3px;font-size:.78rem;color:var(--slate-2)}

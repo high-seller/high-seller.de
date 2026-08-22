@@ -2547,3 +2547,44 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Umschalter Weidenpesch --------------------------------------------------
+   Bewusst kein Schieberegler: Die übrigen Veedelseiten arbeiten alle mit
+   einem Range-Element, und die Seiten sollen sich nicht gleichen. Hier drei
+   Reiter nach dem tablist-Muster — mit Pfeiltasten bedienbar, wie es die
+   WAI-ARIA-Praxis für Reiter vorsieht. */
+(function () {
+  var wurzel = document.getElementById("wdpWahl");
+  if (!wurzel) return;
+
+  var knoepfe = [].slice.call(wurzel.querySelectorAll(".wdp-wahl__knopf"));
+  if (!knoepfe.length) return;
+
+  function zeigen(nr) {
+    knoepfe.forEach(function (k, i) {
+      var an = i === nr;
+      k.classList.toggle("is-aktiv", an);
+      k.setAttribute("aria-selected", an ? "true" : "false");
+      k.tabIndex = an ? 0 : -1;
+      var feld = document.getElementById(k.getAttribute("aria-controls"));
+      if (feld) feld.hidden = !an;
+    });
+  }
+
+  knoepfe.forEach(function (k, i) {
+    k.addEventListener("click", function () { zeigen(i); });
+    k.addEventListener("keydown", function (e) {
+      var nr = null;
+      if (e.key === "ArrowRight") nr = (i + 1) % knoepfe.length;
+      if (e.key === "ArrowLeft")  nr = (i - 1 + knoepfe.length) % knoepfe.length;
+      if (e.key === "Home")       nr = 0;
+      if (e.key === "End")        nr = knoepfe.length - 1;
+      if (nr === null) return;
+      e.preventDefault();
+      zeigen(nr);
+      knoepfe[nr].focus();
+    });
+  });
+
+  zeigen(0);
+})();
