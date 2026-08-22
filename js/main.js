@@ -2588,3 +2588,80 @@
 
   zeigen(0);
 })();
+
+/* Bodenanteil-Rechner Altstadt-Nord ---------------------------------------
+   Zeigt, welchen Teil des Kaufpreises der Miteigentumsanteil am Grundstück
+   ausmacht. Zwei Regler (Wohnfläche, Grundstücksanteil) und drei
+   Bodenrichtwerte zur Wahl: die beiden Zonen des Stadtteils und der Median
+   (BORIS NRW zum 1.1.2026: 1.850 und 3.100, Median 2.475). Der Kaufpreis
+   rechnet mit 5.894 Euro je Quadratmeter aus 63 Weiterverkäufen 2025. */
+(function () {
+  var wurzel = document.getElementById("anrRechner");
+  if (!wurzel) return;
+
+  var PREIS = 5894;
+  var brw = 2475;
+  var rFl  = document.getElementById("anrFlaeche");
+  var rAn  = document.getElementById("anrAnteil");
+  var ausFl = document.getElementById("anrFlaecheAus");
+  var ausAn = document.getElementById("anrAnteilAus");
+  var aGes = document.getElementById("anrGesamt");
+  var aBod = document.getElementById("anrBoden");
+  var aBau = document.getElementById("anrBau");
+  var tBod = document.getElementById("anrTeilBoden");
+  var tBau = document.getElementById("anrTeilBau");
+  var aQuote = document.getElementById("anrQuote");
+  var aZone  = document.getElementById("anrZone");
+  var knoepfe = [].slice.call(wurzel.querySelectorAll(".anr-rechner__zone"));
+  if (!rFl || !rAn || !aGes) return;
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function tausend(n) {
+    return punkt(Math.round(n / 1000) * 1000) + " €";
+  }
+
+  function zeichnen() {
+    var qm = parseInt(rFl.value, 10) || 0;
+    var an = parseInt(rAn.value, 10) || 0;
+    var gesamt = qm * PREIS;
+    var boden  = an * brw;
+    /* Der Bodenanteil kann rechnerisch über dem Kaufpreis liegen, wenn ein
+       sehr großer Grundstücksanteil auf eine kleine Wohnung trifft. Dann ist
+       die Aussage nicht mehr sinnvoll — wir kappen bei 100 Prozent und sagen
+       es im Text. */
+    var gedeckelt = boden > gesamt;
+    if (gedeckelt) boden = gesamt;
+    var bau = gesamt - boden;
+
+    ausFl.textContent = qm + " m²";
+    ausAn.textContent = an + " m²";
+    aGes.textContent  = tausend(gesamt);
+    aBod.textContent  = tausend(boden);
+    aBau.textContent  = tausend(bau);
+
+    /* flex-grow statt Breite: Die beiden Felder teilen sich die Zeile im
+       Verhältnis ihrer Beträge, behalten aber ihre Mindestbreite. */
+    tBod.style.flexGrow = Math.max(boden, 1);
+    tBau.style.flexGrow = Math.max(bau, 1);
+
+    var quote = gesamt ? Math.round(boden / gesamt * 100) : 0;
+    aQuote.textContent = quote + " %";
+    aZone.textContent = gedeckelt
+      ? "Bei diesem Grundstücksanteil übersteigt der Bodenwert den Kaufpreis — die Rechnung ist dann nicht mehr aussagekräftig."
+      : "gerechnet mit " + punkt(brw) + " €/m² Bodenrichtwert";
+  }
+
+  knoepfe.forEach(function (k) {
+    k.addEventListener("click", function () {
+      brw = parseInt(k.getAttribute("data-brw"), 10) || brw;
+      knoepfe.forEach(function (x) { x.classList.toggle("is-aktiv", x === k); });
+      zeichnen();
+    });
+  });
+  rFl.addEventListener("input", zeichnen);
+  rAn.addEventListener("input", zeichnen);
+  zeichnen();
+})();
