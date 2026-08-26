@@ -2823,3 +2823,156 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Rangleiste der Objektarten Grevenbroich ---------------------------------
+   Bisherige Bedienelemente: ein Regler, zwei Regler, Reiter, Zonenknöpfe,
+   Ankreuzfelder, Auswahlmenü. Neu hier: eine sortierte Rangliste, in der ein
+   Regler alle Zeilen gleichzeitig umrechnet und eine Zeile gewählt werden kann.
+
+   Werte: Gutachterausschuss für Grundstückswerte im Rhein-Kreis Neuss,
+   Grundstücksmarktbericht 2026, Marktjahr 2025. Häuser als Ø Kaufpreis je m²
+   Wohnfläche aus den für die Preisauswertung geeigneten Kauffällen,
+   Wohnungen als Ø Kaufpreis je m² nach Baujahrsgruppe. */
+(function () {
+  var wurzel = document.getElementById("gvbRang");
+  if (!wurzel) return;
+
+  var liste  = document.getElementById("gvbListe");
+  var regler = document.getElementById("gvbFlaeche");
+  var ausFl  = document.getElementById("gvbFlaecheAus");
+  var fazit  = document.getElementById("gvbFazit");
+  if (!liste || !regler || !fazit) return;
+
+  var ARTEN = [
+    { id:"neubau",  art:"wohnung", qm:4925, name:"Eigentumswohnung, Neubau",
+      meta:"Erstverkauf, 4.800 bis 5.050 € je m² nach Wohnungsgröße" },
+    { id:"w2010",   art:"wohnung", qm:3530, name:"Eigentumswohnung, Baujahr ab 2010",
+      meta:"Wohnungs- und Teileigentum" },
+    { id:"reh",     art:"haus",    qm:2954, name:"Reihenendhaus",
+      meta:"10 ausgewertete Verkäufe" },
+    { id:"w2000",   art:"wohnung", qm:2920, name:"Eigentumswohnung, Baujahr 2000–2009",
+      meta:"Wohnungs- und Teileigentum" },
+    { id:"efh",     art:"haus",    qm:2871, name:"Freistehendes Ein- oder Zweifamilienhaus",
+      meta:"15 ausgewertete Verkäufe" },
+    { id:"w1990",   art:"wohnung", qm:2620, name:"Eigentumswohnung, Baujahr 1990–1999",
+      meta:"Wohnungs- und Teileigentum" },
+    { id:"dhh",     art:"haus",    qm:2554, name:"Doppelhaushälfte",
+      meta:"15 ausgewertete Verkäufe" },
+    { id:"rmh",     art:"haus",    qm:2423, name:"Reihenmittelhaus",
+      meta:"19 ausgewertete Verkäufe" },
+    { id:"w1970",   art:"wohnung", qm:1640, name:"Eigentumswohnung, Baujahr 1970–1979",
+      meta:"Wohnungs- und Teileigentum" }
+  ];
+
+  var SKALA   = 5050;      /* Obergrenze der Balkenspur */
+  var gewaehlt = "rmh";    /* Reihenmittelhaus: der Typ mit den meisten Kauffällen */
+
+  function punkt(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function aufTausend(n) {
+    return Math.round(n / 1000) * 1000;
+  }
+
+  function bauen() {
+    ARTEN.forEach(function (a) {
+      var li = document.createElement("li");
+      li.className = "gvb-rang__zeile";
+      li.setAttribute("data-art", a.art);
+      li.setAttribute("data-id", a.id);
+      li.setAttribute("role", "button");
+      li.setAttribute("tabindex", "0");
+
+      var name = document.createElement("p");
+      name.className = "gvb-rang__name";
+      name.appendChild(document.createTextNode(a.name));
+      var meta = document.createElement("span");
+      meta.className = "gvb-rang__meta";
+      meta.textContent = punkt(a.qm) + " € je m² · " + a.meta;
+      name.appendChild(meta);
+
+      var spur = document.createElement("div");
+      spur.className = "gvb-rang__spur";
+      var i = document.createElement("i");
+      i.style.width = (a.qm / SKALA * 100).toFixed(1) + "%";
+      spur.appendChild(i);
+
+      var wert = document.createElement("div");
+      wert.className = "gvb-rang__wert";
+      wert.setAttribute("data-wert", a.id);
+
+      li.appendChild(name);
+      li.appendChild(spur);
+      li.appendChild(wert);
+      liste.appendChild(li);
+
+      function waehlen() { gewaehlt = a.id; zeichnen(); }
+      li.addEventListener("click", waehlen);
+      li.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          waehlen();
+        }
+      });
+    });
+  }
+
+  function zeichnen() {
+    var qm = parseInt(regler.value, 10) || 0;
+    ausFl.textContent = qm + " m²";
+
+    var spitze = ARTEN[0], aktiv = ARTEN[0];
+
+    ARTEN.forEach(function (a) {
+      var feld = liste.querySelector('[data-wert="' + a.id + '"]');
+      if (feld) feld.textContent = punkt(aufTausend(qm * a.qm)) + " €";
+
+      var zeile = liste.querySelector('[data-id="' + a.id + '"]');
+      if (zeile) {
+        var an = a.id === gewaehlt;
+        zeile.classList.toggle("ist-gewaehlt", an);
+        zeile.setAttribute("aria-pressed", an ? "true" : "false");
+      }
+      if (a.id === gewaehlt) aktiv = a;
+    });
+
+    /* Abstand aus den gerundeten Beträgen, sonst widerspricht er der Anzeige. */
+    var wertAktiv  = aufTausend(qm * aktiv.qm);
+    var wertSpitze = aufTausend(qm * spitze.qm);
+    var lücke = wertSpitze - wertAktiv;
+
+    while (fazit.firstChild) fazit.removeChild(fazit.firstChild);
+
+    var satz = document.createElement("span");
+    if (aktiv.id === spitze.id) {
+      satz.appendChild(document.createTextNode(
+        qm + " m² in der Gruppe „" + aktiv.name + "“: rechnerisch rund "));
+      var b0 = document.createElement("b");
+      b0.textContent = punkt(wertAktiv) + " €";
+      satz.appendChild(b0);
+      satz.appendChild(document.createTextNode(
+        ". Das ist der höchste Quadratmeterpreis, den der Grevenbroicher Markt 2025 "
+        + "im Durchschnitt hergegeben hat."));
+    } else {
+      satz.appendChild(document.createTextNode(qm + " m² zum Durchschnitt der Gruppe „"));
+      satz.appendChild(document.createTextNode(aktiv.name));
+      satz.appendChild(document.createTextNode("“: rechnerisch rund "));
+      var b1 = document.createElement("b");
+      b1.textContent = punkt(wertAktiv) + " €";
+      satz.appendChild(b1);
+      satz.appendChild(document.createTextNode(". Dieselbe Fläche als Neubauwohnung läge "
+        + punkt(lücke) + " € darüber."));
+    }
+    fazit.appendChild(satz);
+
+    var hinweis = document.createElement("span");
+    hinweis.textContent = " Ein Durchschnitt ist ein Ausgangspunkt, kein Angebot — "
+      + "wo Ihre Immobilie innerhalb ihrer Gruppe steht, entscheidet sich vor Ort.";
+    fazit.appendChild(hinweis);
+  }
+
+  bauen();
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();
