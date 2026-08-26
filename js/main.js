@@ -2976,3 +2976,66 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Sortierbare Stadtteil-Tabelle (immobilie-bewerten.html) ------------------
+   Die Werte stehen als data-Attribute an jeder Zeile, damit nicht aus
+   formatierten Eurobeträgen zurückgerechnet werden muss. Startzustand ist
+   nach Häuserpreis absteigend — so wie die Tabelle im HTML bereits steht. */
+(function () {
+  var wurzel = document.getElementById("bewTabelle");
+  if (!wurzel) return;
+
+  var koerper = document.getElementById("bewTabelleKoerper");
+  var koepfe  = [].slice.call(wurzel.querySelectorAll("thead th"));
+  if (!koerper || !koepfe.length) return;
+
+  var zeilen = [].slice.call(koerper.querySelectorAll("tr"));
+  var aktiv  = "haus";
+  var absteigend = true;
+
+  function wert(zeile, feld) {
+    if (feld === "name") return zeile.getAttribute("data-name") || "";
+    return parseInt(zeile.getAttribute("data-" + feld), 10) || 0;
+  }
+
+  function sortieren(feld) {
+    if (feld === aktiv) {
+      absteigend = !absteigend;
+    } else {
+      aktiv = feld;
+      /* Zahlen beginnen absteigend (teuerste zuerst), Namen aufsteigend. */
+      absteigend = feld !== "name";
+    }
+
+    var sortiert = zeilen.slice().sort(function (a, b) {
+      var wa = wert(a, aktiv), wb = wert(b, aktiv);
+      var v;
+      if (typeof wa === "string") {
+        v = wa.localeCompare(wb, "de");
+      } else {
+        v = wa - wb;
+      }
+      return absteigend ? -v : v;
+    });
+
+    sortiert.forEach(function (z) { koerper.appendChild(z); });
+
+    koepfe.forEach(function (th) {
+      var knopf = th.querySelector("button");
+      if (!knopf) return;
+      if (knopf.getAttribute("data-sort") === aktiv) {
+        th.setAttribute("aria-sort", absteigend ? "descending" : "ascending");
+      } else {
+        th.removeAttribute("aria-sort");
+      }
+    });
+  }
+
+  koepfe.forEach(function (th) {
+    var knopf = th.querySelector("button");
+    if (!knopf) return;
+    knopf.addEventListener("click", function () {
+      sortieren(knopf.getAttribute("data-sort"));
+    });
+  });
+})();
