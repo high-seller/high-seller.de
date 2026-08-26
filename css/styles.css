@@ -5638,3 +5638,83 @@ a.trustline__i:focus-visible .trustline__v{text-decoration-color:currentColor}
 /* Die Allee führt in die Bildmitte; der Standardausschnitt schneidet die
    Baumkronen ab. */
 .veedel-hero--voll img[src*="bayenthal-platanenallee"]{object-position:50% 44%}
+
+/* v81 — Grevenbroich: Rangleiste der Objektarten mit Wohnflächenregler ----- */
+/* Neues Darstellungsmuster: alle Objektarten gleichzeitig als sortierte Liste,
+   nicht zwei Werte im Vergleich. Farbe trennt Häuser von Wohnungen; die
+   Zuordnung steht zusätzlich als Text in jeder Zeile, damit sie nicht allein
+   an der Farbe hängt. Bronze statt var(--gold) — das ist in dieser
+   Gestaltung blau und stünde neben dem Hausblau nicht ab. */
+
+.gvb-verteilung{margin:26px 0;border:1px solid var(--border);border-radius:var(--radius);
+  background:var(--card);padding:22px}
+.gvb-verteilung__kopf{margin:0 0 16px;font-size:.8rem;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--slate-2)}
+.gvb-verteilung ul{list-style:none;margin:0;padding:0;display:grid;gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+@media(min-width:620px){.gvb-verteilung ul{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:980px){.gvb-verteilung ul{grid-template-columns:repeat(4,1fr)}}
+.gvb-verteilung li{background:var(--card);padding:16px 15px;margin:0}
+.gvb-verteilung li b{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.5rem;line-height:1.1;color:var(--ink)}
+.gvb-verteilung li span{display:block;margin-top:5px;font-size:.88rem;line-height:1.45;
+  color:var(--body)}
+.gvb-verteilung__fuss{margin:14px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+.gvb-rang{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);
+  padding:22px 20px 24px}
+@media(min-width:760px){.gvb-rang{padding:26px 26px 28px}}
+
+.gvb-rang__regler{display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+  padding-bottom:18px;margin-bottom:6px;border-bottom:1px solid var(--border)}
+.gvb-rang__regler label{font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2)}
+.gvb-rang__regler input[type=range]{flex:1 1 200px;min-width:160px;accent-color:var(--blue);
+  cursor:pointer}
+.gvb-rang__regler output{flex:0 0 auto;min-width:5.5ch;text-align:right;
+  font-family:var(--f-display);font-weight:700;font-size:1.05rem;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+
+.gvb-rang__liste{list-style:none;margin:0;padding:0}
+.gvb-rang__zeile{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;
+  padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;
+  transition:background .18s var(--ease)}
+@media(min-width:700px){
+  .gvb-rang__zeile{grid-template-columns:minmax(0,17rem) minmax(0,1fr) auto;
+    gap:16px;align-items:center}
+}
+.gvb-rang__zeile:hover{background:var(--bg-soft)}
+.gvb-rang__zeile.ist-gewaehlt{background:var(--bg-soft)}
+.gvb-rang__zeile:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.gvb-rang__name{margin:0;font-size:.95rem;line-height:1.4;color:var(--ink)}
+.gvb-rang__zeile.ist-gewaehlt .gvb-rang__name{font-weight:600}
+.gvb-rang__meta{display:block;margin-top:2px;font-size:.78rem;color:var(--slate-2)}
+
+.gvb-rang__spur{height:14px;border-radius:7px;background:var(--bg-soft);overflow:hidden}
+.gvb-rang__spur i{display:block;height:100%;border-radius:7px;
+  transition:width .3s var(--ease)}
+.gvb-rang__zeile[data-art="haus"] .gvb-rang__spur i{background:#2263AE}
+.gvb-rang__zeile[data-art="wohnung"] .gvb-rang__spur i{background:#8A6420}
+
+.gvb-rang__wert{font-family:var(--f-display);font-weight:700;font-size:1.05rem;
+  color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;
+  text-align:left}
+@media(min-width:700px){.gvb-rang__wert{text-align:right;min-width:8.5ch}}
+
+.gvb-rang__fazit{margin:20px 0 0;padding:16px 18px;border-radius:10px;
+  background:var(--bg-soft);font-size:.95rem;line-height:1.65;color:var(--body)}
+.gvb-rang__fazit b{color:var(--ink)}
+.gvb-rang__quelle{margin:16px 0 0;font-size:.8rem;line-height:1.65;color:var(--slate-2)}
+
+.gvb-faelle{display:grid;gap:18px;margin-top:8px}
+@media(min-width:1000px){.gvb-faelle{grid-template-columns:repeat(3,1fr);gap:20px}}
+.gvb-fall{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);
+  padding:24px 22px 22px;display:flex;flex-direction:column}
+.gvb-fall__ort{margin:0 0 10px;font-size:.78rem;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--slate-2)}
+.gvb-fall h3{margin:0 0 12px;font-family:var(--f-display);font-weight:700;
+  font-size:1.18rem;line-height:1.3;color:var(--ink)}
+.gvb-fall p{margin:0 0 12px;font-size:.95rem;line-height:1.7;color:var(--body)}
+.gvb-fall__lehre{margin:auto 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-size:.9rem;line-height:1.6;color:var(--ink);font-weight:600}
