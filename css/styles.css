@@ -5829,3 +5829,60 @@ details.faq-item .faq-answer>*+*{margin-top:11px}
   background:var(--bg-soft);border:1px solid var(--border);
   font-size:.95rem;line-height:1.7;color:var(--body)}
 .mk-grundlage{display:block;margin-top:9px;font-size:.84rem;color:var(--slate-2)}
+
+/* v85 — Erbschaftsteuer: Rechner mit Zwischenschritten -------------------- */
+/* Neue Darstellungsform: die Rechnung wird als nummerierte Kette gezeigt,
+   nicht als Ergebniszahl. Wer sehen kann, wo der Freibetrag abgeht und wo
+   der Satz greift, versteht das Ergebnis auch dann, wenn es hoch ausfällt. */
+
+.erbst-zahlen{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;margin:26px 0 14px}
+@media(min-width:620px){.erbst-zahlen{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.erbst-zahlen{grid-template-columns:repeat(4,1fr)}}
+.erbst-zahlen>div{background:var(--card);padding:19px 18px}
+.erbst-zahlen b{display:block;font-family:var(--f-display);font-weight:700;
+  font-size:1.42rem;line-height:1.12;color:var(--ink)}
+.erbst-zahlen span{display:block;margin-top:6px;font-size:.9rem;line-height:1.5;color:var(--body)}
+.erbst-zahlen small{display:block;margin-top:5px;font-size:.78rem;color:var(--slate-2)}
+.erbst-quelle{margin:0 0 22px;font-size:.8rem;line-height:1.7;color:var(--slate-2)}
+
+.erb-rechner{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);
+  padding:22px 20px 24px}
+@media(min-width:760px){.erb-rechner{padding:28px 28px 30px}}
+
+.erb-rechner__eingabe{display:grid;gap:20px;padding-bottom:22px;margin-bottom:4px;
+  border-bottom:1px solid var(--border)}
+@media(min-width:760px){.erb-rechner__eingabe{grid-template-columns:repeat(2,1fr);gap:30px}}
+.erb-rechner__feld{display:grid;gap:9px;align-content:start}
+.erb-rechner__feld label{font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2)}
+.erb-rechner__feld select{width:100%;padding:11px 13px;border:1px solid var(--border);
+  border-radius:10px;background:var(--card);font:inherit;font-size:.96rem;color:var(--ink);
+  cursor:pointer}
+.erb-rechner__feld input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer}
+.erb-rechner__feld output{font-family:var(--f-display);font-weight:700;font-size:1.15rem;
+  color:var(--ink);font-variant-numeric:tabular-nums}
+
+.erb-rechner__schritte{list-style:none;counter-reset:erbs;margin:0;padding:0}
+.erb-rechner__schritte li{counter-increment:erbs;position:relative;display:grid;
+  grid-template-columns:1fr auto;align-items:baseline;gap:4px 16px;
+  padding:15px 0 15px 42px;border-bottom:1px solid var(--border)}
+.erb-rechner__schritte li::before{content:counter(erbs);position:absolute;left:0;top:15px;
+  width:24px;height:24px;border-radius:12px;background:var(--bg-soft);color:var(--slate-2);
+  font-family:var(--f-display);font-weight:700;font-size:.8rem;line-height:24px;text-align:center}
+.erb-rechner__schritte span{font-size:.97rem;color:var(--body)}
+.erb-rechner__schritte b{font-family:var(--f-display);font-weight:700;font-size:1.1rem;
+  color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.erb-rechner__schritte small{grid-column:1/-1;font-size:.8rem;color:var(--slate-2);line-height:1.5}
+.erb-rechner__ergebnis{border-bottom:0!important;padding-bottom:6px!important}
+.erb-rechner__ergebnis::before{background:#2263AE!important;color:#fff!important}
+.erb-rechner__ergebnis b{font-size:1.55rem;color:#2263AE}
+
+.erb-rechner__spur{height:10px;border-radius:5px;background:var(--bg-soft);overflow:hidden;
+  margin:4px 0 0}
+.erb-rechner__spur i{display:block;height:100%;border-radius:5px;background:#2263AE;
+  transition:width .28s var(--ease)}
+.erb-rechner__hinweis{margin:18px 0 0;padding:15px 17px;border-radius:10px;
+  background:var(--bg-soft);font-size:.93rem;line-height:1.65;color:var(--body)}
+.erb-rechner__hinweis:empty{display:none}
+.erb-rechner__fuss{margin:16px 0 0;font-size:.8rem;line-height:1.7;color:var(--slate-2)}
