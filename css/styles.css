@@ -5915,3 +5915,37 @@ details.faq-item .faq-answer>*+*{margin-top:11px}
 .eg-rechner__hinweis{margin:16px 0 0;padding:15px 17px;border-radius:10px;background:var(--bg-soft);
   font-size:.93rem;line-height:1.65;color:var(--body)}
 .eg-rechner__fuss{margin:14px 0 0;font-size:.8rem;line-height:1.7;color:var(--slate-2)}
+
+/* v87 — Erbfall: Fristenrechner ------------------------------------------- */
+/* Neues Eingabeelement: Datumsfelder. Die Liste zeigt je Frist die
+   Rechtsgrundlage, das errechnete Ende und wie viel Zeit bleibt. */
+.fr-rechner{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);
+  padding:22px 20px 24px}
+@media(min-width:760px){.fr-rechner{padding:28px 28px 30px}}
+.fr-rechner__eingabe{display:grid;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+@media(min-width:640px){.fr-rechner__eingabe{grid-template-columns:repeat(2,1fr);gap:26px}}
+.fr-rechner__feld{display:grid;gap:8px;align-content:start}
+.fr-rechner__feld label{font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;color:var(--slate-2)}
+.fr-rechner__feld input[type=date]{width:100%;padding:11px 13px;border:1px solid var(--border);
+  border-radius:10px;background:var(--card);font:inherit;font-size:.96rem;color:var(--ink)}
+.fr-rechner__feld small{font-size:.79rem;color:var(--slate-2)}
+.fr-rechner__liste{list-style:none;margin:0;padding:0}
+.fr-rechner__liste[hidden]{display:none}
+.fr-rechner__liste li{display:grid;gap:10px;padding:17px 0;border-bottom:1px solid var(--border)}
+@media(min-width:700px){
+  .fr-rechner__liste li{grid-template-columns:minmax(0,1fr) auto;gap:24px;align-items:start}
+}
+.fr-rechner__was b{display:block;font-family:var(--f-display);font-weight:600;font-size:1.02rem;
+  color:var(--ink)}
+.fr-rechner__was span{display:block;margin-top:5px;font-size:.88rem;line-height:1.6;color:var(--slate-2)}
+.fr-rechner__wann{text-align:left}
+@media(min-width:700px){.fr-rechner__wann{text-align:right;min-width:12rem}}
+.fr-rechner__wann b{display:block;font-family:var(--f-display);font-weight:700;font-size:1.08rem;
+  color:var(--ink);white-space:nowrap}
+.fr-rechner__lage{display:block;margin-top:4px;font-size:.83rem;color:var(--slate-2)}
+.fr-rechner__lage.ist-knapp{color:#A8601C;font-weight:600}
+.fr-rechner__lage.ist-vorbei{color:var(--slate-2);text-decoration:line-through}
+.fr-rechner__hinweis{margin:18px 0 0;padding:15px 17px;border-radius:10px;background:var(--bg-soft);
+  font-size:.93rem;line-height:1.65;color:var(--body)}
+.fr-rechner__hinweis:empty{display:none}
+.fr-rechner__fuss{margin:16px 0 0;font-size:.8rem;line-height:1.7;color:var(--slate-2)}
