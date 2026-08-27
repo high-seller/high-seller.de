@@ -375,5 +375,51 @@
     if (typeof gtag === "function") { gtag("event", "generate_lead", { form_name: "immobilienbewertung" }); }
   }
 
-  show(0, true);
+  /* ---- Vorbelegung aus der URL --------------------------------------------
+     Die Stadtteilseiten verlinken hierher mit ?art= und ?stadtteil=. Bisher
+     wurden beide Parameter ignoriert: Wer auf der Veedelseite bereits
+     "Eigentumswohnung" angeklickt hatte, musste im Rechner von vorn anfangen.
+     Jetzt wird die Objektart übernommen, der Stadtteil vorausgewählt und der
+     erste Schritt übersprungen. Ohne Parameter bleibt alles wie bisher. */
+  function vorbelegen() {
+    var start = 0;
+    var q;
+    try { q = new URLSearchParams(location.search); } catch (e) { return start; }
+
+    var art = (q.get("art") || "").toLowerCase();
+    if (art) {
+      var kachel = document.querySelector('.tile[data-type="' + art.replace(/[^a-z]/g, "") + '"]');
+      if (kachel) {
+        $$(".tile[data-type]").forEach(function (x) { x.classList.remove("sel"); });
+        kachel.classList.add("sel");
+        state.type = kachel.getAttribute("data-type");
+        applyTypeVisibility();
+        start = 1;   /* Objektart steht fest, also direkt zur Lage */
+      }
+    }
+
+    var ort = q.get("stadtteil");
+    if (ort && areaSel) {
+      var treffer = null;
+      $$("#wz-stadtteil option").forEach(function (o) {
+        if (!treffer && o.value && o.value.toLowerCase() === ort.toLowerCase()) treffer = o;
+      });
+      if (treffer) {
+        areaSel.value = treffer.value;
+        /* Die Auswahl enthält neben Kölner Stadtteilen auch eigenständige
+           Umlandstädte. Für die muss das Ortsfeld mitgezogen werden, sonst
+           steht dort weiter "Köln". */
+        var UMLAND = ["Hürth","Frechen","Brühl","Bergheim","Pulheim",
+                      "Leverkusen","Bergisch Gladbach"];
+        var ortFeld = $("#wz-ort");
+        if (ortFeld) {
+          if (UMLAND.indexOf(treffer.value) > -1) ortFeld.value = treffer.value;
+          else if (!ortFeld.value) ortFeld.value = "Köln";
+        }
+      }
+    }
+    return start;
+  }
+
+  show(vorbelegen(), true);
 })();
