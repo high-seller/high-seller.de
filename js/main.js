@@ -3161,3 +3161,67 @@
   regler.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Auseinandersetzungsrechner Erbengemeinschaft ----------------------------
+   Zeigt, was auf jeden Miterben entfällt und was ein übernehmender Miterbe
+   an die übrigen auszahlen müsste. Unterstellt gleiche Erbteile — der
+   häufigste Fall unter Geschwistern; abweichende Quoten nennt der Text.
+
+   Der Erwerb durch einen Miterben zur Teilung des Nachlasses ist nach
+   § 3 Nr. 3 GrEStG von der Grunderwerbsteuer befreit. Beim Verkauf an einen
+   Dritten fällt sie dagegen beim Käufer an (NRW: 6,5 %). */
+(function () {
+  var wurzel = document.getElementById("egRechner");
+  if (!wurzel) return;
+
+  var regler = document.getElementById("egWert");
+  var ausW   = document.getElementById("egWertAus");
+  var zahl   = document.getElementById("egMiterben");
+  if (!regler || !zahl) return;
+
+  function punkt(n) {
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function setze(id, text) {
+    var e = document.getElementById(id);
+    if (e) e.textContent = text;
+  }
+
+  function zeichnen() {
+    var wert = parseInt(regler.value, 10) || 0;
+    var n    = parseInt(zahl.value, 10) || 2;
+
+    var anteil = wert / n;
+    var auszahlung = anteil * (n - 1);
+
+    ausW.textContent = punkt(wert) + " €";
+    setze("egAnteil", punkt(anteil) + " €");
+    setze("egAnteilText", "Anteil je Miterbe bei " + n + " gleichen Erbteilen");
+    setze("egAuszahlung", punkt(auszahlung) + " €");
+    setze("egAuszahlungText", "das müsste ein übernehmender Miterbe an die übrigen "
+      + (n - 1 === 1 ? "Person" : (n - 1) + " Personen") + " zahlen");
+    setze("egQuote", "1/" + n);
+
+    /* Anteil der Auszahlung am Gesamtwert als Balken */
+    var spur = document.getElementById("egSpur");
+    if (spur) spur.style.width = ((n - 1) / n * 100).toFixed(1) + "%";
+
+    var hinweis = document.getElementById("egHinweis");
+    if (hinweis) {
+      if (n === 2) {
+        hinweis.textContent = "Bei zwei Erben zur Hälfte: Wer übernimmt, zahlt dem anderen "
+          + punkt(auszahlung) + " € — und braucht dafür in aller Regel eine Finanzierung, "
+          + "auch wenn die Immobilie selbst schuldenfrei ist.";
+      } else {
+        hinweis.textContent = "Je mehr Miterben, desto größer der Betrag, den ein Übernehmer "
+          + "aufbringen muss: bei " + n + " Erben sind es " + (n - 1) + " von " + n
+          + " Anteilen, also " + punkt(auszahlung) + " €.";
+      }
+    }
+  }
+
+  regler.addEventListener("input", zeichnen);
+  zahl.addEventListener("change", zeichnen);
+  zeichnen();
+})();
