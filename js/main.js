@@ -3039,3 +3039,125 @@
     });
   });
 })();
+
+/* Erbschaftsteuer-Rechner (erbschaftsteuer-immobilie-koeln.html) -----------
+   Rechnet nach ErbStG für einen Erwerb von Todes wegen: Freibetrag § 16,
+   Steuerklasse § 15, Steuersatz § 19 Abs. 1 und der Härteausgleich nach
+   § 19 Abs. 3 — ohne den wäre die Steuer knapp oberhalb jeder Wertgrenze
+   deutlich zu hoch.
+
+   Bewusst nicht abgebildet: Versorgungsfreibeträge (§ 17), Nachlass-
+   verbindlichkeiten, weiteres Vermögen neben der Immobilie, Vorerwerbe
+   innerhalb von zehn Jahren und die Befreiung für das Familienheim (§ 13).
+   Darauf weist die Seite im Text hin. */
+(function () {
+  var wurzel = document.getElementById("erbRechner");
+  if (!wurzel) return;
+
+  var wahl   = document.getElementById("erbVerhaeltnis");
+  var regler = document.getElementById("erbWert");
+  var ausW   = document.getElementById("erbWertAus");
+  if (!wahl || !regler) return;
+
+  /* § 16 ErbStG: Freibetrag und zugehörige Steuerklasse nach § 15 */
+  var GRUPPEN = {
+    ehegatte:    { frei: 500000, klasse: 1, name: "Ehegatte oder eingetragener Lebenspartner" },
+    kind:        { frei: 400000, klasse: 1, name: "Kind oder Stiefkind" },
+    enkel:       { frei: 200000, klasse: 1, name: "Enkelkind" },
+    eltern:      { frei: 100000, klasse: 1, name: "Elternteil oder Großelternteil" },
+    geschwister: { frei:  20000, klasse: 2, name: "Geschwister, Nichte oder Neffe" },
+    sonstige:    { frei:  20000, klasse: 3, name: "nicht verwandt" }
+  };
+
+  /* § 19 Abs. 1 ErbStG: obere Wertgrenze und Satz je Steuerklasse */
+  var STUFEN = [
+    { bis:    75000, saetze: [ 7, 15, 30] },
+    { bis:   300000, saetze: [11, 20, 30] },
+    { bis:   600000, saetze: [15, 25, 30] },
+    { bis:  6000000, saetze: [19, 30, 30] },
+    { bis: 13000000, saetze: [23, 35, 50] },
+    { bis: 26000000, saetze: [27, 40, 50] },
+    { bis: Infinity, saetze: [30, 43, 50] }
+  ];
+
+  function punkt(n) {
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function stufe(erwerb) {
+    for (var i = 0; i < STUFEN.length; i++) {
+      if (erwerb <= STUFEN[i].bis) {
+        return { satz: STUFEN[i].saetze, unten: i ? STUFEN[i - 1].bis : 0 };
+      }
+    }
+    return { satz: STUFEN[STUFEN.length - 1].saetze, unten: 26000000 };
+  }
+
+  function rechnen(wert, gruppe) {
+    var g = GRUPPEN[gruppe];
+    var erwerb = Math.max(0, wert - g.frei);
+    /* § 10 Abs. 1 Satz 6: der steuerpflichtige Erwerb wird auf volle 100 € abgerundet */
+    erwerb = Math.floor(erwerb / 100) * 100;
+    if (erwerb === 0) {
+      return { frei: g.frei, klasse: g.klasse, erwerb: 0, satz: 0, steuer: 0, haerte: false };
+    }
+    var st = stufe(erwerb);
+    var satz = st.satz[g.klasse - 1];
+    var steuer = erwerb * satz / 100;
+    var haerte = false;
+
+    /* § 19 Abs. 3: der Mehrbetrag gegenüber der vorigen Stufe wird nur aus der
+       Hälfte (bei Sätzen bis 30 %) beziehungsweise drei Vierteln des die
+       Wertgrenze übersteigenden Betrags erhoben. */
+    if (st.unten > 0) {
+      var satzVor = stufe(st.unten).satz[g.klasse - 1];
+      var deckel = st.unten * satzVor / 100
+                 + (erwerb - st.unten) * (satz <= 30 ? 0.5 : 0.75);
+      if (deckel < steuer) { steuer = deckel; haerte = true; }
+    }
+    return { frei: g.frei, klasse: g.klasse, erwerb: erwerb,
+             satz: satz, steuer: Math.round(steuer), haerte: haerte };
+  }
+
+  function setze(id, text) {
+    var e = document.getElementById(id);
+    if (e) e.textContent = text;
+  }
+
+  function zeichnen() {
+    var wert = parseInt(regler.value, 10) || 0;
+    var g = wahl.value;
+    var r = rechnen(wert, g);
+
+    ausW.textContent = punkt(wert) + " €";
+    setze("erbFrei", punkt(r.frei) + " €");
+    setze("erbKlasse", "Steuerklasse " + ["I", "II", "III"][r.klasse - 1]);
+    setze("erbErwerb", punkt(r.erwerb) + " €");
+    setze("erbSatz", r.erwerb ? r.satz + " %" : "—");
+    setze("erbSteuer", punkt(r.steuer) + " €");
+
+    var anteil = wert ? r.steuer / wert * 100 : 0;
+    setze("erbAnteil", anteil.toFixed(1).replace(".", ",") + " %");
+    var spur = document.getElementById("erbSpur");
+    if (spur) spur.style.width = Math.min(anteil, 100).toFixed(1) + "%";
+
+    var hinweis = document.getElementById("erbHinweis");
+    if (hinweis) {
+      if (r.erwerb === 0) {
+        hinweis.textContent = "Der Freibetrag deckt den Wert vollständig ab — es bleibt kein "
+          + "steuerpflichtiger Erwerb. Erbschaftsteuer fällt dann auf diese Immobilie nicht an.";
+      } else if (r.haerte) {
+        hinweis.textContent = "Hier greift der Härteausgleich nach § 19 Abs. 3 ErbStG: Der Erwerb "
+          + "liegt knapp über einer Wertgrenze, deshalb wird der Sprung auf den höheren Satz nur "
+          + "anteilig erhoben.";
+      } else {
+        hinweis.textContent = "Gerechnet ist nur diese eine Immobilie. Weiteres Vermögen erhöht den "
+          + "steuerpflichtigen Erwerb und kann in eine höhere Satzstufe führen.";
+      }
+    }
+  }
+
+  wahl.addEventListener("change", zeichnen);
+  regler.addEventListener("input", zeichnen);
+  zeichnen();
+})();
