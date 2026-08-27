@@ -3225,3 +3225,124 @@
   zahl.addEventListener("change", zeichnen);
   zeichnen();
 })();
+
+/* Fristenrechner Erbfall (immobilie-verkaufen-nach-erbschaft-koeln.html) ---
+   Drei Fristen mit zwei verschiedenen Startpunkten:
+   - Ausschlagung, 6 Wochen ab Kenntnis vom Anfall und Berufungsgrund (§ 1944 BGB)
+   - Anzeige beim Finanzamt, 3 Monate ab Kenntnis (§ 30 ErbStG)
+   - gebührenfreie Grundbuchberichtigung, 2 Jahre ab dem Erbfall selbst
+
+   Fristende nach §§ 187 ff. BGB: derselbe Kalendertag der letzten Woche
+   beziehungsweise des letzten Monats; fehlt er, der letzte Tag des Monats
+   (§ 188 Abs. 3). Fällt das Ende auf Samstag oder Sonntag, verschiebt § 193 BGB
+   auf den nächsten Werktag — gesetzliche Feiertage bildet der Rechner nicht ab,
+   darauf weist der Fußtext hin. */
+(function () {
+  var wurzel = document.getElementById("frRechner");
+  if (!wurzel) return;
+
+  var eTod = document.getElementById("frTod");
+  var eKen = document.getElementById("frKenntnis");
+  if (!eTod || !eKen) return;
+
+  var MONATE = ["Januar","Februar","März","April","Mai","Juni",
+                "Juli","August","September","Oktober","November","Dezember"];
+
+  function lies(feld) {
+    var t = feld.value;
+    if (!t) return null;
+    var teile = t.split("-");
+    if (teile.length !== 3) return null;
+    var d = new Date(+teile[0], +teile[1] - 1, +teile[2]);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function plusWochen(d, w) {
+    var n = new Date(d.getTime());
+    n.setDate(n.getDate() + w * 7);
+    return n;
+  }
+
+  function plusMonate(d, m) {
+    var tag = d.getDate();
+    var n = new Date(d.getFullYear(), d.getMonth() + m, 1);
+    /* § 188 Abs. 3: fehlt der Tag im Zielmonat, endet die Frist am Monatsletzten */
+    var letzter = new Date(n.getFullYear(), n.getMonth() + 1, 0).getDate();
+    n.setDate(Math.min(tag, letzter));
+    return n;
+  }
+
+  function werktag(d) {
+    var n = new Date(d.getTime());
+    while (n.getDay() === 0 || n.getDay() === 6) {
+      n.setDate(n.getDate() + 1);
+    }
+    return n;
+  }
+
+  function formatiere(d) {
+    return d.getDate() + ". " + MONATE[d.getMonth()] + " " + d.getFullYear();
+  }
+
+  function tageBis(d) {
+    var heute = new Date();
+    heute.setHours(0, 0, 0, 0);
+    var ziel = new Date(d.getTime());
+    ziel.setHours(0, 0, 0, 0);
+    return Math.round((ziel - heute) / 86400000);
+  }
+
+  function zeile(id, ende) {
+    var datum = document.getElementById(id + "Datum");
+    var lage  = document.getElementById(id + "Lage");
+    if (!datum || !lage) return;
+    datum.textContent = formatiere(ende);
+    var tage = tageBis(ende);
+    lage.classList.remove("ist-knapp", "ist-vorbei");
+    if (tage < 0) {
+      lage.textContent = "abgelaufen vor " + Math.abs(tage) + " Tagen";
+      lage.classList.add("ist-vorbei");
+    } else if (tage === 0) {
+      lage.textContent = "läuft heute ab";
+      lage.classList.add("ist-knapp");
+    } else if (tage <= 14) {
+      lage.textContent = "nur noch " + tage + (tage === 1 ? " Tag" : " Tage");
+      lage.classList.add("ist-knapp");
+    } else {
+      lage.textContent = "noch " + tage + " Tage";
+    }
+  }
+
+  function zeichnen() {
+    var tod = lies(eTod);
+    var ken = lies(eKen) || tod;
+    var kasten = document.getElementById("frErgebnis");
+    if (!tod) {
+      if (kasten) kasten.hidden = true;
+      return;
+    }
+    if (kasten) kasten.hidden = false;
+
+    zeile("frAus",  werktag(plusWochen(ken, 6)));
+    zeile("frFa",   werktag(plusMonate(ken, 3)));
+    zeile("frGb",   werktag(plusMonate(tod, 24)));
+
+    var hinweis = document.getElementById("frHinweis");
+    if (hinweis) {
+      if (ken.getTime() !== tod.getTime()) {
+        hinweis.textContent = "Ausschlagung und Anzeige laufen ab dem Tag Ihrer Kenntnis, "
+          + "die gebührenfreie Grundbuchberichtigung dagegen ab dem Erbfall selbst — "
+          + "deshalb weichen die Termine hier voneinander ab.";
+      } else {
+        hinweis.textContent = "Haben Sie erst später vom Erbfall erfahren, tragen Sie dieses Datum "
+          + "im zweiten Feld ein: Ausschlagung und Anzeige laufen ab Kenntnis, nicht ab dem Todestag.";
+      }
+    }
+  }
+
+  eTod.addEventListener("change", zeichnen);
+  eTod.addEventListener("input", zeichnen);
+  eKen.addEventListener("change", zeichnen);
+  eKen.addEventListener("input", zeichnen);
+  zeichnen();
+})();
