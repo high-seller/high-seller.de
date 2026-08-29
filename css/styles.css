@@ -5949,3 +5949,83 @@ details.faq-item .faq-answer>*+*{margin-top:11px}
   font-size:.93rem;line-height:1.65;color:var(--body)}
 .fr-rechner__hinweis:empty{display:none}
 .fr-rechner__fuss{margin:16px 0 0;font-size:.8rem;line-height:1.7;color:var(--slate-2)}
+
+/* v88 — Scheidungsseite im Aufbau der Stadtteilseiten --------------------- */
+/* Vollbild-Kopf und Wertband oben kommen aus dem Veedel-Bestand; hier stehen
+   nur die Blöcke, die der Inhalt zusätzlich braucht. */
+
+.sch-kurz{border:1px solid var(--border);border-left:4px solid #2263AE;
+  border-radius:var(--radius);background:var(--card);padding:22px 24px}
+.sch-kurz__kopf{margin:0 0 14px;font-size:.8rem;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--slate-2)}
+.sch-kurz ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.sch-kurz li{position:relative;padding-left:26px;font-size:1rem;line-height:1.6;color:var(--ink)}
+.sch-kurz li::before{content:"";position:absolute;left:2px;top:.5em;width:10px;height:6px;
+  border-left:2px solid #2263AE;border-bottom:2px solid #2263AE;transform:rotate(-45deg)}
+
+.sch-drei{counter-reset:schd;list-style:none;margin:18px 0 22px;padding:0;display:grid;gap:1px;
+  background:var(--border);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.sch-drei li{counter-increment:schd;background:var(--card);margin:0;padding:15px 18px 15px 52px;
+  position:relative;font-size:.98rem;line-height:1.6;color:var(--body)}
+.sch-drei li::before{content:counter(schd);position:absolute;left:18px;top:15px;width:22px;height:22px;
+  border-radius:11px;background:var(--bg-soft);color:var(--slate-2);font-family:var(--f-display);
+  font-weight:700;font-size:.8rem;line-height:22px;text-align:center}
+
+.sch-cta{margin:28px 0 0;padding:22px 24px;border-radius:var(--radius);background:var(--bg-soft);
+  border:1px solid var(--border);display:grid;gap:16px}
+@media(min-width:860px){.sch-cta{grid-template-columns:1fr auto;align-items:center;gap:30px}}
+.sch-cta__kopf{margin:0 0 5px;font-family:var(--f-display);font-weight:700;font-size:1.1rem;color:var(--ink)}
+.sch-cta p{margin:0;font-size:.95rem;line-height:1.6;color:var(--body)}
+.sch-cta__knoepfe{display:flex;flex-wrap:wrap;gap:10px}
+
+.sch-fall{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);
+  padding:24px 22px 22px}
+@media(min-width:760px){.sch-fall{padding:30px 30px 26px}}
+.sch-fall__eck{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;margin-bottom:24px}
+@media(min-width:600px){.sch-fall__eck{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:980px){.sch-fall__eck{grid-template-columns:repeat(4,1fr)}}
+.sch-fall__eck>div{background:var(--card);padding:17px 16px}
+.sch-fall__eck b{display:block;font-family:var(--f-display);font-weight:700;font-size:1.3rem;
+  line-height:1.1;color:var(--ink)}
+.sch-fall__eck span{display:block;margin-top:5px;font-size:.86rem;line-height:1.45;color:var(--slate-2)}
+.sch-fall__liste{list-style:none;margin:6px 0 22px;padding:0;display:grid;gap:9px}
+@media(min-width:700px){.sch-fall__liste{grid-template-columns:repeat(2,1fr);gap:9px 28px}}
+.sch-fall__liste li{position:relative;padding-left:26px;font-size:.95rem;line-height:1.55;color:var(--body)}
+.sch-fall__liste li::before{content:"";position:absolute;left:3px;top:.5em;width:9px;height:5px;
+  border-left:2px solid #2263AE;border-bottom:2px solid #2263AE;transform:rotate(-45deg)}
+.sch-fall__fuss{font-size:.83rem!important;color:var(--slate-2)!important}
+
+.sch-fehler{counter-reset:schf;list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.sch-fehler li{counter-increment:schf;position:relative;border:1px solid var(--border);
+  border-radius:var(--radius);background:var(--card);padding:22px 24px 20px 24px}
+@media(min-width:760px){.sch-fehler li{padding-left:78px}}
+.sch-fehler li::before{content:counter(schf);display:inline-block;margin-bottom:10px;
+  width:32px;height:32px;border-radius:16px;background:#2263AE;color:#fff;
+  font-family:var(--f-display);font-weight:700;font-size:.95rem;line-height:32px;text-align:center}
+@media(min-width:760px){
+  .sch-fehler li::before{position:absolute;left:26px;top:23px;margin:0}
+}
+.sch-fehler h3{margin:0 0 9px;font-family:var(--f-display);font-weight:700;font-size:1.12rem;
+  line-height:1.3;color:var(--ink)}
+.sch-fehler p{margin:0;font-size:.96rem;line-height:1.7;color:var(--body)}
+
+.sch-wege{display:grid;gap:16px}
+@media(min-width:820px){.sch-wege{grid-template-columns:repeat(2,1fr);gap:18px}}
+.sch-wege article{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);
+  padding:22px 22px 18px}
+.sch-wege h3{margin:0 0 10px;font-family:var(--f-display);font-weight:700;font-size:1.08rem;color:var(--ink)}
+.sch-wege p{margin:0 0 10px;font-size:.95rem;line-height:1.68;color:var(--body)}
+.sch-wege p:last-child{margin-bottom:0}
+.sch-wege--warn{border-left:4px solid #8A6420}
+
+.sch-leistung{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+  border-radius:var(--radius);overflow:hidden;margin-top:26px}
+@media(min-width:640px){.sch-leistung{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.sch-leistung{grid-template-columns:repeat(3,1fr)}}
+.sch-leistung>div{background:var(--card);padding:19px 18px}
+.sch-leistung b{display:block;font-family:var(--f-display);font-weight:700;font-size:1rem;color:var(--ink)}
+.sch-leistung span{display:block;margin-top:6px;font-size:.9rem;line-height:1.6;color:var(--body)}
+
+.sch-recht{padding:16px 18px;border-radius:10px;background:var(--bg-soft);
+  border-left:3px solid var(--slate-2);font-size:.92rem!important;line-height:1.7!important}
