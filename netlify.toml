@@ -1686,10 +1686,11 @@
 # ein Laufzeit-Bundle ohne Entsprechung auf der neuen Seite, eine Weiterleitung
 # auf eine HTML-Seite waere fuer einen Skript-Aufruf sinnlos. 410 sagt Google
 # "dauerhaft entfernt" und fuehrt zur schnelleren Entfernung aus dem Index als
-# ein wiederholtes 404.
+# ein wiederholtes 404. Wichtig: Das Ziel muss eine vorhandene Datei sein — zeigte die
+# Regel auf "/410", lieferte Netlify mangels Datei doch wieder 404.
 [[redirects]]
   from = "/one-runtime/*"
-  to = "/410"
+  to = "/410.html"
   status = 410
   force = true
 
