@@ -3604,3 +3604,90 @@
   [flaeche, miete, kosten].forEach(function (e) { e.addEventListener("input", zeichnen); });
   zeichnen();
 })();
+
+/* Besichtigungs-Checkliste (besichtigung-checkliste-koeln.html) ------------
+   Anders als die Ausstattungsliste auf der Riehl-Seite bewertet diese nicht
+   das Objekt, sondern den eigenen Wissensstand: Angehakt wird, was bereits
+   geklärt ist. Ausgegeben wird, was offen bleibt — das ist die Liste für den
+   zweiten Termin. Die Punkte sind gewichtet: Was teuer werden kann, zählt
+   doppelt. */
+(function () {
+  var wurzel = document.getElementById("bcListe");
+  if (!wurzel) return;
+
+  var kaesten = [].slice.call(wurzel.querySelectorAll('input[type="checkbox"]'));
+  if (!kaesten.length) return;
+
+  var balken = document.getElementById("bcBalken");
+  var stufe  = document.getElementById("bcStufe");
+  var text   = document.getElementById("bcText");
+  var offen  = document.getElementById("bcOffen");
+
+  var MAX = kaesten.reduce(function (s, k) {
+    return s + (parseInt(k.getAttribute("data-gewicht"), 10) || 1);
+  }, 0);
+
+  function offeneListe() {
+    return kaesten.filter(function (k) { return !k.checked; })
+      .map(function (k) {
+        var l = k.closest("label");
+        return l ? l.textContent.trim() : "";
+      })
+      .filter(Boolean);
+  }
+
+  function auswerten() {
+    var punkte = kaesten.reduce(function (s, k) {
+      return s + (k.checked ? (parseInt(k.getAttribute("data-gewicht"), 10) || 1) : 0);
+    }, 0);
+    var anteil = MAX ? punkte / MAX * 100 : 0;
+
+    if (balken) {
+      balken.style.width = anteil.toFixed(1) + "%";
+      balken.style.background = anteil >= 80 ? "#2263AE" : (anteil >= 45 ? "#8A6420" : "#A8601C");
+    }
+
+    var fehlen = offeneListe();
+    if (stufe) {
+      stufe.textContent = fehlen.length === 0
+        ? "Alles geklärt"
+        : fehlen.length + (fehlen.length === 1 ? " Punkt offen" : " Punkte offen");
+    }
+    if (text) {
+      if (fehlen.length === 0) {
+        text.textContent = "Sie haben die Punkte abgearbeitet, an denen es bei einer "
+          + "Besichtigung teuer wird. Was jetzt noch fehlt, findet ein Bausachverständiger "
+          + "in einer Stunde — und das ist bei einem sechsstelligen Kaufpreis gut angelegt.";
+      } else if (anteil >= 80) {
+        text.textContent = "Der größte Teil ist geklärt. Nehmen Sie die offenen Punkte "
+          + "mit zum zweiten Termin, statt sie später am Telefon zu erfragen.";
+      } else if (anteil >= 45) {
+        text.textContent = "Ein zweiter Termin lohnt sich — und zwar mit dieser Liste in "
+          + "der Hand. Die offenen Punkte sind genau die, die nach dem Kauf Geld kosten.";
+      } else {
+        text.textContent = "Nach einer ersten Besichtigung ist das ein normaler Stand. "
+          + "Entscheiden Sie noch nichts: Die folgenden Punkte gehören geklärt, bevor "
+          + "über einen Preis gesprochen wird.";
+      }
+    }
+    if (offen) {
+      while (offen.firstChild) offen.removeChild(offen.firstChild);
+      if (fehlen.length) {
+        var kopf = document.createElement("p");
+        kopf.className = "bc-offen__kopf";
+        kopf.textContent = "Mit zum nächsten Termin:";
+        offen.appendChild(kopf);
+        var ul = document.createElement("ul");
+        fehlen.forEach(function (f) {
+          var li = document.createElement("li");
+          li.textContent = f;
+          ul.appendChild(li);
+        });
+        offen.appendChild(ul);
+      }
+    }
+  }
+
+  kaesten.forEach(function (k) { k.addEventListener("change", auswerten); });
+  auswerten();
+})();
