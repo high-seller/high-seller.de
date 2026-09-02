@@ -3346,3 +3346,106 @@
   eKen.addEventListener("input", zeichnen);
   zeichnen();
 })();
+
+/* Hausgeld- und Rücklagenrechner (hausgeld-verstehen-koeln.html) -----------
+   Zwei Fragen in einem Werkzeug:
+   1. Wie viel vom Hausgeld bleibt bei Vermietung am Eigentümer hängen?
+      Nicht umlagefähig sind vor allem Verwaltervergütung, Zuführung zur
+      Erhaltungsrücklage und Instandsetzungen — erfahrungsgemäß 20 bis 30 %.
+   2. Wie hoch wäre eine angemessene Rücklage? Als Orientierung dienen die
+      Höchstbeträge aus § 28 Abs. 2 der Zweiten Berechnungsverordnung:
+      7,10 € je m² und Jahr bei Bezugsfertigkeit vor weniger als 22 Jahren,
+      9,00 € ab 22 Jahren, 11,50 € ab 32 Jahren, jeweils plus 1,00 € bei
+      maschinell betriebenem Aufzug. Die II. BV gilt unmittelbar für
+      preisgebundenen Wohnraum; in Eigentümergemeinschaften wird sie als
+      Orientierung herangezogen, verbindlich ist sie dort nicht. */
+(function () {
+  var wurzel = document.getElementById("hgRechner");
+  if (!wurzel) return;
+
+  var flaeche = document.getElementById("hgFlaeche");
+  var baujahr = document.getElementById("hgBaujahr");
+  var hausgeld = document.getElementById("hgBetrag");
+  var aufzug  = document.getElementById("hgAufzug");
+  if (!flaeche || !baujahr || !hausgeld) return;
+
+  var BEZUG = 2026;   /* Bezugsjahr für die Altersstaffel */
+
+  function punkt(n) {
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  function satzJeQm(jahr, mitAufzug) {
+    var alter = BEZUG - jahr;
+    var satz = alter >= 32 ? 11.50 : (alter >= 22 ? 9.00 : 7.10);
+    if (mitAufzug) satz += 1.00;
+    return satz;
+  }
+
+  function setze(id, text) {
+    var e = document.getElementById(id);
+    if (e) e.textContent = text;
+  }
+
+  function zeichnen() {
+    var qm = parseInt(flaeche.value, 10) || 0;
+    var bj = parseInt(baujahr.value, 10) || BEZUG;
+    var hg = parseInt(hausgeld.value, 10) || 0;
+    var mitAufzug = !!(aufzug && aufzug.checked);
+
+    setze("hgFlaecheAus", qm + " m²");
+    setze("hgBaujahrAus", String(bj));
+    setze("hgBetragAus", punkt(hg) + " €");
+
+    /* 1 — was bleibt beim Vermieter */
+    var untenAnteil = hg * 0.20, obenAnteil = hg * 0.30;
+    setze("hgBleibt", punkt(untenAnteil) + " bis " + punkt(obenAnteil) + " €");
+    setze("hgBleibtJahr", "im Jahr rund " + punkt(untenAnteil * 12) + " bis "
+      + punkt(obenAnteil * 12) + " €");
+
+    /* 2 — Richtwert für die Rücklage */
+    var satz = satzJeQm(bj, mitAufzug);
+    var jahr = qm * satz;
+    var monat = jahr / 12;
+    setze("hgSatz", satz.toFixed(2).replace(".", ",") + " € je m² und Jahr");
+    setze("hgRuecklageJahr", punkt(jahr) + " €");
+    setze("hgRuecklageMonat", punkt(monat) + " € im Monat");
+
+    var alter = BEZUG - bj;
+    var stufe = alter >= 32 ? "ab 32 Jahren nach Bezugsfertigkeit"
+              : (alter >= 22 ? "ab 22 Jahren nach Bezugsfertigkeit"
+                             : "unter 22 Jahren nach Bezugsfertigkeit");
+    setze("hgStufe", "Gebäudealter " + alter + " Jahre — Staffel " + stufe
+      + (mitAufzug ? ", mit Aufzugzuschlag" : ""));
+
+    /* 3 — Verhältnis zum Hausgeld */
+    var anteil = hg ? monat / hg * 100 : 0;
+    setze("hgAnteil", anteil.toFixed(0) + " %");
+    var spur = document.getElementById("hgSpur");
+    if (spur) spur.style.width = Math.min(anteil, 100).toFixed(1) + "%";
+
+    var hinweis = document.getElementById("hgHinweis");
+    if (!hinweis) return;
+    if (!hg) {
+      hinweis.textContent = "";
+    } else if (anteil > 45) {
+      hinweis.textContent = "Rechnerisch müsste fast die Hälfte des Hausgelds in die "
+        + "Rücklage fließen. Das ist selten der Fall — prüfen Sie im Wirtschaftsplan, "
+        + "welcher Betrag dort tatsächlich vorgesehen ist.";
+    } else if (anteil < 12) {
+      hinweis.textContent = "Gemessen am Hausgeld wäre der Richtwert gut darstellbar. "
+        + "Entscheidend bleibt, was im Wirtschaftsplan steht und wie hoch der "
+        + "Rücklagenbestand gemessen an anstehenden Maßnahmen ist.";
+    } else {
+      hinweis.textContent = "Vergleichen Sie diesen Richtwert mit der tatsächlichen "
+        + "Zuführung im Wirtschaftsplan. Liegt sie deutlich darunter, ist eine "
+        + "Sonderumlage wahrscheinlicher als bei einer gut gefüllten Rücklage.";
+    }
+  }
+
+  [flaeche, baujahr, hausgeld].forEach(function (e) {
+    e.addEventListener("input", zeichnen);
+  });
+  if (aufzug) aufzug.addEventListener("change", zeichnen);
+  zeichnen();
+})();
