@@ -6132,3 +6132,45 @@ details.faq-item .faq-answer>*+*{margin-top:11px}
 @media(min-width:760px){.ka-posten li::before{position:absolute;left:24px;top:21px;margin:0}}
 .ka-posten h3{margin:0 0 8px;font-family:var(--f-display);font-weight:700;font-size:1.06rem;color:var(--ink)}
 .ka-posten p{margin:0;font-size:.95rem;line-height:1.68;color:var(--body)}
+
+/* v91 — Besichtigung: Checkliste mit Liste der offenen Punkte -------------- */
+.bc-check{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);
+  padding:22px 20px 24px}
+@media(min-width:760px){.bc-check{padding:28px 28px 30px}}
+.bc-check__spalten{display:grid;gap:24px}
+@media(min-width:700px){.bc-check__spalten{grid-template-columns:repeat(2,1fr);gap:26px 34px}}
+.bc-check__feld{border:0;margin:0;padding:0;display:grid;gap:2px}
+.bc-check__feld legend{padding:0;margin-bottom:9px;font-size:.8rem;letter-spacing:.02em;
+  text-transform:uppercase;color:var(--slate-2)}
+.bc-check__feld label{display:flex;align-items:flex-start;gap:11px;padding:9px 0;
+  border-top:1px solid var(--border);font-size:.94rem;line-height:1.5;color:var(--body);cursor:pointer}
+.bc-check__feld label:last-child{border-bottom:1px solid var(--border)}
+.bc-check__feld input{flex:0 0 auto;margin-top:3px;width:18px;height:18px;accent-color:var(--blue);cursor:pointer}
+.bc-check__ausgabe{margin-top:26px;padding-top:22px;border-top:1px solid var(--border)}
+.bc-check__balken{height:12px;border-radius:6px;background:var(--bg-soft);overflow:hidden}
+.bc-check__balken i{display:block;height:100%;border-radius:6px;background:#2263AE;
+  transition:width .25s var(--ease),background .25s var(--ease)}
+.bc-check__stufe{margin:14px 0 6px;font-family:var(--f-display);font-weight:700;font-size:1.25rem;
+  line-height:1.2;color:var(--ink)}
+.bc-check__text{margin:0;font-size:.96rem;line-height:1.7;color:var(--body)}
+.bc-offen{margin-top:18px}
+.bc-offen:empty{display:none}
+.bc-offen__kopf{margin:0 0 10px;font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2)}
+.bc-offen ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+@media(min-width:760px){.bc-offen ul{grid-template-columns:repeat(2,1fr);gap:8px 26px}}
+.bc-offen li{position:relative;padding-left:24px;font-size:.93rem;line-height:1.55;color:var(--body)}
+.bc-offen li::before{content:"";position:absolute;left:4px;top:.52em;width:9px;height:9px;
+  border:2px solid #A8601C;border-radius:2px}
+.bc-check__fuss{margin:18px 0 0;font-size:.8rem;line-height:1.7;color:var(--slate-2)}
+
+.bc-fragen{counter-reset:bcf;list-style:none;margin:20px 0 24px;padding:0;display:grid;gap:14px}
+.bc-fragen li{counter-increment:bcf;position:relative;border:1px solid var(--border);
+  border-radius:var(--radius);background:var(--card);padding:20px 22px 18px}
+@media(min-width:760px){.bc-fragen li{padding-left:74px}}
+.bc-fragen li::before{content:counter(bcf);display:inline-block;margin-bottom:9px;width:30px;height:30px;
+  border-radius:15px;background:#2263AE;color:#fff;font-family:var(--f-display);font-weight:700;
+  font-size:.9rem;line-height:30px;text-align:center}
+@media(min-width:760px){.bc-fragen li::before{position:absolute;left:24px;top:21px;margin:0}}
+.bc-fragen h3{margin:0 0 8px;font-family:var(--f-display);font-weight:700;font-size:1.06rem;color:var(--ink)}
+.bc-fragen p{margin:0;font-size:.95rem;line-height:1.68;color:var(--body)}
