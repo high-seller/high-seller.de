@@ -3449,3 +3449,158 @@
   if (aufzug) aufzug.addEventListener("change", zeichnen);
   zeichnen();
 })();
+
+/* Renditerechner Kapitalanlage (immobilie-als-kapitalanlage-koeln.html) ----
+   Rechnet Brutto- und Nettomietrendite sowie den Kaufpreisfaktor. Die
+   Kaufpreise je Quadratmeter stammen aus dem Grundstücksmarktbericht 2026
+   (Berichtsjahr 2025, Weiterverkäufe von Eigentumswohnungen) und sind auf
+   Stadtteile mit mindestens 20 ausgewerteten Kauffällen beschränkt — bei
+   kleineren Fallzahlen ist ein Mittelwert nicht belastbar.
+
+   Die Miete gibt der Nutzer selbst ein: Für Kölner Mieten liegen uns keine
+   eigenen amtlichen Daten vor, und geschätzte Mietwerte hätten in einer
+   Renditerechnung nichts verloren. */
+(function () {
+  var wurzel = document.getElementById("kaRechner");
+  if (!wurzel) return;
+
+  var ORTE = [
+    { n: "Altstadt/Nord", p: 5894, f: 63 },
+    { n: "Altstadt/Süd", p: 5841, f: 126 },
+    { n: "Bayenthal", p: 5921, f: 30 },
+    { n: "Bickendorf", p: 3928, f: 24 },
+    { n: "Bilderstöckchen", p: 3461, f: 35 },
+    { n: "Bocklemünd/Mengenich", p: 3569, f: 29 },
+    { n: "Braunsfeld", p: 5128, f: 37 },
+    { n: "Brück", p: 3233, f: 31 },
+    { n: "Buchheim", p: 3254, f: 27 },
+    { n: "Dellbrück", p: 3630, f: 53 },
+    { n: "Deutz", p: 4690, f: 40 },
+    { n: "Ehrenfeld", p: 5078, f: 112 },
+    { n: "Eil", p: 2826, f: 32 },
+    { n: "Ensen", p: 3385, f: 24 },
+    { n: "Grengel", p: 2637, f: 21 },
+    { n: "Holweide", p: 3301, f: 44 },
+    { n: "Humboldt/Gremberg", p: 3049, f: 63 },
+    { n: "Höhenberg", p: 3097, f: 61 },
+    { n: "Höhenhaus", p: 3317, f: 26 },
+    { n: "Junkersdorf", p: 4414, f: 103 },
+    { n: "Kalk", p: 3447, f: 38 },
+    { n: "Klettenberg", p: 5339, f: 49 },
+    { n: "Lindenthal", p: 5569, f: 144 },
+    { n: "Longerich", p: 3274, f: 23 },
+    { n: "Lövenich", p: 3627, f: 28 },
+    { n: "Marienburg", p: 5684, f: 47 },
+    { n: "Merheim", p: 3415, f: 23 },
+    { n: "Mülheim", p: 3747, f: 118 },
+    { n: "Neubrück", p: 2629, f: 29 },
+    { n: "Neuehrenfeld", p: 4386, f: 84 },
+    { n: "Neustadt/Nord", p: 5571, f: 163 },
+    { n: "Neustadt/Süd", p: 5766, f: 216 },
+    { n: "Niehl", p: 3949, f: 75 },
+    { n: "Nippes", p: 4590, f: 141 },
+    { n: "Poll", p: 3576, f: 29 },
+    { n: "Porz", p: 3140, f: 72 },
+    { n: "Riehl", p: 4606, f: 54 },
+    { n: "Rodenkirchen", p: 4790, f: 79 },
+    { n: "Sülz", p: 5055, f: 121 },
+    { n: "Sürth", p: 4740, f: 37 },
+    { n: "Urbach", p: 2604, f: 49 },
+    { n: "Wahnheide", p: 2898, f: 34 },
+    { n: "Weiden", p: 3368, f: 132 },
+    { n: "Weidenpesch", p: 3578, f: 51 },
+    { n: "Westhoven", p: 3292, f: 25 },
+    { n: "Zollstock", p: 4368, f: 114 },
+    { n: "Zündorf", p: 3166, f: 52 }
+  ];
+
+  var wahl    = document.getElementById("kaOrt");
+  var flaeche = document.getElementById("kaFlaeche");
+  var miete   = document.getElementById("kaMiete");
+  var kosten  = document.getElementById("kaKosten");
+  if (!wahl || !flaeche || !miete || !kosten) return;
+
+  ORTE.forEach(function (o, i) {
+    var opt = document.createElement("option");
+    opt.value = String(i);
+    opt.textContent = o.n + " — " + o.p.toLocaleString("de-DE") + " € je m²";
+    wahl.appendChild(opt);
+  });
+  wahl.value = String(Math.max(0, ORTE.findIndex(function (o) { return o.n === "Nippes"; })));
+
+  function punkt(n) {
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+  function komma(n, s) {
+    return n.toFixed(s === undefined ? 2 : s).replace(".", ",");
+  }
+  function setze(id, text) {
+    var e = document.getElementById(id);
+    if (e) e.textContent = text;
+  }
+
+  function zeichnen() {
+    var ort = ORTE[parseInt(wahl.value, 10)] || ORTE[0];
+    var qm  = parseInt(flaeche.value, 10) || 0;
+    var m   = parseInt(miete.value, 10) || 0;
+    var nk  = parseInt(kosten.value, 10) || 0;
+
+    setze("kaFlaecheAus", qm + " m²");
+    setze("kaMieteAus", punkt(m) + " €");
+    setze("kaKostenAus", punkt(nk) + " €");
+
+    var kaufpreis = qm * ort.p;
+    var jahresmiete = m * 12;
+    /* Kaufnebenkosten in NRW: 6,5 % Grunderwerbsteuer, dazu rund 2 % für
+       Notar und Grundbuch. Ohne Maklercourtage, die je nach Vereinbarung
+       anfällt — der Hinweis steht im Fußtext. */
+    var nebenkosten = kaufpreis * 0.085;
+    var gesamt = kaufpreis + nebenkosten;
+
+    var brutto = kaufpreis ? jahresmiete / kaufpreis * 100 : 0;
+    var netto  = gesamt ? (jahresmiete - nk * 12) / gesamt * 100 : 0;
+    var faktor = jahresmiete ? kaufpreis / jahresmiete : 0;
+
+    setze("kaKaufpreis", punkt(kaufpreis) + " €");
+    setze("kaNeben", "zuzüglich rund " + punkt(nebenkosten) + " € Kaufnebenkosten");
+    setze("kaBrutto", komma(brutto) + " %");
+    setze("kaNetto", komma(netto) + " %");
+    setze("kaFaktor", komma(faktor, 1));
+    setze("kaFaktorText", "die Immobilie zahlt sich rechnerisch in "
+      + komma(faktor, 1) + " Jahren aus der Miete");
+    setze("kaBasis", ort.n + ": " + punkt(ort.p) + " € je m², "
+      + ort.f + " ausgewertete Weiterverkäufe 2025");
+
+    var spur = document.getElementById("kaSpur");
+    if (spur) spur.style.width = Math.min(netto / 5 * 100, 100).toFixed(1) + "%";
+
+    var hinweis = document.getElementById("kaHinweis");
+    if (!hinweis) return;
+    /* Mietansatz je m² zur Einordnung: Wer den Stadtteil wechselt, ohne die
+       Miete anzupassen, erhält sonst Renditen, die es so nicht gibt. */
+    var jeQm = qm ? m / qm : 0;
+
+    if (netto <= 0) {
+      hinweis.textContent = "Nach Abzug der nicht umlagefähigen Kosten bleibt rechnerisch "
+        + "nichts übrig. Prüfen Sie die eingetragene Miete — und ob die Kostenannahme "
+        + "zur Anlage passt.";
+    } else if (jeQm > 0 && (jeQm < 7 || jeQm > 20)) {
+      hinweis.textContent = "Die eingetragene Miete entspricht " + komma(jeQm) + " € je m². "
+        + "Das liegt außerhalb dessen, was in Köln üblich ist — passen Sie den Wert an den "
+        + "Stadtteil an, sonst führt die Rendite in die Irre.";
+    } else if (brutto - netto > 1.5) {
+      hinweis.textContent = "Zwischen Brutto und Netto liegen "
+        + komma(brutto - netto, 1) + " Prozentpunkte. Diesen Abstand machen die "
+        + "nicht umlagefähigen Kosten und die Kaufnebenkosten aus — er entscheidet "
+        + "darüber, ob sich eine Anlage trägt.";
+    } else {
+      hinweis.textContent = "Gerechnet ist ohne Finanzierung und ohne Steuern. Wer "
+        + "fremdfinanziert, muss zusätzlich Zins und Tilgung gegenrechnen; "
+        + "Abschreibung und Werbungskosten wirken in die andere Richtung.";
+    }
+  }
+
+  wahl.addEventListener("change", zeichnen);
+  [flaeche, miete, kosten].forEach(function (e) { e.addEventListener("input", zeichnen); });
+  zeichnen();
+})();
