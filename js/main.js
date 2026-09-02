@@ -3691,3 +3691,107 @@
   kaesten.forEach(function (k) { k.addEventListener("change", auswerten); });
   auswerten();
 })();
+
+/* Budgetrechner für Erstkäufer (erstkaeufer-leitfaden-koeln.html) ----------
+   Rechnet die andere Richtung als der Baufinanzierungsrechner: nicht vom
+   Kaufpreis zur Rate, sondern vom Haushaltseinkommen zum tragbaren Kaufpreis.
+
+   Ansatz: höchstens 35 % des Nettohaushaltseinkommens für Wohnkosten, davon
+   gehen die Bewirtschaftungskosten ab (nicht umlagefähiges Hausgeld und
+   Rücklage); was bleibt, ist der Kapitaldienst. Die Darlehenssumme ergibt
+   sich aus Annuität und dem Satz aus Zins plus Tilgung. Kaufnebenkosten mit
+   8,5 % — 6,5 % Grunderwerbsteuer in NRW plus rund 2 % Notar und Grundbuch,
+   ohne Maklercourtage. Sie müssen aus Eigenkapital kommen. */
+(function () {
+  var wurzel = document.getElementById("ekRechner");
+  if (!wurzel) return;
+
+  var netto = document.getElementById("ekNetto");
+  var kapital = document.getElementById("ekKapital");
+  var zins = document.getElementById("ekZins");
+  var bewirt = document.getElementById("ekBewirt");
+  if (!netto || !kapital || !zins || !bewirt) return;
+
+  var TILGUNG = 2.0;   /* anfängliche Tilgung, üblicher Ansatz */
+  var NEBEN = 0.085;
+  var ANTEIL = 0.35;
+
+  /* Vier Kölner Stadtteile als Größenordnung, Weiterverkäufe 2025 aus dem
+     Grundstücksmarktbericht 2026. */
+  var ORTE = [
+    { n: "Porz", p: 3140 },
+    { n: "Nippes", p: 4590 },
+    { n: "Ehrenfeld", p: 5078 },
+    { n: "Lindenthal", p: 5569 }
+  ];
+
+  function punkt(n) {
+    return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+  function setze(id, t) { var e = document.getElementById(id); if (e) e.textContent = t; }
+
+  function zeichnen() {
+    var ne = parseInt(netto.value, 10) || 0;
+    var ek = parseInt(kapital.value, 10) || 0;
+    var zi = parseFloat(zins.value) || 0;
+    var be = parseInt(bewirt.value, 10) || 0;
+
+    setze("ekNettoAus", punkt(ne) + " €");
+    setze("ekKapitalAus", punkt(ek) + " €");
+    setze("ekZinsAus", zi.toFixed(1).replace(".", ",") + " %");
+    setze("ekBewirtAus", punkt(be) + " €");
+
+    var tragbar = ne * ANTEIL;
+    var annuitaet = Math.max(0, tragbar - be);
+    var satz = zi + TILGUNG;
+    var darlehen = satz > 0 ? annuitaet * 12 / (satz / 100) : 0;
+    var kaufpreis = (darlehen + ek) / (1 + NEBEN);
+    var nebenkosten = kaufpreis * NEBEN;
+
+    setze("ekTragbar", punkt(tragbar) + " €");
+    setze("ekAnnuitaet", punkt(annuitaet) + " € für Zins und Tilgung");
+    setze("ekDarlehen", punkt(darlehen) + " €");
+    setze("ekKaufpreis", punkt(kaufpreis) + " €");
+    setze("ekNeben", "zuzüglich " + punkt(nebenkosten) + " € Kaufnebenkosten");
+
+    /* Was das an Fläche bedeutet */
+    var liste = document.getElementById("ekFlaechen");
+    if (liste) {
+      while (liste.firstChild) liste.removeChild(liste.firstChild);
+      ORTE.forEach(function (o) {
+        var qm = kaufpreis / o.p;
+        var li = document.createElement("li");
+        var b = document.createElement("b");
+        b.textContent = qm >= 1 ? Math.round(qm) + " m²" : "—";
+        var s = document.createElement("span");
+        s.textContent = o.n + " · " + punkt(o.p) + " € je m²";
+        li.appendChild(b); li.appendChild(s);
+        liste.appendChild(li);
+      });
+    }
+
+    var hinweis = document.getElementById("ekHinweis");
+    if (!hinweis) return;
+    if (annuitaet <= 0) {
+      hinweis.textContent = "Die Bewirtschaftungskosten übersteigen den tragbaren Rahmen. "
+        + "Für eine Finanzierung bleibt rechnerisch nichts übrig.";
+    } else if (ek < nebenkosten) {
+      hinweis.textContent = "Achtung: Die Kaufnebenkosten von rund " + punkt(nebenkosten)
+        + " € übersteigen Ihr Eigenkapital. Banken finanzieren sie in aller Regel nicht mit — "
+        + "es fehlen rechnerisch " + punkt(nebenkosten - ek) + " €.";
+    } else if (ek - nebenkosten < kaufpreis * 0.1) {
+      hinweis.textContent = "Nach Abzug der Kaufnebenkosten fließen nur "
+        + punkt(ek - nebenkosten) + " € in den Kaufpreis selbst. Das ist möglich, führt aber "
+        + "zu einem höheren Zins als bei zehn bis zwanzig Prozent Eigenkapitalanteil.";
+    } else {
+      hinweis.textContent = "Eigenkapital deckt die Nebenkosten und bringt zusätzlich "
+        + punkt(ek - nebenkosten) + " € in den Kaufpreis ein. Das ist die Ausgangslage, "
+        + "mit der Banken gut arbeiten können.";
+    }
+  }
+
+  [netto, kapital, zins, bewirt].forEach(function (e) {
+    e.addEventListener("input", zeichnen);
+  });
+  zeichnen();
+})();

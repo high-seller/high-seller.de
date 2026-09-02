@@ -6174,3 +6174,50 @@ details.faq-item .faq-answer>*+*{margin-top:11px}
 @media(min-width:760px){.bc-fragen li::before{position:absolute;left:24px;top:21px;margin:0}}
 .bc-fragen h3{margin:0 0 8px;font-family:var(--f-display);font-weight:700;font-size:1.06rem;color:var(--ink)}
 .bc-fragen p{margin:0;font-size:.95rem;line-height:1.68;color:var(--body)}
+
+/* v92 — Erstkäufer: Budgetrechner ----------------------------------------- */
+.ek-rechner{border:1px solid var(--border);border-radius:var(--radius);background:var(--card);
+  padding:22px 20px 24px}
+@media(min-width:760px){.ek-rechner{padding:28px 28px 30px}}
+.ek-rechner__eingabe{display:grid;gap:18px;padding-bottom:22px;border-bottom:1px solid var(--border)}
+@media(min-width:700px){.ek-rechner__eingabe{grid-template-columns:repeat(2,1fr);gap:22px 28px}}
+@media(min-width:1000px){.ek-rechner__eingabe{grid-template-columns:repeat(4,1fr)}}
+.ek-rechner__feld{display:grid;gap:8px;align-content:start}
+.ek-rechner__feld label{font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;color:var(--slate-2)}
+.ek-rechner__feld input[type=range]{width:100%;accent-color:var(--blue);cursor:pointer}
+.ek-rechner__feld output{font-family:var(--f-display);font-weight:700;font-size:1.1rem;color:var(--ink);
+  font-variant-numeric:tabular-nums}
+.ek-rechner__ausgabe{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);
+  border-radius:10px;overflow:hidden;margin-top:22px}
+@media(min-width:760px){.ek-rechner__ausgabe{grid-template-columns:repeat(3,1fr)}}
+.ek-rechner__ausgabe>div{background:var(--card);padding:18px}
+.ek-rechner__ausgabe span{display:block;font-size:.87rem;line-height:1.5;color:var(--body)}
+.ek-rechner__ausgabe b{display:block;margin-top:7px;font-family:var(--f-display);font-weight:700;
+  font-size:1.42rem;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums}
+.ek-rechner__ausgabe small{display:block;margin-top:5px;font-size:.79rem;line-height:1.5;color:var(--slate-2)}
+.ek-rechner__haupt b{color:#2263AE;font-size:1.6rem}
+.ek-rechner__hinweis{margin:16px 0 0;padding:15px 17px;border-radius:10px;background:var(--bg-soft);
+  font-size:.93rem;line-height:1.65;color:var(--body)}
+.ek-rechner__hinweis:empty{display:none}
+.ek-rechner__kopf{margin:22px 0 10px;font-size:.8rem;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--slate-2)}
+.ek-flaechen{list-style:none;margin:0;padding:0;display:grid;gap:1px;background:var(--border);
+  border:1px solid var(--border);border-radius:10px;overflow:hidden}
+@media(min-width:620px){.ek-flaechen{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.ek-flaechen{grid-template-columns:repeat(4,1fr)}}
+.ek-flaechen li{background:var(--card);padding:16px 16px;margin:0}
+.ek-flaechen b{display:block;font-family:var(--f-display);font-weight:700;font-size:1.32rem;
+  line-height:1.1;color:var(--ink)}
+.ek-flaechen span{display:block;margin-top:5px;font-size:.82rem;line-height:1.45;color:var(--slate-2)}
+.ek-rechner__fuss{margin:16px 0 0;font-size:.8rem;line-height:1.7;color:var(--slate-2)}
+
+.ek-schritte{counter-reset:eks;list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.ek-schritte li{counter-increment:eks;position:relative;border:1px solid var(--border);
+  border-radius:var(--radius);background:var(--card);padding:20px 22px 18px}
+@media(min-width:760px){.ek-schritte li{padding-left:74px}}
+.ek-schritte li::before{content:counter(eks);display:inline-block;margin-bottom:9px;width:30px;height:30px;
+  border-radius:15px;background:#2263AE;color:#fff;font-family:var(--f-display);font-weight:700;
+  font-size:.9rem;line-height:30px;text-align:center}
+@media(min-width:760px){.ek-schritte li::before{position:absolute;left:24px;top:21px;margin:0}}
+.ek-schritte h3{margin:0 0 8px;font-family:var(--f-display);font-weight:700;font-size:1.06rem;color:var(--ink)}
+.ek-schritte p{margin:0;font-size:.95rem;line-height:1.68;color:var(--body)}
