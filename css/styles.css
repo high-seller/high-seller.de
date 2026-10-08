@@ -6221,3 +6221,44 @@ details.faq-item .faq-answer>*+*{margin-top:11px}
 @media(min-width:760px){.ek-schritte li::before{position:absolute;left:24px;top:21px;margin:0}}
 .ek-schritte h3{margin:0 0 8px;font-family:var(--f-display);font-weight:700;font-size:1.06rem;color:var(--ink)}
 .ek-schritte p{margin:0;font-size:.95rem;line-height:1.68;color:var(--body)}
+
+/* ---------- Mobilansicht: Nachbesserungen ----------
+   Vier Dinge, die erst auf einem 390px breiten Schirm auffallen:
+
+   1. Zusammengesetzte Ortsnamen brachen am Bindestrich um — in der ersten
+      Zeile stand "Immobilie in Köln-", in der zweiten "Nippes verkaufen?".
+      Kurze Namen stehen jetzt in <span class="nowrap">; lange Namen wie
+      Köln-Bocklemünd-Mengenich passen auf keine Handyzeile und brechen
+      weiterhin natürlich um.
+   2. Der Cookie-Hinweis füllte mit drei gestapelten Schaltflächen rund die
+      Hälfte des Bildschirms. Zwei davon stehen jetzt nebeneinander.
+   3. Die beiden Schaltflächen im Veedel-Kopf waren unterschiedlich breit,
+      weil sie als Flexzeile umbrachen. Jetzt beide über die volle Breite.
+   4. Tabellenzellen ohne Wert erzeugten in der Kartenansicht Zeilen wie
+      "Fälle —". Sie werden auf schmalen Bildschirmen ausgeblendet. */
+
+.nowrap{white-space:nowrap}
+
+@media(max-width:560px){
+  .veedel-kopf__cta{flex-wrap:nowrap;flex-direction:column;gap:10px}
+  .veedel-kopf__cta .btn{width:100%;justify-content:center}
+
+  .cc__banner{left:10px;right:10px;bottom:10px;padding:18px;
+    max-height:78vh;overflow-y:auto;overscroll-behavior:contain}
+  .cc__banner h4{font-size:1rem;margin-bottom:6px}
+  .cc__banner p{font-size:.82rem;line-height:1.5;margin-bottom:14px}
+  .cc__actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .cc__actions .btn{width:100%;justify-content:center;padding:12px 8px;font-size:.86rem}
+  .cc__actions [data-cc-accept]{grid-column:1 / -1}
+
+  .datentabelle td[data-leer]{display:none}
+}
+
+@media(max-width:1119px){
+  /* Die Sprungleiste scrollt waagerecht. Ohne Hinweis sieht die angeschnittene
+     letzte Kachel nach einem Darstellungsfehler aus statt nach "da kommt noch
+     mehr". Die weiche Kante rechts sagt: hier lässt sich schieben. */
+  .jumpbar::after{content:"";position:absolute;top:0;right:0;bottom:1px;width:30px;
+    pointer-events:none;
+    background:linear-gradient(to right,rgba(11,26,48,0),rgba(11,26,48,.97))}
+}
