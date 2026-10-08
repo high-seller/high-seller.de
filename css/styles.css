@@ -1886,15 +1886,18 @@ body{background:var(--bg)}
   .hero-wert>p{font-size:.9rem;line-height:1.5;color:var(--slate-2);margin:0 0 16px}
 
   .hero-wert__arten{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
-  .hero-wert__arten button{display:flex;flex-direction:column;align-items:center;gap:7px;
+  .hero-wert__arten button,
+  .hero-wert__arten a{display:flex;flex-direction:column;align-items:center;gap:7px;
     padding:14px 8px;border:1.5px solid var(--border);border-radius:var(--radius-sm);
     background:#fff;cursor:pointer;font-family:var(--f-body);font-weight:600;
     font-size:.82rem;line-height:1.2;color:var(--ink);text-align:center;
-    transition:.18s var(--ease)}
+    text-decoration:none;transition:.18s var(--ease)}
   .hero-wert__arten svg{width:26px;height:26px;color:var(--blue);flex:none}
-  .hero-wert__arten button:hover{border-color:var(--gold);background:var(--gold-soft);
+  .hero-wert__arten button:hover,
+  .hero-wert__arten a:hover{border-color:var(--gold);background:var(--gold-soft);
     transform:translateY(-2px)}
-  .hero-wert__arten button:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .hero-wert__arten button:focus-visible,
+  .hero-wert__arten a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
   .hero-wert__alle{display:inline-flex;align-items:center;gap:6px;font-size:.86rem;
     font-weight:600;color:var(--blue-ink);margin-bottom:14px}
@@ -6240,8 +6243,10 @@ details.faq-item .faq-answer>*+*{margin-top:11px}
 .nowrap{white-space:nowrap}
 
 @media(max-width:560px){
-  .veedel-kopf__cta{flex-wrap:nowrap;flex-direction:column;gap:10px}
-  .veedel-kopf__cta .btn{width:100%;justify-content:center}
+  .veedel-kopf__cta,
+  .veedel-hero__knoepfe{flex-wrap:nowrap;flex-direction:column;gap:10px}
+  .veedel-kopf__cta .btn,
+  .veedel-hero__knoepfe .btn{width:100%;justify-content:center}
 
   .cc__banner{left:10px;right:10px;bottom:10px;padding:18px;
     max-height:78vh;overflow-y:auto;overscroll-behavior:contain}
@@ -6261,4 +6266,21 @@ details.faq-item .faq-answer>*+*{margin-top:11px}
   .jumpbar::after{content:"";position:absolute;top:0;right:0;bottom:1px;width:30px;
     pointer-events:none;
     background:linear-gradient(to right,rgba(11,26,48,0),rgba(11,26,48,.97))}
+}
+
+/* ---------- Wertrechner nur einmal zeigen ----------
+   Auf 21 Seiten stehen zwei Einstiege in den Wertrechner direkt
+   untereinander: die Karte im Kopfbereich (.hero-wert) und das Band
+   darunter (.wertband-oben). Beide zeigen dieselben vier Objektarten und
+   verweisen auf dieselben Adressen.
+
+   Gedacht war das als Entweder-oder: Die Karte erscheint erst ab 1180 px,
+   darunter traegt das Band den Einstieg allein. Die Ausblendung in die
+   andere Richtung fehlte aber — ab 1180 px standen beide da.
+
+   Das Band wird deshalb genau dann ausgeblendet, wenn ueber ihm ein
+   Abschnitt mit Rechnerkarte steht. Seiten ohne Karte (etwa die
+   Themenseiten) behalten ihr Band in jeder Breite. */
+@media(min-width:1180px){
+  :is(section, div):has(.hero-wert) ~ .wertband-oben{display:none}
 }
